@@ -5,13 +5,18 @@ using UnityEngine;
 public class BrushTest2 : MonoBehaviour
 {
     public GameObject drawPrefab;
+    public GameObject drawCanvas;
     GameObject theTrail;
     Plane planObj;
     Vector3 startPos;
+
+    // 사이즈
+    float size;
+
     // Start is called before the first frame update
     void Start()
     {
-        planObj = new Plane(Camera.main.transform.forward * -1, transform.position);
+        planObj = new Plane(Camera.main.transform.forward, transform.position);
     }
 
     // Update is called once per frame
@@ -22,23 +27,51 @@ public class BrushTest2 : MonoBehaviour
 
         if(Input.GetMouseButtonDown(0))
         {
-            theTrail = (GameObject)Instantiate(drawPrefab, objPosition, Quaternion.identity);
-
             Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
             float _dis;
-            if(planObj.Raycast(mouseRay, out _dis))
+            if(Physics.Raycast(mouseRay, out hit))
             {
-                startPos = mouseRay.GetPoint(_dis);
+                if(hit.transform.name == drawCanvas.transform.name)
+                {
+                    theTrail = (GameObject)Instantiate(drawPrefab, objPosition, Quaternion.identity);
+                    theTrail.transform.SetParent(drawCanvas.transform, false);
+
+                    if(planObj.Raycast(mouseRay, out _dis))
+                    {
+                        startPos = mouseRay.GetPoint(_dis);
+                        theTrail.transform.position = startPos;
+                    }
+                }
             }
         }
         else if(Input.GetMouseButton(0))
         {
             Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
             float _dis;
-            if(planObj.Raycast(mouseRay, out _dis))
+            if (Physics.Raycast(mouseRay, out hit))
             {
-                theTrail.transform.position = mouseRay.GetPoint(_dis);
+                if (hit.transform.name == drawCanvas.transform.name)
+                {
+                    if (planObj.Raycast(mouseRay, out _dis))
+                    {
+                        theTrail.transform.position = mouseRay.GetPoint(_dis);
+                    }
+                }
             }
         }
+
+        // 사이즈 조절
+        Size();
+    }
+
+    void Size()
+    {
+        if(Input.GetKeyDown(KeyCode.Alpha0))
+        {
+            size += 0.1f;
+        }
+
     }
 }
