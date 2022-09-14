@@ -11,7 +11,7 @@ public class BrushTest2 : MonoBehaviour
     Vector3 startPos;
 
     // 사이즈
-    float size;
+    float size = 0.15f;
 
     // Start is called before the first frame update
     void Start()
@@ -34,6 +34,9 @@ public class BrushTest2 : MonoBehaviour
             {
                 if(hit.transform.name == drawCanvas.transform.name)
                 {
+                    // 선을 그리기 전, 사이즈 설정
+                    drawPrefab.GetComponent<TrailRenderer>().widthMultiplier = size;
+                    // 선 생성
                     theTrail = (GameObject)Instantiate(drawPrefab, objPosition, Quaternion.identity);
                     theTrail.transform.SetParent(drawCanvas.transform, false);
 
@@ -72,6 +75,9 @@ public class BrushTest2 : MonoBehaviour
         {
             size += 0.1f;
         }
-
+        else if(Input.GetKeyDown(KeyCode.Alpha9))
+        {
+            size -= 0.1f;
+        }
     }
 }
