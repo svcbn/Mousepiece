@@ -12,6 +12,11 @@ public class BrushTest2 : MonoBehaviour
 
     // 사이즈
     float size = 0.15f;
+    // 색 설정
+    public GameObject colorObject;
+
+    // 지우개
+    bool b_eraser;
 
     // Start is called before the first frame update
     void Start()
@@ -22,6 +27,8 @@ public class BrushTest2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Color eraser = Color.white;
+
         Vector2 mousePosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
         Vector2 objPosition = Camera.main.ScreenToWorldPoint(mousePosition);
 
@@ -36,6 +43,18 @@ public class BrushTest2 : MonoBehaviour
                 {
                     // 선을 그리기 전, 사이즈 설정
                     drawPrefab.GetComponent<TrailRenderer>().widthMultiplier = size;
+                    // 선을 그리기 전, 색 설정
+                    drawPrefab.GetComponent<TrailRenderer>().startColor = colorObject.GetComponent<ColorPickerTest>().selectedColor;
+                    drawPrefab.GetComponent<TrailRenderer>().endColor = colorObject.GetComponent<ColorPickerTest>().selectedColor;
+                    // 지우개
+                    if(b_eraser == true)
+                    {
+                        drawPrefab.GetComponent<TrailRenderer>().startColor = eraser;
+                        drawPrefab.GetComponent<TrailRenderer>().endColor = eraser;
+                    }
+                    // 나중에 생긴 선은 위에 올라오게끔
+                    drawPrefab.GetComponent<TrailRenderer>().sortingOrder++;
+
                     // 선 생성
                     theTrail = (GameObject)Instantiate(drawPrefab, objPosition, Quaternion.identity);
                     theTrail.transform.SetParent(drawCanvas.transform, false);
@@ -67,6 +86,9 @@ public class BrushTest2 : MonoBehaviour
 
         // 사이즈 조절
         Size();
+
+        // 지우개
+        Eraser();
     }
 
     void Size()
@@ -78,6 +100,18 @@ public class BrushTest2 : MonoBehaviour
         else if(Input.GetKeyDown(KeyCode.Alpha9))
         {
             size -= 0.1f;
+        }
+    }
+
+    void Eraser()
+    {
+        if(Input.GetKeyDown(KeyCode.E) && b_eraser == false)
+        {
+            b_eraser = true;
+        }
+        else if(Input.GetKeyDown(KeyCode.E) && b_eraser == true)
+        {
+            b_eraser = false;
         }
     }
 }

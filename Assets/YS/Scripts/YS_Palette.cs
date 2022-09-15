@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class YS_Palette : MonoBehaviour
 {
     public Image palette;
+    public Image picker;
     public Color color;
     Texture2D texture;
 
