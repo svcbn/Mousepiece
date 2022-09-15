@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BrushTest2 : MonoBehaviour
+public class BrushTest5 : MonoBehaviour
 {
     public GameObject drawPrefab;
     public GameObject drawCanvas;
@@ -21,6 +21,9 @@ public class BrushTest2 : MonoBehaviour
     // 이동관련
     Vector3 canvasPos;
     Vector3 dis;
+
+    // 모든 선 저장
+    List<GameObject> lines = new List<GameObject>();
 
     // Start is called before the first frame update
     void Start()
@@ -48,27 +51,31 @@ public class BrushTest2 : MonoBehaviour
                 if(hit.transform.name == drawCanvas.transform.name)
                 {
                     // 선을 그리기 전, 사이즈 설정
-                    drawPrefab.GetComponent<TrailRenderer>().widthMultiplier = size;
+                    drawPrefab.GetComponent<LineRenderer>().widthMultiplier = size;
                     // 선을 그리기 전, 색 설정
-                    drawPrefab.GetComponent<TrailRenderer>().startColor = colorObject.GetComponent<ColorPickerTest>().selectedColor;
-                    drawPrefab.GetComponent<TrailRenderer>().endColor = colorObject.GetComponent<ColorPickerTest>().selectedColor;
+                    drawPrefab.GetComponent<LineRenderer>().startColor = colorObject.GetComponent<ColorPickerTest>().selectedColor;
+                    drawPrefab.GetComponent<LineRenderer>().endColor = colorObject.GetComponent<ColorPickerTest>().selectedColor;
                     // 지우개
                     if(b_eraser == true)
                     {
-                        drawPrefab.GetComponent<TrailRenderer>().startColor = eraser;
-                        drawPrefab.GetComponent<TrailRenderer>().endColor = eraser;
+                        drawPrefab.GetComponent<LineRenderer>().startColor = eraser;
+                        drawPrefab.GetComponent<LineRenderer>().endColor = eraser;
                     }
                     // 나중에 생긴 선은 위에 올라오게끔
-                    drawPrefab.GetComponent<TrailRenderer>().sortingOrder++;
+                    drawPrefab.GetComponent<LineRenderer>().sortingOrder++;
 
                     // 선 생성
                     theTrail = (GameObject)Instantiate(drawPrefab, objPosition, Quaternion.identity);
                     theTrail.transform.SetParent(drawCanvas.transform, false);
+                    // 생성 후, 리스트에 넣어주기
+                    lines.Add(theTrail);
 
                     if(planObj.Raycast(mouseRay, out _dis))
                     {
                         startPos = mouseRay.GetPoint(_dis);
-                        theTrail.transform.position = startPos;
+
+                        theTrail.GetComponent<LineRenderer>().SetPosition(0, startPos);
+                        theTrail.GetComponent<LineRenderer>().SetPosition(1, startPos);
                     }
                 }
             }
@@ -84,7 +91,9 @@ public class BrushTest2 : MonoBehaviour
                 {
                     if (planObj.Raycast(mouseRay, out _dis))
                     {
-                        theTrail.transform.position = mouseRay.GetPoint(_dis);
+                        theTrail.GetComponent<LineRenderer>().positionCount++;
+                        int positionIndex = theTrail.GetComponent<LineRenderer>().positionCount - 1;
+                        theTrail.GetComponent<LineRenderer>().SetPosition(positionIndex, mouseRay.GetPoint(_dis));
                     }
                 }
             }
@@ -130,11 +139,14 @@ public class BrushTest2 : MonoBehaviour
         {
             dis = drawCanvas.transform.position - canvasPos;
 
-            for (int i = 0; i < theTrail.GetComponent<TrailRenderer>().positionCount; i++)
+            for(int i = 0; i < lines.Count; i++)
             {
-                Vector3 drawPos = theTrail.GetComponent<TrailRenderer>().GetPosition(i);
+                for (int j = 0; j < lines[i].GetComponent<LineRenderer>().positionCount; j++)
+                {
+                    Vector3 drawPos = lines[i].GetComponent<LineRenderer>().GetPosition(j);
 
-                theTrail.GetComponent<TrailRenderer>().SetPosition(i, drawPos + dis);
+                    lines[i].GetComponent<LineRenderer>().SetPosition(j, drawPos + dis);
+                }
             }
         }
 

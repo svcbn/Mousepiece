@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -492,7 +492,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 75
+  m_Radius: 80
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -804,8 +804,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -349.99994, y: -174.99997}
-  m_SizeDelta: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -419.5, y: -174.99997}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1194451805
 MonoBehaviour:
@@ -857,6 +857,7 @@ GameObject:
   - component: {fileID: 1455064240}
   - component: {fileID: 1455064242}
   - component: {fileID: 1455064243}
+  - component: {fileID: 1455064244}
   m_Layer: 0
   m_Name: DrawManager
   m_TagString: Untagged
@@ -899,7 +900,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1455064239}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dd5a3811c62eb8940bd0e615e148d34c, type: 3}
   m_Name: 
@@ -920,6 +921,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   brush: {fileID: 6990944255465027038, guid: 74427b86d616e0f469b9e55180f722cc, type: 3}
+--- !u!114 &1455064244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1455064239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f70190e195a368641af45dae1df0360f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  drawPrefab: {fileID: 6990944255465027038, guid: 74427b86d616e0f469b9e55180f722cc, type: 3}
+  drawCanvas: {fileID: 818743384}
+  colorObject: {fileID: 428362267}
 --- !u!1 &1742436515
 GameObject:
   m_ObjectHideFlags: 0
