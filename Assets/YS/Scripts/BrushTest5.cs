@@ -67,6 +67,16 @@ public class BrushTest5 : MonoBehaviour
                     // 선 생성
                     theTrail = (GameObject)Instantiate(drawPrefab, objPosition, Quaternion.identity);
                     theTrail.transform.SetParent(drawCanvas.transform, false);
+                    // 만약 생성될 때, 리스트에 active가 false인 것들은 삭제
+                    for (int i = 0; i < lines.Count; i++)
+                    {
+                        if(lines[i].activeSelf == false)
+                        {
+                            Destroy(lines[i].gameObject); // 데이터 관리(쓸모없는 것은 지우기)
+                            lines.RemoveAt(i);
+                            i--;
+                        }
+                    }
                     // 생성 후, 리스트에 넣어주기
                     lines.Add(theTrail);
 
@@ -107,6 +117,12 @@ public class BrushTest5 : MonoBehaviour
 
         // 이동
         Moving();
+
+        // 실행취소(뒤로)
+        CtrZ();
+
+        // 되돌리기(앞으로)
+        CtrY();
     }
 
     void Size()
@@ -151,5 +167,35 @@ public class BrushTest5 : MonoBehaviour
         }
 
         canvasPos = drawCanvas.transform.position;
+    }
+
+    void CtrZ()
+    {
+        if(Input.GetKeyDown(KeyCode.Home))
+        {
+            for(int i = lines.Count - 1; i >= 0; i--)
+            {
+                if(lines[i].activeSelf == true)
+                {
+                    lines[i].SetActive(false);
+                    break;
+                }
+            }
+        }
+    }
+
+    void CtrY()
+    {
+        if (Input.GetKeyDown(KeyCode.End))
+        {
+            for (int i = 0; i < lines.Count; i++)
+            {
+                if (lines[i].activeSelf == false)
+                {
+                    lines[i].SetActive(true);
+                    break;
+                }
+            }
+        }
     }
 }
