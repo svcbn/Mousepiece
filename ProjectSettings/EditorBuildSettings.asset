@@ -12,6 +12,6 @@ EditorBuildSettings:
     path: Assets/BH/_Scenes/02LobbyScene_BH.unity
     guid: 8e8a307d5f373ab42b81a6b798021286
   - enabled: 1
-    path: Assets/BH/_Scenes/03GameScene_BH.unity
+    path: Assets/BH/_Scenes/03RoomScene_BH.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   m_configObjects: {}

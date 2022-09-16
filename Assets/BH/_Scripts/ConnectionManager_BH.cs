@@ -49,7 +49,7 @@ public class ConnectionManager_BH : MonoBehaviourPunCallbacks
         base.OnJoinedLobby();
         print("로비 접속 성공");
 
-        SceneController_BH.Instance().FadeIn();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 
     }
 

@@ -3,19 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
-public class PlayerMove : MonoBehaviour
+public class PlayerMove_BH : MonoBehaviour
 {
     public float speed = 5;
 
     CharacterController cc;
 
-    Animator anim;
-
     // Start is called before the first frame update
     void Start()
     {
         cc = GetComponent<CharacterController>();
-        anim = GetComponentInChildren<Animator>();
     }
 
     // Update is called once per frame

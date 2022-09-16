@@ -2,21 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraRotate : MonoBehaviour
+public class CameraRotate_BH : MonoBehaviour
 {
     public float rotSpeed = 200;
 
     float mx;
     float my;
 
-    public bool bUseHorizontal = true;
-    public bool bUseVertical = true;
 
     // Start is called before the first frame update
     void Start()
     {
-        if (bUseHorizontal) mx = transform.eulerAngles.y;
-        if (bUseVertical) my = -transform.eulerAngles.x;
     }
 
     // Update is called once per frame
