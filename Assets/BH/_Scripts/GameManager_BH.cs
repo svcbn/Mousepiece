@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,13 +16,27 @@ public class GameManager_BH : MonoBehaviourPun
     }
 
     public static gameState state = gameState.Ready;
+    string theme;
 
-    public InputField theme;
+    public Canvas canvasR;
+    public InputField IFtheme;
+    public Text TextTheme;
+
+    public Button startBtn;
+    public Button decisionBtn;
+
+    public Canvas canvasL;
+
+    public Canvas canvasF;
+
+    public Canvas InGameCanvas;
+    
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        IFtheme.onValueChanged.AddListener(OnThemeValueChanged);
+        IFtheme.onSubmit.AddListener(OnThemeSubmit);
 
     }
 
@@ -52,30 +65,60 @@ public class GameManager_BH : MonoBehaviourPun
         
     }
 
+    #region GameState
     private void Ready()
     {
-        
+
     }
 
     private void RoundStart()
     {
-        throw new NotImplementedException();
     }
 
     private void Playing()
     {
-        throw new NotImplementedException();
     }
 
     private void Vote()
     {
-        throw new NotImplementedException();
     }
 
     private void Victory()
     {
-        throw new NotImplementedException();
     }
-   
+    #endregion
+
+
+    void OnThemeValueChanged(string s)
+    {
+        TextTheme.text = "\" " + IFtheme.text + " \"";
+    }
+
+    void OnThemeSubmit(string s)
+    {
+        DecideTheme();
+    }
+
+    public void OnDecisionBtnClicked()
+    {
+        DecideTheme();
+    }
     
+    public void OnRandomBtnClicked()
+    {
+        string[] s = {"이영호", "김현진", "돌고래", "시간", "곡괭이", "여우", "청춘", "가면", "연인",
+            "불", "선물", "초콜릿", "버스", "손전등", "행운", "오염", "애완동물", "해돋이", "근육", 
+        "기타", "빵", "여행", "겨울", "해일", "반딧불", "갈매기", "과자", "토끼", "위험", "선택" };
+        IFtheme.text = s[Random.Range(0, s.Length)];
+        DecideTheme();
+    }
+
+    void DecideTheme()
+    {
+        theme = IFtheme.text;
+        print("테마 설정 : " + theme);
+    }
+
+
+
 }
