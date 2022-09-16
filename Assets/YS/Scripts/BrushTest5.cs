@@ -9,9 +9,10 @@ public class BrushTest5 : MonoBehaviour
     GameObject theTrail;
     Plane planObj;
     Vector3 startPos;
+    Vector3 nextPos;
 
     // 사이즈
-    float size = 0.15f;
+    float size = 0.05f;
     // 색 설정
     public GameObject colorObject;
 
@@ -28,7 +29,7 @@ public class BrushTest5 : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        planObj = new Plane(Camera.main.transform.forward, transform.position);
+        planObj = new Plane(Camera.main.transform.forward, drawCanvas.transform.position);
 
         canvasPos = drawCanvas.transform.position;
     }
@@ -80,9 +81,11 @@ public class BrushTest5 : MonoBehaviour
                     // 생성 후, 리스트에 넣어주기
                     lines.Add(theTrail);
 
-                    if(planObj.Raycast(mouseRay, out _dis))
+                    if(Physics.Raycast(mouseRay, out hit))
                     {
-                        startPos = mouseRay.GetPoint(_dis);
+                        //startPos = mouseRay.GetPoint(_dis);
+                        //startPos.z = drawCanvas.transform.position.z;
+                        startPos = hit.point;
 
                         theTrail.GetComponent<LineRenderer>().SetPosition(0, startPos);
                         theTrail.GetComponent<LineRenderer>().SetPosition(1, startPos);
@@ -99,11 +102,15 @@ public class BrushTest5 : MonoBehaviour
             {
                 if (hit.transform.name == drawCanvas.transform.name)
                 {
-                    if (planObj.Raycast(mouseRay, out _dis))
+                    if (Physics.Raycast(mouseRay, out hit))
                     {
+                        //nextPos = mouseRay.GetPoint(_dis);
+                        //nextPos.z = drawCanvas.transform.position.z;
+                        nextPos = hit.point;
+
                         theTrail.GetComponent<LineRenderer>().positionCount++;
                         int positionIndex = theTrail.GetComponent<LineRenderer>().positionCount - 1;
-                        theTrail.GetComponent<LineRenderer>().SetPosition(positionIndex, mouseRay.GetPoint(_dis));
+                        theTrail.GetComponent<LineRenderer>().SetPosition(positionIndex, nextPos);
                     }
                 }
             }
@@ -129,11 +136,11 @@ public class BrushTest5 : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Alpha0))
         {
-            size += 0.1f;
+            size += 0.01f;
         }
         else if(Input.GetKeyDown(KeyCode.Alpha9))
         {
-            size -= 0.1f;
+            size -= 0.01f;
         }
     }
 
