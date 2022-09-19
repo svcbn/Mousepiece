@@ -17,7 +17,7 @@ public class BrushTest5 : MonoBehaviour
     public GameObject colorObject;
 
     // 지우개
-    bool b_eraser;
+    public bool b_eraser;
 
     // 이동관련
     Vector3 canvasPos;
@@ -130,6 +130,9 @@ public class BrushTest5 : MonoBehaviour
 
         // 되돌리기(앞으로)
         CtrY();
+
+        // 전부 지우기
+        AllClear();
     }
 
     void Size()
@@ -203,6 +206,18 @@ public class BrushTest5 : MonoBehaviour
                     break;
                 }
             }
+        }
+    }
+
+    void AllClear()
+    {
+        if(Input.GetKeyDown(KeyCode.Backspace))
+        {
+            for(int i = 0; i < lines.Count; i++)
+            {
+                Destroy(lines[i].gameObject);
+            }
+            lines.Clear();
         }
     }
 }
