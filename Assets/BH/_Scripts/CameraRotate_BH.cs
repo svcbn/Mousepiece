@@ -8,12 +8,12 @@ public class CameraRotate_BH : MonoBehaviour
 
     float mx;
     float my;
-    int cursorType = 0;
+    int cursorType = 1;
 
     // Start is called before the first frame update
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.lockState = CursorLockMode.Confined;
     }
 
     // Update is called once per frame

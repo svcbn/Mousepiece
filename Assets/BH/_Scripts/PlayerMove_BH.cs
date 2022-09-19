@@ -1,8 +1,10 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(PhotonView))]
 public class PlayerMove_BH : MonoBehaviour
 {
     public float speed = 5;
@@ -13,6 +15,8 @@ public class PlayerMove_BH : MonoBehaviour
     void Start()
     {
         cc = GetComponent<CharacterController>();
+        GameManager_BH.instance.playerPV.Add(GetComponent<PhotonView>());
+        GameManager_BH.instance.playerList.Add(gameObject);
     }
 
     // Update is called once per frame
