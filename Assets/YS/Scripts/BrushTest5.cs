@@ -37,19 +37,46 @@ public class BrushTest5 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(GameManager_BH.state == GameManager_BH.gameState.Playing)
+        {
+            // 그림 그리기
+            Draw();
+        }
+
+        // 사이즈 조절
+        Size();
+
+        // 지우개
+        Eraser();
+
+        // 그림 이동
+        Moving();
+
+        // 실행취소(뒤로)
+        CtrZ();
+
+        // 되돌리기(앞으로)
+        CtrY();
+
+        // 전부 지우기
+        AllClear();
+    }
+
+    void Draw()
+    {
         Color eraser = Color.white;
 
         Vector2 mousePosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
         Vector2 objPosition = Camera.main.ScreenToWorldPoint(mousePosition);
 
-        if(Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
             Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             float _dis;
-            if(Physics.Raycast(mouseRay, out hit))
+            if (Physics.Raycast(mouseRay, out hit))
             {
-                if(hit.transform.name == drawCanvas.transform.name)
+                if (hit.transform.name == drawCanvas.transform.name)
                 {
                     // 선을 그리기 전, 사이즈 설정
                     drawPrefab.GetComponent<LineRenderer>().widthMultiplier = size;
@@ -57,7 +84,7 @@ public class BrushTest5 : MonoBehaviour
                     drawPrefab.GetComponent<LineRenderer>().startColor = colorObject.GetComponent<ColorPickerTest>().selectedColor;
                     drawPrefab.GetComponent<LineRenderer>().endColor = colorObject.GetComponent<ColorPickerTest>().selectedColor;
                     // 지우개
-                    if(b_eraser == true)
+                    if (b_eraser == true)
                     {
                         drawPrefab.GetComponent<LineRenderer>().startColor = eraser;
                         drawPrefab.GetComponent<LineRenderer>().endColor = eraser;
@@ -71,7 +98,7 @@ public class BrushTest5 : MonoBehaviour
                     // 만약 생성될 때, 리스트에 active가 false인 것들은 삭제
                     for (int i = 0; i < lines.Count; i++)
                     {
-                        if(lines[i].activeSelf == false)
+                        if (lines[i].activeSelf == false)
                         {
                             Destroy(lines[i].gameObject); // 데이터 관리(쓸모없는 것은 지우기)
                             lines.RemoveAt(i);
@@ -81,7 +108,7 @@ public class BrushTest5 : MonoBehaviour
                     // 생성 후, 리스트에 넣어주기
                     lines.Add(theTrail);
 
-                    if(Physics.Raycast(mouseRay, out hit))
+                    if (Physics.Raycast(mouseRay, out hit))
                     {
                         //startPos = mouseRay.GetPoint(_dis);
                         //startPos.z = drawCanvas.transform.position.z;
@@ -93,7 +120,7 @@ public class BrushTest5 : MonoBehaviour
                 }
             }
         }
-        else if(Input.GetMouseButton(0))
+        else if (Input.GetMouseButton(0))
         {
             Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -115,24 +142,6 @@ public class BrushTest5 : MonoBehaviour
                 }
             }
         }
-
-        // 사이즈 조절
-        Size();
-
-        // 지우개
-        Eraser();
-
-        // 이동
-        Moving();
-
-        // 실행취소(뒤로)
-        CtrZ();
-
-        // 되돌리기(앞으로)
-        CtrY();
-
-        // 전부 지우기
-        AllClear();
     }
 
     void Size()
