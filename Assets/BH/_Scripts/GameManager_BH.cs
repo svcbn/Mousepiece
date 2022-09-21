@@ -9,6 +9,7 @@ using Photon.Realtime;
 public class GameManager_BH : MonoBehaviourPunCallbacks
 {
     public static GameManager_BH instance;
+    public BrushTest5 brush; 
 
     public enum gameState
     {
@@ -30,10 +31,10 @@ public class GameManager_BH : MonoBehaviourPunCallbacks
     public Button decisionBtn;
 
     public Canvas canvasL;
-
     public Canvas canvasF;
-
     public Canvas InGameCanvas;
+
+    public Canvas drawCanvas;
 
     public Transform[] canvasPos;
     public GameObject[] playerCanvas;
@@ -43,7 +44,7 @@ public class GameManager_BH : MonoBehaviourPunCallbacks
 
     public List<PhotonView> playerPV = new List<PhotonView>();
     public List<GameObject> playerList = new List<GameObject>();
-
+    
     private void Awake()
     {
         instance = this;
@@ -63,6 +64,7 @@ public class GameManager_BH : MonoBehaviourPunCallbacks
         voteWall.SetActive(false);
         voteTimerText.enabled = false;
         voteText.enabled = false;
+        drawCanvas.enabled = false;
 
     }
 
@@ -91,7 +93,7 @@ public class GameManager_BH : MonoBehaviourPunCallbacks
 
 
         // 테스트용 시간감기
-        if (Input.GetKey(KeyCode.Backspace))
+        if (Input.GetKey(KeyCode.Equals))
         {
             leftTime -= 0.5f;
         }
@@ -101,7 +103,7 @@ public class GameManager_BH : MonoBehaviourPunCallbacks
     #region GameState
     private void Ready()
     {
-
+        brush.enabled = false;
     }
 
     private void RoundStart()
@@ -128,6 +130,8 @@ public class GameManager_BH : MonoBehaviourPunCallbacks
         if (!isPlaying)
         {
             isPlaying = true;
+            drawCanvas.enabled = true;
+            brush.enabled = true;
             inGameTheme.text = theme;
             inGameTheme.enabled = true;
             inGameTimer.enabled = true;
@@ -144,10 +148,11 @@ public class GameManager_BH : MonoBehaviourPunCallbacks
         if (!isVote)
         {
             isVote = true;
-            for (int i = 0; i < playerList.Count; i++)
-            {
-                playerList[i].transform.position = Vector3.zero;
-            }
+            drawCanvas.enabled = false;
+            //for (int i = 0; i < playerList.Count; i++)
+            //{
+            //    playerList[i].transform.position = Vector3.zero;
+            //}
             VoteTournament();
         }
 
@@ -314,7 +319,7 @@ public class GameManager_BH : MonoBehaviourPunCallbacks
             for (int i = 0; i < playerList.Count; i++)
             {
                 votePos[i].gameObject.SetActive(true);
-                playerCanvas[i].GetComponentsInChildren<Transform>()[1].position = votePos[i].transform.position;
+                playerCanvas[i].GetComponentsInChildren<Transform>()[1].position = votePos[i].transform.position + Vector3.forward * 0.1f;
                 playerCanvas[i].GetComponentsInChildren<Transform>()[1].rotation = Quaternion.Euler(0, -9, 0);
                 playerCanvas[i].GetComponentsInChildren<Transform>()[1].localScale = new Vector3(4, 5.33f, 0.05f);
 
