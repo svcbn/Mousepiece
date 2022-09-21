@@ -37,7 +37,7 @@ public class BrushTest5 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(GameManager_BH.state == GameManager_BH.gameState.Playing)
+        if(GameManager_BH.instance.state == GameManager_BH.gameState.Playing)
         {
             // 그림 그리기
             Draw();
