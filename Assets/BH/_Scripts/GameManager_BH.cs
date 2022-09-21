@@ -93,7 +93,7 @@ public class GameManager_BH : MonoBehaviourPunCallbacks
 
 
         // 테스트용 시간감기
-        if (Input.GetKey(KeyCode.Backspace))
+        if (Input.GetKey(KeyCode.Equals))
         {
             leftTime -= 0.5f;
         }
