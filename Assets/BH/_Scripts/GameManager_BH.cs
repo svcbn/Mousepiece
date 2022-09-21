@@ -20,7 +20,7 @@ public class GameManager_BH : MonoBehaviourPunCallbacks
         Victory
     }
 
-    public static gameState state = gameState.Ready;
+    public gameState state = gameState.Ready;
     string theme;
 
     public Canvas canvasR;
