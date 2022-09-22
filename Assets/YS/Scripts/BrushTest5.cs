@@ -32,6 +32,9 @@ public class BrushTest5 : MonoBehaviour
     // 스포이트
     public Color spuit;
 
+    // 선을 캔버스 위에서 그리고 있는지 판단(특히 그리다가 삐져나갈 경우)
+    bool b_onCanvas;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -115,6 +118,9 @@ public class BrushTest5 : MonoBehaviour
             {
                 if (hit.transform.name == drawCanvas.transform.name)
                 {
+                    // 캔버스 위에서 그리고 있음!
+                    b_onCanvas = true;
+
                     // 브러쉬일 때
                     if(toolNum == 1)
                     {
@@ -159,6 +165,11 @@ public class BrushTest5 : MonoBehaviour
                         theTrail.GetComponent<LineRenderer>().SetPosition(1, startPos);
                     }
                 }
+                else
+                {
+                    // 캔버스 위에서 그리고 있지 않음!
+                    b_onCanvas = false;
+                }
             }
         }
         else if (Input.GetMouseButton(0))
@@ -169,8 +180,41 @@ public class BrushTest5 : MonoBehaviour
             {
                 if (hit.transform.name == drawCanvas.transform.name)
                 {
+                    // 선이 캔버스를 나갔다가 들어왔을 때, 들어오는 그 자리부터 다시 생성
+                    if(b_onCanvas == false)
+                    {
+                        // 선 생성
+                        theTrail = (GameObject)Instantiate(drawPrefab, objPosition, Quaternion.identity);
+                        theTrail.transform.SetParent(drawCanvas.transform, false);
+                        // 만약 생성될 때, 리스트에 active가 false인 것들은 삭제
+                        for (int i = 0; i < lines.Count; i++)
+                        {
+                            if (lines[i].activeSelf == false)
+                            {
+                                Destroy(lines[i].gameObject); // 데이터 관리(쓸모없는 것은 지우기)
+                                lines.RemoveAt(i);
+                                i--;
+                            }
+                        }
+                        // 생성 후, 리스트에 넣어주기
+                        lines.Add(theTrail);
+
+                        if (Physics.Raycast(mouseRay, out hit))
+                        {
+                            //startPos = mouseRay.GetPoint(_dis);
+                            //startPos.z = drawCanvas.transform.position.z;
+                            startPos = hit.point;
+
+                            theTrail.GetComponent<LineRenderer>().SetPosition(0, startPos);
+                            theTrail.GetComponent<LineRenderer>().SetPosition(1, startPos);
+                        }
+                    }
+
+                    // 캔버스 위에서 그리고 있음!
+                    b_onCanvas = true;
+
                     // 브러쉬 일 때
-                    if(toolNum == 1)
+                    if (toolNum == 1)
                     {
                         //nextPos = mouseRay.GetPoint(_dis);
                         //nextPos.z = drawCanvas.transform.position.z;
@@ -180,6 +224,7 @@ public class BrushTest5 : MonoBehaviour
                         int positionIndex = theTrail.GetComponent<LineRenderer>().positionCount - 1;
                         theTrail.GetComponent<LineRenderer>().SetPosition(positionIndex, nextPos);
                     }
+                    // 블렌딩 모드 일 때
                     else if(toolNum == 2)
                     {
                         nextPos = hit.point;
@@ -193,8 +238,35 @@ public class BrushTest5 : MonoBehaviour
                             // 선 생성
                             theTrail = (GameObject)Instantiate(drawPrefab, objPosition, Quaternion.identity);
                             theTrail.transform.SetParent(drawCanvas.transform, false);
+                            // 만약 생성될 때, 리스트에 active가 false인 것들은 삭제
+                            for (int i = 0; i < lines.Count; i++)
+                            {
+                                if (lines[i].activeSelf == false)
+                                {
+                                    Destroy(lines[i].gameObject); // 데이터 관리(쓸모없는 것은 지우기)
+                                    lines.RemoveAt(i);
+                                    i--;
+                                }
+                            }
+                            // 생성 후, 리스트에 넣어주기
+                            lines.Add(theTrail);
+
+                            if (Physics.Raycast(mouseRay, out hit))
+                            {
+                                //startPos = mouseRay.GetPoint(_dis);
+                                //startPos.z = drawCanvas.transform.position.z;
+                                startPos = hit.point;
+
+                                theTrail.GetComponent<LineRenderer>().SetPosition(0, startPos);
+                                theTrail.GetComponent<LineRenderer>().SetPosition(1, startPos);
+                            }
                         }
                     }
+                }
+                else
+                {
+                    // 캔버스 위에서 그리고 있지 않음!
+                    b_onCanvas = false;
                 }
             }
         }
