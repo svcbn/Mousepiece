@@ -3966,8 +3966,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   drawPrefab: {fileID: 6990944255465027038, guid: 74427b86d616e0f469b9e55180f722cc, type: 3}
   drawCanvas: {fileID: 4072568780755248466}
+  drawCanvas_parent: {fileID: 1809663944}
+  drawCanvas_parent2: {fileID: 1674176068}
+  drawCanvas_parent3: {fileID: 1611679531}
   colorObject: {fileID: 428362267}
   b_eraser: 0
+  spuit: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &1466326857
 GameObject:
   m_ObjectHideFlags: 0
@@ -4362,6 +4366,11 @@ Transform:
   m_Father: {fileID: 1240525004}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1809663944 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5731484163971689205, guid: 92ef8c0c6a22c014b8b9f0a4b82ad2d2, type: 3}
+  m_PrefabInstance: {fileID: 1249823936}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1823164804
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5024,8 +5033,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   drawPrefab: {fileID: 6990944255465027038, guid: 74427b86d616e0f469b9e55180f722cc, type: 3}
   drawCanvas: {fileID: 4072568780755248466}
+  drawCanvas_parent: {fileID: 0}
+  drawCanvas_parent2: {fileID: 0}
+  drawCanvas_parent3: {fileID: 0}
   colorObject: {fileID: 428362267}
   b_eraser: 0
+  spuit: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &2083017689
 GameObject:
   m_ObjectHideFlags: 0

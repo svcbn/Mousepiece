@@ -8,7 +8,7 @@ public class BrushTest5 : MonoBehaviour
     int toolNum = 1;
 
     public GameObject drawPrefab;
-    public GameObject drawCanvas;
+    public GameObject drawCanvas, drawCanvas_parent, drawCanvas_parent2, drawCanvas_parent3;
     GameObject theTrail;
     Plane planObj;
     Vector3 startPos;
@@ -42,7 +42,8 @@ public class BrushTest5 : MonoBehaviour
 
         canvasPos = drawCanvas.transform.position;
 
-        drawPrefab = Resources.Load<GameObject>("YS/Brush");
+        //drawPrefab = Resources.Load<GameObject>("YS/Brush");
+        //drawPrefab.GetComponent<LineRenderer>().useWorldSpace = false;
     }
 
     // Update is called once per frame
@@ -298,17 +299,35 @@ public class BrushTest5 : MonoBehaviour
 
     void Moving()
     {
+        /*// canvasPos와 drawCanvas의 위치를 비교해서 drawCanvas가 움직였는지 판단
         if (drawCanvas.transform.position != canvasPos)
         {
             dis = drawCanvas.transform.position - canvasPos;
 
-            for(int i = 0; i < lines.Count; i++)
+            for (int i = 0; i < lines.Count; i++)
             {
                 for (int j = 0; j < lines[i].GetComponent<LineRenderer>().positionCount; j++)
                 {
                     Vector3 drawPos = lines[i].GetComponent<LineRenderer>().GetPosition(j);
 
                     lines[i].GetComponent<LineRenderer>().SetPosition(j, drawPos + dis);
+                }
+            }
+        }
+
+        canvasPos = drawCanvas.transform.position; // 이전 drawCanva의 위치를 넣어준다.*/
+
+        if (drawCanvas.transform.position != canvasPos)
+        {
+            //dis = drawCanvas.transform.position - canvasPos;
+
+            for (int i = 0; i < lines.Count; i++)
+            {
+                for (int j = 0; j < lines[i].GetComponent<LineRenderer>().positionCount; j++)
+                {
+                    Vector3 drawPos = lines[i].GetComponent<LineRenderer>().GetPosition(j);
+
+                    lines[i].GetComponent<LineRenderer>().SetPosition(j, drawCanvas.transform.localToWorldMatrix * drawCanvas_parent.transform.localToWorldMatrix * drawCanvas_parent2.transform.localToWorldMatrix * drawCanvas_parent3.transform.localToWorldMatrix * new Vector4(drawPos.x, drawPos.y, drawPos.z, 1));
                 }
             }
         }
