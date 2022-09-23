@@ -9,7 +9,6 @@ using Photon.Realtime;
 public class GameManager_BH : MonoBehaviourPunCallbacks
 {
     public static GameManager_BH instance;
-    public BrushTest5 brush; 
 
     public enum gameState
     {
@@ -38,7 +37,7 @@ public class GameManager_BH : MonoBehaviourPunCallbacks
 
     public Transform[] canvasPos;
     public GameObject[] playerCanvas;
-    public Transform[] votePos;
+    public Transform[] votePicPos;
 
     public GameObject voteWall;
 
@@ -53,6 +52,10 @@ public class GameManager_BH : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
+        PhotonNetwork.SerializationRate = 60;
+        PhotonNetwork.SendRate = 60;
+        PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity);
+
         IFtheme.onValueChanged.AddListener(OnThemeValueChanged);
         IFtheme.onSubmit.AddListener(OnThemeSubmit);
         IFtheme.onEndEdit.AddListener(OnThemeEndEdit);
@@ -66,10 +69,25 @@ public class GameManager_BH : MonoBehaviourPunCallbacks
         voteText.enabled = false;
         drawCanvas.enabled = false;
 
+        GameObject palette = GameObject.Find("Palette");
+        palette.SetActive(false);
+        
     }
 
     // Update is called once per frame
     void Update()
+    {
+        
+
+        // 테스트용 시간감기
+        if (Input.GetKey(KeyCode.Equals))
+        {
+            leftTime -= 0.5f;
+        }
+
+    }
+
+    void StateChange()
     {
         switch (state)
         {
@@ -90,20 +108,12 @@ public class GameManager_BH : MonoBehaviourPunCallbacks
                 break;
 
         }
-
-
-        // 테스트용 시간감기
-        if (Input.GetKey(KeyCode.Equals))
-        {
-            leftTime -= 0.5f;
-        }
-
     }
 
     #region GameState
     private void Ready()
     {
-        brush.enabled = false;
+        
     }
 
     private void RoundStart()
@@ -131,7 +141,6 @@ public class GameManager_BH : MonoBehaviourPunCallbacks
         {
             isPlaying = true;
             drawCanvas.enabled = true;
-            brush.enabled = true;
             inGameTheme.text = theme;
             inGameTheme.enabled = true;
             inGameTimer.enabled = true;
@@ -153,13 +162,15 @@ public class GameManager_BH : MonoBehaviourPunCallbacks
             //{
             //    playerList[i].transform.position = Vector3.zero;
             //}
-            VoteTournament();
+            CameraRotate_BH.cursorType++;
+            StartCoroutine(VoteTournament());
         }
 
     }
 
     private void Victory()
     {
+
     }
     #endregion
 
@@ -228,6 +239,7 @@ public class GameManager_BH : MonoBehaviourPunCallbacks
     public void OnStartBtnClicked()
     {
         state = gameState.Start;
+        StateChange();
     }
 
     public Text DelayText;
@@ -249,6 +261,7 @@ public class GameManager_BH : MonoBehaviourPunCallbacks
         canvasF.enabled = false;
 
         state = gameState.Playing;
+        StateChange();
     }
 
     IEnumerator InGameTimer()
@@ -285,13 +298,16 @@ public class GameManager_BH : MonoBehaviourPunCallbacks
         DelayTimeText.enabled = false;
 
         state = gameState.Vote;
+        StateChange();
     }
 
+    
     IEnumerator VoteTimer()
     {
         float voteTime = 20f;
         voteTimerText.enabled = true;
         voteText.enabled = true;
+        PlayerVote.instance.CanVote = true;
 
         while (voteTime > 0)
         {
@@ -307,24 +323,102 @@ public class GameManager_BH : MonoBehaviourPunCallbacks
 
         voteTimerText.enabled = false;
         voteText.enabled = false;
-
+        isTimerEnd = true;
+        PlayerVote.instance.CanVote = false;
 
     }
 
-    void VoteTournament()
+    int[] qualifier = new int[4];
+    GameObject[] final = new GameObject[2];
+
+
+    IEnumerator VoteTournament()
     {
         voteWall.SetActive(true);
-        if (playerList.Count < 5)
+        //int count = 0;
+        //for (int i = 0; i < playerList.Count / 5 + 1; i++)
+        //{
+        //    HangOnWall(count);
+        //}
+        if(playerList.Count < 4)
         {
-            for (int i = 0; i < playerList.Count; i++)
-            {
-                votePos[i].gameObject.SetActive(true);
-                playerCanvas[i].GetComponentsInChildren<Transform>()[1].position = votePos[i].transform.position + Vector3.forward * 0.1f;
-                playerCanvas[i].GetComponentsInChildren<Transform>()[1].rotation = Quaternion.Euler(0, -9, 0);
-                playerCanvas[i].GetComponentsInChildren<Transform>()[1].localScale = new Vector3(4, 5.33f, 0.05f);
-
-            }
-            StartCoroutine(VoteTimer());
+            HangOnWall(playerList.Count);
+            yield return new WaitUntil(() => isTimerEnd);
+            //Winner();
         }
+        else if(playerList.Count == 4)
+        {
+            HangOnWall(2, 0);
+            yield return new WaitUntil(() => isTimerEnd);
+            HangOnWall(2, 2);
+            yield return new WaitUntil(() => isTimerEnd);
+            Final();
+        }
+        else if(playerList.Count == 5)
+        {
+            HangOnWall(3, 0);
+            yield return new WaitUntil(() => isTimerEnd);
+            HangOnWall(2, 3);
+            yield return new WaitUntil(() => isTimerEnd);
+            Final();
+        }
+        else if (playerList.Count == 6)
+        {
+            HangOnWall(3, 0);
+            yield return new WaitUntil(() => isTimerEnd);
+            HangOnWall(3, 3);
+            yield return new WaitUntil(() => isTimerEnd);
+            Final();
+        }
+        else if (playerList.Count == 7)
+        {
+            HangOnWall(4, 0);
+            yield return new WaitUntil(() => isTimerEnd);
+            HangOnWall(3, 4);
+            yield return new WaitUntil(() => isTimerEnd);
+            Final();
+        }
+        else if (playerList.Count == 8)
+        {
+            HangOnWall(4, 0);
+            yield return new WaitUntil(() => isTimerEnd);
+            HangOnWall(4, 4);
+            yield return new WaitUntil(() => isTimerEnd);
+            Final();
+        }
+    }
+
+
+    bool isTimerEnd = false;
+    void HangOnWall(int playerCount, int playerNum = 0)
+    {
+        isTimerEnd = false;
+
+        for (int i = 0; i < 4; i++)
+        {
+            votePicPos[i].gameObject.SetActive(false);
+        }
+        for (int i = 0; i < 8; i++)
+        {
+            playerCanvas[i].GetComponentsInChildren<Transform>()[1].position = canvasPos[i].transform.position;
+            playerCanvas[i].GetComponentsInChildren<Transform>()[1].rotation = canvasPos[i].transform.rotation;
+            playerCanvas[i].GetComponentsInChildren<Transform>()[1].localScale = new Vector3(3, 4, 0.04f);
+        }
+
+        for (int i = 0; i < playerCount; i++)
+        {
+            votePicPos[i].gameObject.SetActive(true);
+            playerCanvas[i + playerNum].GetComponentsInChildren<Transform>()[1].position = votePicPos[i].transform.position + Vector3.forward * 0.1f;
+            playerCanvas[i + playerNum].GetComponentsInChildren<Transform>()[1].rotation = Quaternion.Euler(0, -9, 0);
+            playerCanvas[i + playerNum].GetComponentsInChildren<Transform>()[1].localScale = new Vector3(4, 5.33f, 0.05f);
+        }
+
+        StartCoroutine(VoteTimer());
+        
+    }
+
+    void Final()
+    {
+
     }
 }
