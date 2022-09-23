@@ -9,6 +9,7 @@ public class CameraRotate_BH : MonoBehaviour
     float mx;
     float my;
     int cursorType = 1;
+    public Camera camera;
 
     // Start is called before the first frame update
     void Start()
