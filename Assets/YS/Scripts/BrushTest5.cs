@@ -8,7 +8,7 @@ public class BrushTest5 : MonoBehaviour
     int toolNum = 1;
 
     public GameObject drawPrefab;
-    public GameObject drawCanvas, drawCanvas_parent, drawCanvas_parent2, drawCanvas_parent3;
+    public GameObject drawCanvas, drawCanvas_parent;
     GameObject theTrail;
     Plane planObj;
     Vector3 startPos;
@@ -42,8 +42,8 @@ public class BrushTest5 : MonoBehaviour
 
         canvasPos = drawCanvas.transform.position;
 
-        //drawPrefab = Resources.Load<GameObject>("YS/Brush");
-        //drawPrefab.GetComponent<LineRenderer>().useWorldSpace = false;
+        drawPrefab = Resources.Load<GameObject>("YS/Brush");
+        drawPrefab.GetComponent<LineRenderer>().useWorldSpace = false;
     }
 
     // Update is called once per frame
@@ -109,7 +109,7 @@ public class BrushTest5 : MonoBehaviour
         Color eraser = Color.white;
 
         Vector2 mousePosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-        Vector2 objPosition = Camera.main.ScreenToWorldPoint(mousePosition);
+        //Vector2 objPosition = Camera.main.ScreenToWorldPoint(mousePosition);
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -141,8 +141,8 @@ public class BrushTest5 : MonoBehaviour
                     drawPrefab.GetComponent<LineRenderer>().sortingOrder++;
 
                     // 선 생성
-                    theTrail = (GameObject)Instantiate(drawPrefab, objPosition, Quaternion.identity);
-                    theTrail.transform.SetParent(drawCanvas.transform, false);
+                    theTrail = (GameObject)Instantiate(drawPrefab, Vector3.zero, Quaternion.identity);
+                    theTrail.transform.SetParent(drawCanvas_parent.transform, false);
                     // 만약 생성될 때, 리스트에 active가 false인 것들은 삭제
                     for (int i = 0; i < lines.Count; i++)
                     {
@@ -185,8 +185,8 @@ public class BrushTest5 : MonoBehaviour
                     if(b_onCanvas == false)
                     {
                         // 선 생성
-                        theTrail = (GameObject)Instantiate(drawPrefab, objPosition, Quaternion.identity);
-                        theTrail.transform.SetParent(drawCanvas.transform, false);
+                        theTrail = (GameObject)Instantiate(drawPrefab, Vector3.zero, Quaternion.identity);
+                        theTrail.transform.SetParent(drawCanvas_parent.transform, false);
                         // 만약 생성될 때, 리스트에 active가 false인 것들은 삭제
                         for (int i = 0; i < lines.Count; i++)
                         {
@@ -237,8 +237,8 @@ public class BrushTest5 : MonoBehaviour
                         if(theTrail.GetComponent<LineRenderer>().startColor != spuit)
                         {
                             // 선 생성
-                            theTrail = (GameObject)Instantiate(drawPrefab, objPosition, Quaternion.identity);
-                            theTrail.transform.SetParent(drawCanvas.transform, false);
+                            theTrail = (GameObject)Instantiate(drawPrefab, Vector3.zero, Quaternion.identity);
+                            theTrail.transform.SetParent(drawCanvas_parent.transform, false);
                             // 만약 생성될 때, 리스트에 active가 false인 것들은 삭제
                             for (int i = 0; i < lines.Count; i++)
                             {
@@ -316,23 +316,6 @@ public class BrushTest5 : MonoBehaviour
         }
 
         canvasPos = drawCanvas.transform.position; // 이전 drawCanva의 위치를 넣어준다.*/
-
-        if (drawCanvas.transform.position != canvasPos)
-        {
-            //dis = drawCanvas.transform.position - canvasPos;
-
-            for (int i = 0; i < lines.Count; i++)
-            {
-                for (int j = 0; j < lines[i].GetComponent<LineRenderer>().positionCount; j++)
-                {
-                    Vector3 drawPos = lines[i].GetComponent<LineRenderer>().GetPosition(j);
-
-                    lines[i].GetComponent<LineRenderer>().SetPosition(j, drawCanvas.transform.localToWorldMatrix * drawCanvas_parent.transform.localToWorldMatrix * drawCanvas_parent2.transform.localToWorldMatrix * drawCanvas_parent3.transform.localToWorldMatrix * new Vector4(drawPos.x, drawPos.y, drawPos.z, 1));
-                }
-            }
-        }
-
-        canvasPos = drawCanvas.transform.position;
     }
 
     void CtrZ()
