@@ -5,11 +5,11 @@ using UnityEngine;
 public class YS_ButtonManager : MonoBehaviour
 {
     public GameObject palette, back, front, eraser;
-    public BrushTest5 brush;
+    public BrushTest_BH brush;
     // Start is called before the first frame update
     void Start()
     {
-        brush = GameObject.Find("DrawManager").GetComponent<BrushTest5>();
+        brush = GameObject.Find("DrawManager").GetComponent<BrushTest_BH>();
     }
 
     // Update is called once per frame

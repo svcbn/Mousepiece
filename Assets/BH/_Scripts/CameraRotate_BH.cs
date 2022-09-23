@@ -1,53 +1,60 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class CameraRotate_BH : MonoBehaviour
+public class CameraRotate_BH : MonoBehaviourPun
 {
     public float rotSpeed = 200;
 
     float mx;
     float my;
-    int cursorType = 1;
-    public Camera camera;
+    public static int cursorType = 1;
+    Camera cam;
 
     // Start is called before the first frame update
     void Start()
     {
+        if (photonView.IsMine)
+        {
+            cam = GetComponentInParent<Camera>();
+        }
         Cursor.lockState = CursorLockMode.Confined;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-        float h = Input.GetAxis("Mouse X");
-        float v = Input.GetAxis("Mouse Y");
-
-        mx += h * rotSpeed * Time.deltaTime;
-        my += v * rotSpeed * Time.deltaTime;
-
-        my = Mathf.Clamp(my, -60, 60);
-
-        if (cursorType == 0)
+        if (!photonView.IsMine)
         {
-            transform.eulerAngles = new Vector3(-my, mx, 0);
-        }
+            float h = Input.GetAxis("Mouse X");
+            float v = Input.GetAxis("Mouse Y");
 
-        if(Input.GetKeyDown(KeyCode.C))
-        {
-            cursorType++;
-            cursorType %= 2;
+            mx += h * rotSpeed * Time.deltaTime;
+            my += v * rotSpeed * Time.deltaTime;
 
-            if(cursorType == 0)
+            my = Mathf.Clamp(my, -60, 60);
+
+            if (cursorType == 0)
             {
-                Cursor.lockState = CursorLockMode.Locked;
+                transform.eulerAngles = new Vector3(-my, mx, 0);
             }
-            else
+
+            if (Input.GetKeyDown(KeyCode.C))
             {
-                Cursor.lockState = CursorLockMode.Confined;
+                cursorType++;
+                cursorType %= 2;
+
+                if (cursorType == 0)
+                {
+                    Cursor.lockState = CursorLockMode.Locked;
+                }
+                else
+                {
+                    Cursor.lockState = CursorLockMode.Confined;
+                }
+
             }
-            
         }
     }
 }

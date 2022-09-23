@@ -51,11 +51,12 @@ public class LobbyManager_BH : MonoBehaviourPunCallbacks
     {
         base.OnCreateRoomFailed(returnCode, message);
         print("방생성 실패, " + returnCode + ", " + message);
+        JoinRoom();
     }
 
     public void JoinRoom()
     {
-        PhotonNetwork.JoinRoom(selectedRoomName);
+        PhotonNetwork.JoinRoom("test");
     }
 
     public override void OnJoinedRoom()

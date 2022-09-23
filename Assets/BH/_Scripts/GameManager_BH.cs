@@ -52,6 +52,10 @@ public class GameManager_BH : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
+        PhotonNetwork.SerializationRate = 60;
+        PhotonNetwork.SendRate = 60;
+        PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity);
+
         IFtheme.onValueChanged.AddListener(OnThemeValueChanged);
         IFtheme.onSubmit.AddListener(OnThemeSubmit);
         IFtheme.onEndEdit.AddListener(OnThemeEndEdit);
@@ -64,6 +68,9 @@ public class GameManager_BH : MonoBehaviourPunCallbacks
         voteTimerText.enabled = false;
         voteText.enabled = false;
         drawCanvas.enabled = false;
+
+        GameObject palette = GameObject.Find("Palette");
+        palette.SetActive(false);
         
     }
 
@@ -155,6 +162,7 @@ public class GameManager_BH : MonoBehaviourPunCallbacks
             //{
             //    playerList[i].transform.position = Vector3.zero;
             //}
+            CameraRotate_BH.cursorType++;
             StartCoroutine(VoteTournament());
         }
 
@@ -299,6 +307,7 @@ public class GameManager_BH : MonoBehaviourPunCallbacks
         float voteTime = 20f;
         voteTimerText.enabled = true;
         voteText.enabled = true;
+        PlayerVote.instance.CanVote = true;
 
         while (voteTime > 0)
         {
@@ -315,12 +324,12 @@ public class GameManager_BH : MonoBehaviourPunCallbacks
         voteTimerText.enabled = false;
         voteText.enabled = false;
         isTimerEnd = true;
+        PlayerVote.instance.CanVote = false;
 
     }
 
-    GameObject[] qualifier1 = new GameObject[4];
-    GameObject[] qualifier2 = new GameObject[4];
-    GameObject[] fianl = new GameObject[2];
+    int[] qualifier = new int[4];
+    GameObject[] final = new GameObject[2];
 
 
     IEnumerator VoteTournament()
@@ -335,6 +344,7 @@ public class GameManager_BH : MonoBehaviourPunCallbacks
         {
             HangOnWall(playerList.Count);
             yield return new WaitUntil(() => isTimerEnd);
+            //Winner();
         }
         else if(playerList.Count == 4)
         {

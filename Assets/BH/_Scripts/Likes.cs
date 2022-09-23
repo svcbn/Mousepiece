@@ -5,6 +5,7 @@ using UnityEngine;
 public class Likes : MonoBehaviour
 {
 
+    [SerializeField]
     int _likes = 0;
 
     public int Like

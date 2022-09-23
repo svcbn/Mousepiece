@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Vote : MonoBehaviour
+public class PlayerVote : MonoBehaviour
 {
     Camera cam;
 
-    bool canVote = 0;
+    bool canVote = false;
 
     public bool CanVote
     {
@@ -19,7 +19,15 @@ public class Vote : MonoBehaviour
             canVote = value;
         }
     }
-    
+
+    public static PlayerVote instance;
+
+    private void Awake()
+    {
+        instance = this;    
+
+    }
+
     void Start()
     {
         cam = GetComponentInChildren<Camera>();
@@ -35,16 +43,22 @@ public class Vote : MonoBehaviour
                 VoteFavorite();
             }
         }
+        
     }
 
     void VoteFavorite()
     {
-        Ray ray = new Ray(cam.transform.position, cam.transform.forward);
+        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
         RaycastHit hitInfo;
+        
 
         if(Physics.Raycast(ray, out hitInfo))
         {
-            if(hitInfo.collider.)
+            if (hitInfo.collider.gameObject.GetComponent<Likes>())
+            {
+                hitInfo.collider.gameObject.GetComponent<Likes>().Like++;
+                //canVote = false;
+            }
         }
     }
 }
