@@ -10,15 +10,16 @@ public class CameraRotate_BH : MonoBehaviourPun
     float mx;
     float my;
     public static int cursorType = 1;
-    Camera cam;
+    public GameObject cam;
 
     // Start is called before the first frame update
     void Start()
     {
-        if (photonView.IsMine)
+        if (photonView.IsMine == false)
         {
-            cam = GetComponentInParent<Camera>();
+            cam.SetActive(false);
         }
+        
         Cursor.lockState = CursorLockMode.Confined;
     }
 

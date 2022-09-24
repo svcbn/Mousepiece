@@ -54,7 +54,7 @@ public class GameManager_BH : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.SerializationRate = 60;
         PhotonNetwork.SendRate = 60;
-        PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity);
+        PhotonNetwork.Instantiate("Player", Vector3.zero + Vector3.up * 0.5f, Quaternion.identity);
 
         IFtheme.onValueChanged.AddListener(OnThemeValueChanged);
         IFtheme.onSubmit.AddListener(OnThemeSubmit);
@@ -68,10 +68,6 @@ public class GameManager_BH : MonoBehaviourPunCallbacks
         voteTimerText.enabled = false;
         voteText.enabled = false;
         drawCanvas.enabled = false;
-
-        GameObject palette = GameObject.Find("Palette");
-        palette.SetActive(false);
-        
     }
 
     // Update is called once per frame
@@ -247,7 +243,9 @@ public class GameManager_BH : MonoBehaviourPunCallbacks
 
     IEnumerator StartDelayTimer()
     {
-        float delayTime = 5f;
+        //float delayTime = 5f;
+        float delayTime = 1f;
+
         while (delayTime > 0)
         {
             delayTime -= Time.deltaTime;
@@ -266,21 +264,21 @@ public class GameManager_BH : MonoBehaviourPunCallbacks
 
     IEnumerator InGameTimer()
     {
-        while (leftTime > 0)
-        {
-            leftTime -= Time.deltaTime;
-            inGameTimer.text = Mathf.Floor(leftTime / 60) + " : " + Mathf.Floor(leftTime % 60);
-            yield return null;
-        }
+        //while (leftTime > 0)
+        //{
+        //    leftTime -= Time.deltaTime;
+        //    inGameTimer.text = Mathf.Floor(leftTime / 60) + " : " + Mathf.Floor(leftTime % 60);
+        yield return null;
+        //}
 
-        inGameTheme.enabled = false;
-        inGameTimer.enabled = false;
+        //inGameTheme.enabled = false;
+        //inGameTimer.enabled = false;
 
-        DelayText.text = "게임이 종료됩니다!";
-        DelayText.enabled = true;
-        DelayTimeText.enabled = true;
+        //DelayText.text = "게임이 종료됩니다!";
+        //DelayText.enabled = true;
+        //DelayTimeText.enabled = true;
 
-        StartCoroutine(EndDelayTimer());
+        //StartCoroutine(EndDelayTimer());
     }
 
     IEnumerator EndDelayTimer()

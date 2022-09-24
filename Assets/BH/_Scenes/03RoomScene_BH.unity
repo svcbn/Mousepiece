@@ -12306,7 +12306,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1836052204}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b5eaf3140b2ee2a4f804c8dd6fcf7413, type: 3}
   m_Name: 
@@ -14348,8 +14348,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   drawPrefab: {fileID: 6990944255465027038, guid: 74427b86d616e0f469b9e55180f722cc, type: 3}
   drawCanvas: {fileID: 0}
+  drawCanvas_parent: {fileID: 0}
   colorObject: {fileID: 428362267}
   b_eraser: 0
+  spuit: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &2083017689
 GameObject:
   m_ObjectHideFlags: 0
