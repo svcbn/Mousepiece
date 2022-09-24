@@ -73,8 +73,6 @@ public class GameManager_BH : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        
-
         // 테스트용 시간감기
         if (Input.GetKey(KeyCode.Equals))
         {
@@ -264,26 +262,27 @@ public class GameManager_BH : MonoBehaviourPunCallbacks
 
     IEnumerator InGameTimer()
     {
-        //while (leftTime > 0)
-        //{
-        //    leftTime -= Time.deltaTime;
-        //    inGameTimer.text = Mathf.Floor(leftTime / 60) + " : " + Mathf.Floor(leftTime % 60);
-        yield return null;
-        //}
+        while (leftTime > 0)
+        {
+            leftTime -= Time.deltaTime;
+            inGameTimer.text = Mathf.Floor(leftTime / 60) + " : " + Mathf.Floor(leftTime % 60);
+            yield return null;
+        }
 
-        //inGameTheme.enabled = false;
-        //inGameTimer.enabled = false;
+        inGameTheme.enabled = false;
+        inGameTimer.enabled = false;
 
-        //DelayText.text = "게임이 종료됩니다!";
-        //DelayText.enabled = true;
-        //DelayTimeText.enabled = true;
+        DelayText.text = "게임이 종료됩니다!";
+        DelayText.enabled = true;
+        DelayTimeText.enabled = true;
 
-        //StartCoroutine(EndDelayTimer());
+        StartCoroutine(EndDelayTimer());
     }
 
     IEnumerator EndDelayTimer()
     {
-        float delayTime = 5f;
+        //float delayTime = 5f;
+        float delayTime = 0f;
 
         while (delayTime > 0)
         {
@@ -333,11 +332,7 @@ public class GameManager_BH : MonoBehaviourPunCallbacks
     IEnumerator VoteTournament()
     {
         voteWall.SetActive(true);
-        //int count = 0;
-        //for (int i = 0; i < playerList.Count / 5 + 1; i++)
-        //{
-        //    HangOnWall(count);
-        //}
+        
         if(playerList.Count < 4)
         {
             HangOnWall(playerList.Count);

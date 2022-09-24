@@ -15,6 +15,7 @@ public class CameraRotate_BH : MonoBehaviourPun
     // Start is called before the first frame update
     void Start()
     {
+        
         if (photonView.IsMine == false)
         {
             cam.SetActive(false);
