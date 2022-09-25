@@ -41,6 +41,10 @@ MonoBehaviour:
   - RespawnSpaceship
   - RpcDrawStart
   - RpcDrawing
+  - RpcDecideTheme
+  - RpcTimerBtnClicked
+  - RpcStateStart
+  - TimeIsRunningOut
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

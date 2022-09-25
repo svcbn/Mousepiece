@@ -57,8 +57,8 @@ public class PlayerMove_BH : MonoBehaviourPun,IPunObservable
         }
         else
         {
-            transform.position = Vector3.Lerp(transform.position, recievePos, lerpSpeed * Time.deltaTime);
-            transform.rotation = Quaternion.Lerp(transform.rotation, recieveRot, lerpSpeed * Time.deltaTime);
+            transform.position = recievePos;
+            transform.rotation = recieveRot;
         }
     }
 

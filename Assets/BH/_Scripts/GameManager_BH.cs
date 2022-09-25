@@ -26,6 +26,8 @@ public class GameManager_BH : MonoBehaviourPunCallbacks
     public InputField IFtheme;
     public Text TextTheme;
 
+    public Text isMasterText;
+
     public Button startBtn;
     public Button decisionBtn;
 
@@ -68,6 +70,11 @@ public class GameManager_BH : MonoBehaviourPunCallbacks
         voteTimerText.enabled = false;
         voteText.enabled = false;
         drawCanvas.enabled = false;
+
+        if(PhotonNetwork.IsMasterClient)
+        {
+            isMasterText.enabled = false;
+        }
     }
 
     // Update is called once per frame
@@ -76,9 +83,16 @@ public class GameManager_BH : MonoBehaviourPunCallbacks
         // 테스트용 시간감기
         if (Input.GetKey(KeyCode.Equals))
         {
-            leftTime -= 0.5f;
+            leftTime -= 1f;
+            photonView.RPC("TimeIsRunningOut", RpcTarget.Others, leftTime);
         }
 
+    }
+
+    [PunRPC]
+    void TimeIsRunningOut(float _leftTime)
+    {
+        leftTime = _leftTime;
     }
 
     void StateChange()
@@ -117,6 +131,8 @@ public class GameManager_BH : MonoBehaviourPunCallbacks
             isStart = true;
             IFtheme.enabled = false;
             canvasR.enabled = false;
+            isMasterText.enabled = false;
+
             DelayText.text = "게임이 시작됩니다!";
             DelayText.enabled = true;
             DelayTimeText.enabled = true;
@@ -152,10 +168,10 @@ public class GameManager_BH : MonoBehaviourPunCallbacks
         {
             isVote = true;
             drawCanvas.enabled = false;
-            //for (int i = 0; i < playerList.Count; i++)
-            //{
-            //    playerList[i].transform.position = Vector3.zero;
-            //}
+            for (int i = 0; i < playerList.Count; i++)
+            {
+                playerList[i].transform.position = Vector3.zero;
+            }
             CameraRotate_BH.cursorType++;
             StartCoroutine(VoteTournament());
         }
@@ -170,7 +186,10 @@ public class GameManager_BH : MonoBehaviourPunCallbacks
 
     void OnThemeValueChanged(string s)
     {
-        TextTheme.text = "\" " + IFtheme.text + " \"";
+        if (PhotonNetwork.IsMasterClient)
+        {
+            TextTheme.text = "\" " + IFtheme.text + " \"";
+        }
     }
 
     void OnThemeSubmit(string s)
@@ -190,21 +209,35 @@ public class GameManager_BH : MonoBehaviourPunCallbacks
 
     public void OnRandomBtnClicked()
     {
-        string[] s = {"이영호", "김현진", "돌고래", "시간", "곡괭이", "여우", "청춘", "가면", "연인",
+        if (PhotonNetwork.IsMasterClient)
+        {
+            string[] s = {"이영호", "김현진", "돌고래", "시간", "곡괭이", "여우", "청춘", "가면", "연인",
             "불", "선물", "초콜릿", "버스", "손전등", "행운", "오염", "애완동물", "해돋이", "근육",
         "기타", "빵", "여행", "겨울", "해일", "반딧불", "갈매기", "과자", "토끼", "위험", "선택" };
-        IFtheme.text = s[Random.Range(0, s.Length)];
-        DecideTheme();
+            IFtheme.text = s[Random.Range(0, s.Length)];
+            DecideTheme();
+        }
     }
 
     void DecideTheme()
     {
-        AlphaberCheck();
-        if (IFtheme.text.Length > 0)
+        if (PhotonNetwork.IsMasterClient)
         {
-            theme = IFtheme.text;
-            print("테마 설정 : " + theme);
+            AlphaberCheck();
+            if (IFtheme.text.Length > 0)
+            {
+                theme = IFtheme.text;
+                print("테마 설정 : " + theme);
+                photonView.RPC("RpcDecideTheme", RpcTarget.Others, theme);
+            }
         }
+    }
+
+    [PunRPC]
+    void RpcDecideTheme(string _theme)
+    {
+        theme = _theme;
+        TextTheme.text = "\" " + _theme + " \"";
     }
 
     void AlphaberCheck()
@@ -222,17 +255,41 @@ public class GameManager_BH : MonoBehaviourPunCallbacks
 
     public void OnTimerBtnClicked()
     {
-        timerType++;
-        timerType %= 4;
-        leftTime = timerSettings[timerType];
-        timerBtn.GetComponentInChildren<Text>().text = Mathf.Floor(leftTime / 60f) + " : 00";
-        print("타이머 설정 : " + Mathf.Floor(leftTime / 60f) + " 분");
+        if (PhotonNetwork.IsMasterClient)
+        {
+            timerType++;
+            timerType %= 4;
+            leftTime = timerSettings[timerType];
+            timerBtn.GetComponentInChildren<Text>().text = Mathf.Floor(leftTime / 60f) + " : 00";
+            print("타이머 설정 : " + Mathf.Floor(leftTime / 60f) + " 분");
+
+            photonView.RPC("RpcTimerBtnClicked", RpcTarget.Others, leftTime);
+        }
+    }
+
+
+    [PunRPC]
+    void RpcTimerBtnClicked(float _leftTime)
+    {
+        timerBtn.GetComponentInChildren<Text>().text = Mathf.Floor(_leftTime / 60f) + " : 00";
+        leftTime = _leftTime;
     }
 
     bool isStart = false;
     public void OnStartBtnClicked()
     {
-        state = gameState.Start;
+        if (PhotonNetwork.IsMasterClient)
+        {
+            state = gameState.Start;
+            StateChange();
+            photonView.RPC("RpcStateStart", RpcTarget.Others, gameState.Start);
+        }
+    }
+
+    [PunRPC]
+    void RpcStateStart(gameState _gamestate)
+    {
+        state = _gamestate;
         StateChange();
     }
 
