@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2958093016924730067}
   - component: {fileID: 6415906637394206178}
   m_Layer: 0
-  m_Name: Blending
+  m_Name: Spray
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -52,7 +52,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d79fd74820818074b8f642dd4eb33045, type: 2}
+  - {fileID: 2100000, guid: 8994b69f68efa57488717f529cd1c6a9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -72,13 +72,13 @@ LineRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1718369063
   m_SortingLayer: 1
-  m_SortingOrder: 99
+  m_SortingOrder: 98
   m_Positions:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 1}
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.053734984
+    widthMultiplier: 0.05
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -96,8 +96,8 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 0.972549, b: 0.99215686, a: 1}
-      key1: {r: 1, g: 0.972549, b: 0.99215686, a: 1}
+      key0: {r: 0, g: 0, b: 0, a: 1}
+      key1: {r: 0, g: 0, b: 0, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}

@@ -21,6 +21,7 @@ public class BrushTest5 : MonoBehaviour
 
     // 지우개
     public bool b_eraser;
+    GameObject drawPrefab_temp;
 
     // 이동관련
     Vector3 canvasPos;
@@ -35,6 +36,13 @@ public class BrushTest5 : MonoBehaviour
     // 선을 캔버스 위에서 그리고 있는지 판단(특히 그리다가 삐져나갈 경우)
     bool b_onCanvas;
 
+    // 레이어
+    string[] layerName = new string[] { "Layer1", "Layer2", "Layer3" };
+    int layerNum = 0;
+
+    // Order in SortingLayer
+    int sortingOrderNum;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -44,12 +52,14 @@ public class BrushTest5 : MonoBehaviour
 
         drawPrefab = Resources.Load<GameObject>("YS/Brush");
         drawPrefab.GetComponent<LineRenderer>().useWorldSpace = false;
+        drawPrefab.GetComponent<LineRenderer>().sortingLayerName = layerName[layerNum];
+        sortingOrderNum = drawPrefab.GetComponent<LineRenderer>().sortingOrder;
     }
 
     // Update is called once per frame
     void Update()
     {
-        // 도구 (1번은 브러쉬, 2번은 블렌딩)
+        // 도구 (1번은 브러쉬, 2번은 블렌딩, 3번은 마커, 4번은 연필, 5번은 캘리그라피, 6번은 크레용, 7번은 스프레이, 8번은 유화, 9번은 수채화)
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             toolNum = 1;
@@ -64,9 +74,58 @@ public class BrushTest5 : MonoBehaviour
             // 블렌딩 동적 할당
             drawPrefab = Resources.Load<GameObject>("YS/Blending");
         }
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            toolNum = 3;
+
+            // 마커 동적 할당
+            drawPrefab = Resources.Load<GameObject>("YS/Marker");
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            toolNum = 4;
+
+            // 연필 동적 할당
+            drawPrefab = Resources.Load<GameObject>("YS/Pencil");
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            toolNum = 5;
+
+            // 캘리그라피 동적 할당
+            drawPrefab = Resources.Load<GameObject>("YS/Calligraphy");
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha6))
+        {
+            toolNum = 6;
+
+            // 크레용 동적 할당
+            drawPrefab = Resources.Load<GameObject>("YS/Crayon");
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha7))
+        {
+            toolNum = 7;
+
+            // 크레용 동적 할당
+            drawPrefab = Resources.Load<GameObject>("YS/Spray");
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha8))
+        {
+            toolNum = 8;
+
+            // 크레용 동적 할당
+            drawPrefab = Resources.Load<GameObject>("YS/OilPaint");
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha9))
+        {
+            toolNum = 9;
+
+            // 크레용 동적 할당
+            drawPrefab = Resources.Load<GameObject>("YS/WaterPaint");
+        }
 
         // 블렌딩 모드
-        if(toolNum == 2)
+        if (toolNum == 2 && b_eraser == false)
         {
             // 블렌딩 색 받아오기
             drawPrefab.GetComponent<LineRenderer>().startColor = spuit;
@@ -102,6 +161,9 @@ public class BrushTest5 : MonoBehaviour
         {
             StartCoroutine(Spuit());
         }
+
+        // 레이어
+        Layer();
     }
 
     void Draw()
@@ -122,23 +184,30 @@ public class BrushTest5 : MonoBehaviour
                     // 캔버스 위에서 그리고 있음!
                     b_onCanvas = true;
 
-                    // 브러쉬일 때
-                    if(toolNum == 1)
+                    // 브러쉬일 때, 마커일 때, 연필일 때, 캘리그라피일 때, 크레용일 때, 스프레이일 때, 유화일 때, 수채화일 때
+                    if(toolNum == 1 || toolNum == 3 || toolNum == 4 || toolNum == 5 || toolNum == 6 || toolNum == 7 || toolNum == 8 || toolNum == 9)
                     {
                         // 선을 그리기 전, 사이즈 설정
                         drawPrefab.GetComponent<LineRenderer>().widthMultiplier = size;
+                        if(toolNum == 4) // 연필은 사이즈가 다른 도구들에 비해 작음!
+                        {
+                            drawPrefab.GetComponent<LineRenderer>().widthMultiplier = size - 0.04f;
+                        }
                         // 선을 그리기 전, 색 설정
                         drawPrefab.GetComponent<LineRenderer>().startColor = colorObject.GetComponent<ColorPickerTest>().selectedColor;
                         drawPrefab.GetComponent<LineRenderer>().endColor = colorObject.GetComponent<ColorPickerTest>().selectedColor;
-                        // 지우개
-                        if (b_eraser == true)
-                        {
-                            drawPrefab.GetComponent<LineRenderer>().startColor = eraser;
-                            drawPrefab.GetComponent<LineRenderer>().endColor = eraser;
-                        }
                     }
+
+                    // 지우개
+                    if (b_eraser == true)
+                    {
+                        drawPrefab.GetComponent<LineRenderer>().startColor = eraser;
+                        drawPrefab.GetComponent<LineRenderer>().endColor = eraser;
+                    }
+
                     // 나중에 생긴 선은 위에 올라오게끔
-                    drawPrefab.GetComponent<LineRenderer>().sortingOrder++;
+                    sortingOrderNum++;
+                    drawPrefab.GetComponent<LineRenderer>().sortingOrder = sortingOrderNum;
 
                     // 선 생성
                     theTrail = (GameObject)Instantiate(drawPrefab, Vector3.zero, Quaternion.identity);
@@ -214,8 +283,8 @@ public class BrushTest5 : MonoBehaviour
                     // 캔버스 위에서 그리고 있음!
                     b_onCanvas = true;
 
-                    // 브러쉬 일 때
-                    if (toolNum == 1)
+                    // 브러쉬 일 때, 마커일 때, 연필일 때, 캘리그라피일 때, 크레용일 때, 스프레이일 때, 유화일 때, 수채화일 때
+                    if (toolNum == 1 || toolNum == 3 || toolNum == 4 || toolNum == 5 || toolNum == 6 || toolNum == 7 || toolNum == 8 || toolNum == 9)
                     {
                         //nextPos = mouseRay.GetPoint(_dis);
                         //nextPos.z = drawCanvas.transform.position.z;
@@ -275,11 +344,11 @@ public class BrushTest5 : MonoBehaviour
 
     void Size()
     {
-        if(Input.GetKeyDown(KeyCode.Alpha0))
+        if(Input.GetKeyDown(KeyCode.KeypadPlus))
         {
             size += 0.01f;
         }
-        else if(Input.GetKeyDown(KeyCode.Alpha9))
+        else if(Input.GetKeyDown(KeyCode.KeypadMinus))
         {
             size -= 0.01f;
         }
@@ -287,13 +356,21 @@ public class BrushTest5 : MonoBehaviour
 
     void Eraser()
     {
-        if(Input.GetKeyDown(KeyCode.E) && b_eraser == false)
+        if(Input.GetKeyDown(KeyCode.E))
         {
-            b_eraser = true;
-        }
-        else if(Input.GetKeyDown(KeyCode.E) && b_eraser == true)
-        {
-            b_eraser = false;
+            if(b_eraser == false)
+            {
+                b_eraser = true;
+                // 지우개 동적 할당
+                drawPrefab_temp = drawPrefab;
+                drawPrefab = Resources.Load<GameObject>("YS/Eraser");
+            }
+            else if(b_eraser == true)
+            {
+                b_eraser = false;
+                // 지우개를 사용하기 전 도구로
+                drawPrefab = drawPrefab_temp;
+            }
         }
     }
 
@@ -389,5 +466,20 @@ public class BrushTest5 : MonoBehaviour
                 spuit = hit.transform.GetComponent<Renderer>().material.GetColor("_Color");
             }
         }*/
+    }
+
+    void Layer()
+    {
+        if(Input.GetKeyDown(KeyCode.L))
+        {
+            layerNum++;
+
+            if(layerNum > 2)
+            {
+                layerNum = 0;
+            }
+        }
+
+        drawPrefab.GetComponent<LineRenderer>().sortingLayerName = layerName[layerNum];
     }
 }
