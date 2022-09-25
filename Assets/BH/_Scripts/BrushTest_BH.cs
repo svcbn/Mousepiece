@@ -99,52 +99,53 @@ public class BrushTest_BH : MonoBehaviourPun
                         color = eraser;
                     }
 
-                    photonView.RPC("RpcDrawStart", RpcTarget.All, size, color.r, color.g, color.b, sortingOrder, objPosition, myCanvasIdx, hit.point);
+
+                    theTrail = Instantiate(drawPrefab);
+                    LineRenderer lr = theTrail.GetComponent<LineRenderer>();
+                    ColorPickerTest cp = theTrail.GetComponent<ColorPickerTest>();
+                    // 선을 그리기 전, 사이즈 설정
+                    theTrail.GetComponent<LineRenderer>().widthMultiplier = size;
+                    // 선을 그리기 전, 색 설정
+                    theTrail.GetComponent<LineRenderer>().startColor = colorObject.GetComponent<ColorPickerTest>().selectedColor;
+                    theTrail.GetComponent<LineRenderer>().endColor = colorObject.GetComponent<ColorPickerTest>().selectedColor;
+                    // 지우개
+                    if (b_eraser == true)
+                    {
+                        theTrail.GetComponent<LineRenderer>().startColor = eraser;
+                        theTrail.GetComponent<LineRenderer>().endColor = eraser;
+                    }
+                    // 나중에 생긴 선은 위에 올라오게끔
+                    theTrail.GetComponent<LineRenderer>().sortingOrder = sortingOrder;
                     sortingOrder++;
 
-                    //theTrail = Instantiate(drawPrefab);
-                    //LineRenderer lr = theTrail.GetComponent<LineRenderer>();
-                    //ColorPickerTest cp = theTrail.GetComponent<ColorPickerTest>();
-                    //// 선을 그리기 전, 사이즈 설정
-                    //theTrail.GetComponent<LineRenderer>().widthMultiplier = size;
-                    //// 선을 그리기 전, 색 설정
-                    //theTrail.GetComponent<LineRenderer>().startColor = colorObject.GetComponent<ColorPickerTest>().selectedColor;
-                    //theTrail.GetComponent<LineRenderer>().endColor = colorObject.GetComponent<ColorPickerTest>().selectedColor;
-                    //// 지우개
-                    //if (b_eraser == true)
-                    //{
-                    //    theTrail.GetComponent<LineRenderer>().startColor = eraser;
-                    //    theTrail.GetComponent<LineRenderer>().endColor = eraser;
-                    //}
-                    //// 나중에 생긴 선은 위에 올라오게끔
-                    //theTrail.GetComponent<LineRenderer>().sortingOrder = sortingOrder;
-                    //sortingOrder++;
+                    // 선 생성
+                    theTrail.transform.position = objPosition;
+                    theTrail.transform.SetParent(drawCanvas.transform, false);
+                    // 만약 생성될 때, 리스트에 active가 false인 것들은 삭제
+                    for (int i = 0; i < lines.Count; i++)
+                    {
+                        if (lines[i].activeSelf == false)
+                        {
+                            Destroy(lines[i].gameObject); // 데이터 관리(쓸모없는 것은 지우기)
+                            lines.RemoveAt(i);
+                            i--;
+                        }
+                    }
+                    // 생성 후, 리스트에 넣어주기
+                    lines.Add(theTrail);
 
-                    //// 선 생성
-                    //theTrail.transform.position = objPosition;
-                    //theTrail.transform.SetParent(drawCanvas.transform, false);
-                    //// 만약 생성될 때, 리스트에 active가 false인 것들은 삭제
-                    //for (int i = 0; i < lines.Count; i++)
-                    //{
-                    //    if (lines[i].activeSelf == false)
-                    //    {
-                    //        Destroy(lines[i].gameObject); // 데이터 관리(쓸모없는 것은 지우기)
-                    //        lines.RemoveAt(i);
-                    //        i--;
-                    //    }
-                    //}
-                    //// 생성 후, 리스트에 넣어주기
-                    //lines.Add(theTrail);
+                    if (Physics.Raycast(mouseRay, out hit))
+                    {
+                        //startPos = mouseRay.GetPoint(_dis);
+                        //startPos.z = drawCanvas.transform.position.z;
+                        startPos = hit.point;
 
-                    //if (Physics.Raycast(mouseRay, out hit))
-                    //{
-                    //    //startPos = mouseRay.GetPoint(_dis);
-                    //    //startPos.z = drawCanvas.transform.position.z;
-                    //    startPos = hit.point;
+                        theTrail.GetComponent<LineRenderer>().SetPosition(0, startPos);
+                        theTrail.GetComponent<LineRenderer>().SetPosition(1, startPos);
+                    }
 
-                    //    theTrail.GetComponent<LineRenderer>().SetPosition(0, startPos);
-                    //    theTrail.GetComponent<LineRenderer>().SetPosition(1, startPos);
-                    //}
+                    photonView.RPC("RpcDrawStart", RpcTarget.Others, size, color.r, color.g, color.b, sortingOrder, objPosition, myCanvasIdx, hit.point);
+                    sortingOrder++;
                 }
             }
         }
@@ -172,13 +173,6 @@ public class BrushTest_BH : MonoBehaviourPun
                 }
             }
         }
-    }
-
-    [PunRPC]
-    void RpcDrawing(int _positionCount, int _positionIndex, Vector3 _nextPos)
-    {
-        theTrail.GetComponent<LineRenderer>().positionCount = _positionCount;
-        theTrail.GetComponent<LineRenderer>().SetPosition(_positionIndex, _nextPos);
     }
 
     [PunRPC]
@@ -217,6 +211,13 @@ public class BrushTest_BH : MonoBehaviourPun
         lines.Add(theTrail);
         theTrail.GetComponent<LineRenderer>().SetPosition(0, _startPos);
         theTrail.GetComponent<LineRenderer>().SetPosition(1, _startPos);      
+    }
+
+    [PunRPC]
+    void RpcDrawing(int _positionCount, int _positionIndex, Vector3 _nextPos)
+    {
+        theTrail.GetComponent<LineRenderer>().positionCount = _positionCount;
+        theTrail.GetComponent<LineRenderer>().SetPosition(_positionIndex, _nextPos);
     }
 
     void Size()

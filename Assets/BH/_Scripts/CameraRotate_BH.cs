@@ -27,7 +27,7 @@ public class CameraRotate_BH : MonoBehaviourPun
     // Update is called once per frame
     void Update()
     {
-        if (!photonView.IsMine)
+        if (photonView.IsMine)
         {
             float h = Input.GetAxis("Mouse X");
             float v = Input.GetAxis("Mouse Y");
@@ -55,7 +55,6 @@ public class CameraRotate_BH : MonoBehaviourPun
                 {
                     Cursor.lockState = CursorLockMode.Confined;
                 }
-
             }
         }
     }
