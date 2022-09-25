@@ -54,7 +54,7 @@ public class GameManager_BH : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.SerializationRate = 60;
         PhotonNetwork.SendRate = 60;
-        PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity);
+        PhotonNetwork.Instantiate("Player", Vector3.zero + Vector3.up * 0.5f, Quaternion.identity);
 
         IFtheme.onValueChanged.AddListener(OnThemeValueChanged);
         IFtheme.onSubmit.AddListener(OnThemeSubmit);
@@ -68,17 +68,11 @@ public class GameManager_BH : MonoBehaviourPunCallbacks
         voteTimerText.enabled = false;
         voteText.enabled = false;
         drawCanvas.enabled = false;
-
-        GameObject palette = GameObject.Find("Palette");
-        palette.SetActive(false);
-        
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-
         // 테스트용 시간감기
         if (Input.GetKey(KeyCode.Equals))
         {
@@ -247,7 +241,9 @@ public class GameManager_BH : MonoBehaviourPunCallbacks
 
     IEnumerator StartDelayTimer()
     {
-        float delayTime = 5f;
+        //float delayTime = 5f;
+        float delayTime = 1f;
+
         while (delayTime > 0)
         {
             delayTime -= Time.deltaTime;
@@ -285,7 +281,8 @@ public class GameManager_BH : MonoBehaviourPunCallbacks
 
     IEnumerator EndDelayTimer()
     {
-        float delayTime = 5f;
+        //float delayTime = 5f;
+        float delayTime = 0f;
 
         while (delayTime > 0)
         {
@@ -335,11 +332,7 @@ public class GameManager_BH : MonoBehaviourPunCallbacks
     IEnumerator VoteTournament()
     {
         voteWall.SetActive(true);
-        //int count = 0;
-        //for (int i = 0; i < playerList.Count / 5 + 1; i++)
-        //{
-        //    HangOnWall(count);
-        //}
+        
         if(playerList.Count < 4)
         {
             HangOnWall(playerList.Count);

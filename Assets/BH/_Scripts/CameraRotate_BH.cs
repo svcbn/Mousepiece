@@ -10,22 +10,24 @@ public class CameraRotate_BH : MonoBehaviourPun
     float mx;
     float my;
     public static int cursorType = 1;
-    Camera cam;
+    public GameObject cam;
 
     // Start is called before the first frame update
     void Start()
     {
-        if (photonView.IsMine)
+        
+        if (photonView.IsMine == false)
         {
-            cam = GetComponentInParent<Camera>();
+            cam.SetActive(false);
         }
+        
         Cursor.lockState = CursorLockMode.Confined;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!photonView.IsMine)
+        if (photonView.IsMine)
         {
             float h = Input.GetAxis("Mouse X");
             float v = Input.GetAxis("Mouse Y");
@@ -53,7 +55,6 @@ public class CameraRotate_BH : MonoBehaviourPun
                 {
                     Cursor.lockState = CursorLockMode.Confined;
                 }
-
             }
         }
     }

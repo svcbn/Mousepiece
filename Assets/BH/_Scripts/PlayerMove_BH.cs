@@ -8,8 +8,11 @@ using UnityEngine;
 public class PlayerMove_BH : MonoBehaviourPun,IPunObservable
 {
     public float speed = 5;
-
+    
     CharacterController cc;
+
+    bool isground;
+    float gravity = -5f;
 
     private void Awake()
     {
@@ -39,9 +42,16 @@ public class PlayerMove_BH : MonoBehaviourPun,IPunObservable
             //anim.SetFloat("Speed", v);
             //anim.SetFloat("Direction", h);
 
+            if(cc.isGrounded)
+            {
+                gravity = 0;
+            }
+
+            gravity -= Time.deltaTime;
+
             Vector3 dir = new Vector3(h, 0, v);
             dir = Camera.main.transform.TransformDirection(dir);
-            dir.y = 0;
+            dir.y = gravity;
 
             cc.Move(dir * speed * Time.deltaTime);
         }
