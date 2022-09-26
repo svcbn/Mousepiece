@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class YS_ButtonManager : MonoBehaviour
 {
-    public GameObject palette, back, front, eraser, clear, basicBrush, oilPaintBrush, waterColorBrush, pencil, calligraphy, marker, crayon, spray, fingerBlending;
+    public GameObject colorPicker, picker, back, front, eraser, clear, basicBrush, oilPaintBrush, waterColorBrush, pencil, calligraphy, marker, crayon, spray, fingerBlending, brushSize, size;
     public BrushTest_BH brush;
     public BrushTest5 bt5;
     // Start is called before the first frame update
@@ -22,9 +22,10 @@ public class YS_ButtonManager : MonoBehaviour
 
     public void PaletteOnOff()
     {
-        if(palette.activeSelf == false)
+        if(colorPicker.activeSelf == false)
         {
-            palette.SetActive(true);
+            colorPicker.SetActive(true);
+            picker.SetActive(true);
             back.SetActive(true);
             front.SetActive(true);
             eraser.SetActive(true);
@@ -38,10 +39,12 @@ public class YS_ButtonManager : MonoBehaviour
             crayon.SetActive(true);
             spray.SetActive(true);
             fingerBlending.SetActive(true);
+            brushSize.SetActive(true);
         }
         else
         {
-            palette.SetActive(false);
+            colorPicker.SetActive(false);
+            picker.SetActive(false);
             back.SetActive(false);
             front.SetActive(false);
             eraser.SetActive(false);
@@ -55,6 +58,7 @@ public class YS_ButtonManager : MonoBehaviour
             crayon.SetActive(false);
             spray.SetActive(false);
             fingerBlending.SetActive(false);
+            brushSize.SetActive(false);
         }
     }
 
@@ -182,5 +186,10 @@ public class YS_ButtonManager : MonoBehaviour
 
         // 블렌딩 동적 할당
         bt5.drawPrefab = Resources.Load<GameObject>("YS/Blending");
+    }
+
+    public void BrushSize()
+    {
+
     }
 }
