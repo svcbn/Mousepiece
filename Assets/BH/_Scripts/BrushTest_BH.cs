@@ -6,7 +6,7 @@ using Photon.Pun;
 public class BrushTest_BH : MonoBehaviourPun
 {
     GameObject drawPrefab;
-    GameObject drawCanvas;
+    GameObject drawCanvas, drawCanvas_parent;
     GameObject theTrail;
     //Plane planObj;
     Vector3 startPos;
@@ -36,6 +36,7 @@ public class BrushTest_BH : MonoBehaviourPun
         {
             myCanvasIdx = PhotonNetwork.CurrentRoom.PlayerCount - 1;
             drawCanvas = GameManager_BH.instance.playerCanvas[myCanvasIdx].GetComponentsInChildren<Transform>()[1].gameObject;
+            drawCanvas_parent = GameManager_BH.instance.playerCanvas[myCanvasIdx].GetComponent<Transform>().gameObject;
             //planObj = new Plane(Camera.main.transform.forward, drawCanvas.transform.position);
             canvasPos = drawCanvas.transform.position;
             colorObject = GameObject.Find("Palette");
@@ -120,7 +121,7 @@ public class BrushTest_BH : MonoBehaviourPun
 
                     // 선 생성
                     theTrail.transform.position = objPosition;
-                    theTrail.transform.SetParent(drawCanvas.transform, false);
+                    theTrail.transform.SetParent(drawCanvas_parent.transform, false);
                     // 만약 생성될 때, 리스트에 active가 false인 것들은 삭제
                     for (int i = 0; i < lines.Count; i++)
                     {

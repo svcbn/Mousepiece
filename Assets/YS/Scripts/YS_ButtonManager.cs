@@ -9,7 +9,7 @@ public class YS_ButtonManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        brush = GameObject.Find("DrawManager").GetComponent<BrushTest_BH>();
+        //brush = GameObject.Find("Player").GetComponent<BrushTest_BH>();
     }
 
     // Update is called once per frame

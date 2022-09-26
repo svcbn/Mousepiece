@@ -16,8 +16,8 @@ public class PlayerMove_BH : MonoBehaviourPun,IPunObservable
 
     private void Awake()
     {
-        GameManager_BH.instance.playerPV.Add(GetComponent<PhotonView>());
-        GameManager_BH.instance.playerList.Add(gameObject);
+        //GameManager_BH.instance.playerPV.Add(GetComponent<PhotonView>());
+        //GameManager_BH.instance.playerList[PhotonNetwork.CurrentRoom.PlayerCount - 1] = gameObject;
     }
 
     // Start is called before the first frame update
@@ -57,7 +57,7 @@ public class PlayerMove_BH : MonoBehaviourPun,IPunObservable
         }
         else
         {
-            transform.position = recievePos;
+            transform.position = Vector3.Lerp(transform.position, recievePos, speed * Time.deltaTime);
             transform.rotation = recieveRot;
         }
     }

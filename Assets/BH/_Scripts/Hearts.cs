@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
 
-public class Hearts : MonoBehaviour
+public class Hearts : MonoBehaviourPun,IPunObservable
 {
     Likes likes;
     public Image[] hearts = new Image[8];
@@ -38,6 +39,18 @@ public class Hearts : MonoBehaviour
         for (int i = 0; i < hearts.Length; i++)
         {
             hearts[i].enabled = false;
+        }
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(likes.Like);
+        }
+        else if (stream.IsReading)
+        {
+            likes.Like = (int)stream.ReceiveNext();
         }
     }
 }
