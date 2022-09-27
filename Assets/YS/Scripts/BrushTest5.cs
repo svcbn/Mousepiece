@@ -15,7 +15,7 @@ public class BrushTest5 : MonoBehaviour
     Vector3 nextPos;
 
     // 사이즈
-    float size = 0.05f;
+    public float size = 0.05f;
     // 색 설정
     public GameObject colorObject;
 

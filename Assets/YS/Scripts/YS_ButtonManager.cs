@@ -4,20 +4,26 @@ using UnityEngine;
 
 public class YS_ButtonManager : MonoBehaviour
 {
-    public GameObject colorPicker, picker, back, front, eraser, clear, basicBrush, oilPaintBrush, waterColorBrush, pencil, calligraphy, marker, crayon, spray, fingerBlending, brushSize, size;
+    public GameObject colorPicker, picker, back, front, eraser, clear, basicBrush, oilPaintBrush, waterColorBrush, pencil, calligraphy, marker, crayon, spray, fingerBlending, brushSize, circle;
     public BrushTest_BH brush;
     public BrushTest5 bt5;
+
+    float circle_temp;
+
     // Start is called before the first frame update
     void Start()
     {
         brush = GameObject.Find("DrawManager").GetComponent<BrushTest_BH>();
         bt5 = GameObject.Find("DrawManager").GetComponent<BrushTest5>();
+
+        circle_temp = circle.GetComponent<RectTransform>().localPosition.x;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        // 브러쉬 사이즈 조절
+        BrushSize();
     }
 
     public void PaletteOnOff()
@@ -190,6 +196,23 @@ public class YS_ButtonManager : MonoBehaviour
 
     public void BrushSize()
     {
+        // circle이 움직이면,
+        if(circle_temp != circle.GetComponent<RectTransform>().localPosition.x)
+        {
+            // circle의 비교대상은 시작 브러쉬의 크기에 해당하는 위치(0.05 * 0.0013812154696133)
+            if (circle_temp < circle.GetComponent<RectTransform>().localPosition.x)
+            {
+                // 비율로 계산 (circle의 움직일 수 있는 범위는 362, 브러쉬 사이즈는 0.5로 계산)
+                bt5.size += (circle.GetComponent<RectTransform>().localPosition.x - circle_temp) * 0.0013812154696133f;
+            }
+            else if(circle_temp > circle.GetComponent<RectTransform>().localPosition.x)
+            {
+                // 비율로 계산 (circle의 움직일 수 있는 범위는 362, 브러쉬 사이즈는 0.5로 계산)
+                bt5.size -= (circle_temp - circle.GetComponent<RectTransform>().localPosition.x) * 0.0013812154696133f;
+            }
+        }
 
+        // circle의 이전 위치 저장
+        circle_temp = circle.GetComponent<RectTransform>().localPosition.x;
     }
 }
