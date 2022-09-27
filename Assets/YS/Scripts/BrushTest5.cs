@@ -5,7 +5,7 @@ using UnityEngine;
 public class BrushTest5 : MonoBehaviour
 {
     // 도구 번호
-    int toolNum = 1;
+    public int toolNum = 1;
 
     public GameObject drawPrefab;
     public GameObject drawCanvas, drawCanvas_parent;
@@ -21,14 +21,14 @@ public class BrushTest5 : MonoBehaviour
 
     // 지우개
     public bool b_eraser;
-    GameObject drawPrefab_temp;
+    public GameObject drawPrefab_temp;
 
     // 이동관련
     Vector3 canvasPos;
     Vector3 dis;
 
     // 모든 선 저장
-    List<GameObject> lines = new List<GameObject>();
+    public List<GameObject> lines = new List<GameObject>();
 
     // 스포이트
     public Color spuit;
@@ -106,21 +106,21 @@ public class BrushTest5 : MonoBehaviour
         {
             toolNum = 7;
 
-            // 크레용 동적 할당
+            // 스프레이 동적 할당
             drawPrefab = Resources.Load<GameObject>("YS/Spray");
         }
         else if (Input.GetKeyDown(KeyCode.Alpha8))
         {
             toolNum = 8;
 
-            // 크레용 동적 할당
+            // 유화 동적 할당
             drawPrefab = Resources.Load<GameObject>("YS/OilPaint");
         }
         else if (Input.GetKeyDown(KeyCode.Alpha9))
         {
             toolNum = 9;
 
-            // 크레용 동적 할당
+            // 수채화 동적 할당
             drawPrefab = Resources.Load<GameObject>("YS/WaterPaint");
         }
 
