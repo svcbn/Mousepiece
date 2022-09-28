@@ -212,6 +212,12 @@ public class BrushTest5 : MonoBehaviour
                     // 선 생성
                     theTrail = (GameObject)Instantiate(drawPrefab, Vector3.zero, Quaternion.identity);
                     theTrail.transform.SetParent(drawCanvas_parent.transform, false);
+                    //theTrail.transform.localEulerAngles = -theTrail.transform.parent.localEulerAngles;
+                    Vector3 scale = new Vector3();
+                    scale.x = theTrail.transform.localScale.x / theTrail.transform.parent.localScale.x;
+                    scale.y = theTrail.transform.localScale.y / theTrail.transform.parent.localScale.y;
+                    scale.z = theTrail.transform.localScale.z / theTrail.transform.parent.localScale.z;
+                    theTrail.transform.localScale = scale;
                     // 만약 생성될 때, 리스트에 active가 false인 것들은 삭제
                     for (int i = 0; i < lines.Count; i++)
                     {
@@ -229,7 +235,7 @@ public class BrushTest5 : MonoBehaviour
                     {
                         //startPos = mouseRay.GetPoint(_dis);
                         //startPos.z = drawCanvas.transform.position.z;
-                        startPos = hit.point;
+                        startPos = hit.point - theTrail.transform.parent.position;
 
                         theTrail.GetComponent<LineRenderer>().SetPosition(0, startPos);
                         theTrail.GetComponent<LineRenderer>().SetPosition(1, startPos);
@@ -273,7 +279,7 @@ public class BrushTest5 : MonoBehaviour
                         {
                             //startPos = mouseRay.GetPoint(_dis);
                             //startPos.z = drawCanvas.transform.position.z;
-                            startPos = hit.point;
+                            startPos = hit.point - theTrail.transform.parent.position;
 
                             theTrail.GetComponent<LineRenderer>().SetPosition(0, startPos);
                             theTrail.GetComponent<LineRenderer>().SetPosition(1, startPos);
@@ -288,7 +294,7 @@ public class BrushTest5 : MonoBehaviour
                     {
                         //nextPos = mouseRay.GetPoint(_dis);
                         //nextPos.z = drawCanvas.transform.position.z;
-                        nextPos = hit.point;
+                        nextPos = hit.point- theTrail.transform.parent.position;
 
                         theTrail.GetComponent<LineRenderer>().positionCount++;
                         int positionIndex = theTrail.GetComponent<LineRenderer>().positionCount - 1;

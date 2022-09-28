@@ -6,12 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/BH/_Scripts/_Scenes/01TitleScene_BH.unity
+    path: Assets/BH/_Scenes/01TitleScene_BH.unity
     guid: cf9f536c496db384787e15517f57dab7
   - enabled: 1
-    path: Assets/BH/_Scripts/_Scenes/02LobbyScene_BH.unity
+    path: Assets/BH/_Scenes/02LobbyScene_BH.unity
     guid: 8e8a307d5f373ab42b81a6b798021286
   - enabled: 1
-    path: Assets/BH/_Scripts/_Scenes/03RoomScene_BH.unity
+    path: Assets/BH/_Scenes/03RoomScene_BH.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   m_configObjects: {}

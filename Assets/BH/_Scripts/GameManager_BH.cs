@@ -75,7 +75,7 @@ public class GameManager_BH : MonoBehaviourPunCallbacks
         DelayTimeText.enabled = false;
         inGameTheme.enabled = false;
         inGameTimer.enabled = false;
-        voteWall.SetActive(false);
+        //voteWall.SetActive(false);
         voteTimerText.enabled = false;
         voteText.enabled = false;
         drawCanvas.enabled = false;
@@ -85,9 +85,9 @@ public class GameManager_BH : MonoBehaviourPunCallbacks
             isMasterText.text = "방 설정을 바꿔주세요!!";
         }
 
-        //playerCanvas[0].GetComponentsInChildren<Transform>()[1].position = votePicPos[0].transform.position;
-        //playerCanvas[0].GetComponentsInChildren<Transform>()[1].rotation = Quaternion.Euler(0, -9, 0);
-        //playerCanvas[0].GetComponentsInChildren<Transform>()[1].localScale = new Vector3(2.05f, 2.7f, 0.05f);
+        playerCanvas[0].GetComponentsInChildren<Transform>()[1].position = votePicPos[0].transform.position;
+        playerCanvas[0].GetComponentsInChildren<Transform>()[1].rotation = Quaternion.Euler(0, -9, 0);
+        playerCanvas[0].GetComponentsInChildren<Transform>()[1].localScale = new Vector3(2.05f, 2.7f, 0.05f);
 
     }
 

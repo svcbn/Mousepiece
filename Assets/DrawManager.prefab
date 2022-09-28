@@ -1,0 +1,138 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3282218195820680114
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3282218195820680108}
+  - component: {fileID: 3282218195820680109}
+  - component: {fileID: 3282218195820680111}
+  - component: {fileID: 3282218195820680110}
+  - component: {fileID: 3282218195820680105}
+  - component: {fileID: 3282218195820680104}
+  - component: {fileID: 3282218195820680107}
+  m_Layer: 0
+  m_Name: DrawManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3282218195820680108
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3282218195820680114}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3282218195820680109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3282218195820680114}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a3a3fea909de014f804225f7d0a0b7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseDot: {fileID: 0}
+--- !u!114 &3282218195820680111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3282218195820680114}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd5a3811c62eb8940bd0e615e148d34c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  drawPrefab: {fileID: 7343903491687324896, guid: 6fba2c9a9726fbe428f4db9270b35b39, type: 3}
+  drawCanvas: {fileID: 0}
+  colorObject: {fileID: 0}
+--- !u!114 &3282218195820680110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3282218195820680114}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bf5170f4c19a6643ac6ac0605ca5033, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  brush: {fileID: 6990944255465027038, guid: 74427b86d616e0f469b9e55180f722cc, type: 3}
+--- !u!114 &3282218195820680105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3282218195820680114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f70190e195a368641af45dae1df0360f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toolNum: 1
+  drawPrefab: {fileID: 6990944255465027038, guid: 74427b86d616e0f469b9e55180f722cc, type: 3}
+  drawCanvas: {fileID: 0}
+  drawCanvas_parent: {fileID: 0}
+  colorObject: {fileID: 0}
+  b_eraser: 0
+  drawPrefab_temp: {fileID: 0}
+  lines: []
+  spuit: {r: 0, g: 0, b: 0, a: 0}
+--- !u!114 &3282218195820680104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3282218195820680114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5eaf3140b2ee2a4f804c8dd6fcf7413, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  b_eraser: 0
+--- !u!114 &3282218195820680107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3282218195820680114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 785383da5c5f16e4295dcb7325da4410, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cursorTexArray:
+  - {fileID: 2800000, guid: 1578c86a23bf4814f95546d4cf3d9280, type: 3}
+  - {fileID: 2800000, guid: d4329ccb587ba5b4799a52201be3bcbe, type: 3}
+  - {fileID: 2800000, guid: 24e44745981e4a444ab7ed39da3055d2, type: 3}
+  - {fileID: 2800000, guid: ee935207270287a43be3bded5143a03a, type: 3}
+  - {fileID: 2800000, guid: d446091372e3c44458e82bdf5364ff93, type: 3}
+  - {fileID: 2800000, guid: 553fc5fe853716e42922b7b78b9e8d60, type: 3}
+  - {fileID: 2800000, guid: 7078c0970e28b644c956dfe38069aaef, type: 3}
+  - {fileID: 2800000, guid: 5f132e79c3fe15a4682de12175061afe, type: 3}
+  - {fileID: 2800000, guid: 1578c86a23bf4814f95546d4cf3d9280, type: 3}
+  cursorTex: {fileID: 2800000, guid: 1578c86a23bf4814f95546d4cf3d9280, type: 3}
+  bt5: {fileID: 0}
