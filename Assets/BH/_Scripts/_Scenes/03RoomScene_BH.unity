@@ -2403,11 +2403,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2047c3ca5d6c6640ba7ca91e8a06197, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  palette: {fileID: 428362267}
+  colorPicker: {fileID: 0}
+  picker: {fileID: 0}
   back: {fileID: 2064403540}
   front: {fileID: 2104102209}
   eraser: {fileID: 392661116}
+  clear: {fileID: 0}
+  basicBrush: {fileID: 0}
+  oilPaintBrush: {fileID: 0}
+  waterColorBrush: {fileID: 0}
+  pencil: {fileID: 0}
+  calligraphy: {fileID: 0}
+  marker: {fileID: 0}
+  crayon: {fileID: 0}
+  spray: {fileID: 0}
+  fingerBlending: {fileID: 0}
+  brushSize: {fileID: 0}
+  circle: {fileID: 0}
   brush: {fileID: 0}
+  bt5: {fileID: 0}
 --- !u!1 &406322956
 GameObject:
   m_ObjectHideFlags: 0
@@ -5359,11 +5373,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2047c3ca5d6c6640ba7ca91e8a06197, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  palette: {fileID: 428362267}
+  colorPicker: {fileID: 0}
+  picker: {fileID: 0}
   back: {fileID: 2064403540}
   front: {fileID: 2104102209}
   eraser: {fileID: 392661116}
+  clear: {fileID: 0}
+  basicBrush: {fileID: 0}
+  oilPaintBrush: {fileID: 0}
+  waterColorBrush: {fileID: 0}
+  pencil: {fileID: 0}
+  calligraphy: {fileID: 0}
+  marker: {fileID: 0}
+  crayon: {fileID: 0}
+  spray: {fileID: 0}
+  fingerBlending: {fileID: 0}
+  brushSize: {fileID: 0}
+  circle: {fileID: 0}
   brush: {fileID: 0}
+  bt5: {fileID: 0}
 --- !u!1 &735726435
 GameObject:
   m_ObjectHideFlags: 0
@@ -14610,11 +14638,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2047c3ca5d6c6640ba7ca91e8a06197, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  palette: {fileID: 428362267}
+  colorPicker: {fileID: 0}
+  picker: {fileID: 0}
   back: {fileID: 2064403540}
   front: {fileID: 2104102209}
   eraser: {fileID: 392661116}
+  clear: {fileID: 0}
+  basicBrush: {fileID: 0}
+  oilPaintBrush: {fileID: 0}
+  waterColorBrush: {fileID: 0}
+  pencil: {fileID: 0}
+  calligraphy: {fileID: 0}
+  marker: {fileID: 0}
+  crayon: {fileID: 0}
+  spray: {fileID: 0}
+  fingerBlending: {fileID: 0}
+  brushSize: {fileID: 0}
+  circle: {fileID: 0}
   brush: {fileID: 0}
+  bt5: {fileID: 0}
 --- !u!114 &2064403546
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14627,11 +14669,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f70190e195a368641af45dae1df0360f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  toolNum: 1
   drawPrefab: {fileID: 6990944255465027038, guid: 74427b86d616e0f469b9e55180f722cc, type: 3}
   drawCanvas: {fileID: 0}
   drawCanvas_parent: {fileID: 0}
+  size: 0.05
   colorObject: {fileID: 428362267}
   b_eraser: 0
+  drawPrefab_temp: {fileID: 0}
+  lines: []
   spuit: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &2083017689
 GameObject:

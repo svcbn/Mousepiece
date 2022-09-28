@@ -229,7 +229,7 @@ public class BrushTest5 : MonoBehaviour
                     {
                         //startPos = mouseRay.GetPoint(_dis);
                         //startPos.z = drawCanvas.transform.position.z;
-                        startPos = hit.point;
+                        startPos = hit.point - theTrail.transform.parent.position;
 
                         theTrail.GetComponent<LineRenderer>().SetPosition(0, startPos);
                         theTrail.GetComponent<LineRenderer>().SetPosition(1, startPos);
@@ -273,7 +273,7 @@ public class BrushTest5 : MonoBehaviour
                         {
                             //startPos = mouseRay.GetPoint(_dis);
                             //startPos.z = drawCanvas.transform.position.z;
-                            startPos = hit.point;
+                            startPos = hit.point - theTrail.transform.parent.position;
 
                             theTrail.GetComponent<LineRenderer>().SetPosition(0, startPos);
                             theTrail.GetComponent<LineRenderer>().SetPosition(1, startPos);
@@ -288,7 +288,7 @@ public class BrushTest5 : MonoBehaviour
                     {
                         //nextPos = mouseRay.GetPoint(_dis);
                         //nextPos.z = drawCanvas.transform.position.z;
-                        nextPos = hit.point;
+                        nextPos = hit.point - theTrail.transform.parent.position;
 
                         theTrail.GetComponent<LineRenderer>().positionCount++;
                         int positionIndex = theTrail.GetComponent<LineRenderer>().positionCount - 1;
@@ -297,7 +297,7 @@ public class BrushTest5 : MonoBehaviour
                     // 블렌딩 모드 일 때
                     else if(toolNum == 2)
                     {
-                        nextPos = hit.point;
+                        nextPos = hit.point - theTrail.transform.parent.position;
 
                         theTrail.GetComponent<LineRenderer>().positionCount++;
                         int positionIndex = theTrail.GetComponent<LineRenderer>().positionCount - 1;
@@ -325,7 +325,7 @@ public class BrushTest5 : MonoBehaviour
                             {
                                 //startPos = mouseRay.GetPoint(_dis);
                                 //startPos.z = drawCanvas.transform.position.z;
-                                startPos = hit.point;
+                                startPos = hit.point - theTrail.transform.parent.position;
 
                                 theTrail.GetComponent<LineRenderer>().SetPosition(0, startPos);
                                 theTrail.GetComponent<LineRenderer>().SetPosition(1, startPos);
