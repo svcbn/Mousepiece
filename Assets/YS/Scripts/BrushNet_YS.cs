@@ -5,8 +5,8 @@ using Photon.Pun;
 
 public class BrushNet_YS : MonoBehaviourPun
 {
-    GameObject drawPrefab;
-    GameObject drawCanvas, drawCanvas_parent;
+    public GameObject drawPrefab;
+    public GameObject drawCanvas, drawCanvas_parent;
     GameObject theTrail;
     //Plane planObj;
     Vector3 startPos;
@@ -15,7 +15,7 @@ public class BrushNet_YS : MonoBehaviourPun
     // 사이즈
     float size = 0.05f;
     // 색 설정
-    GameObject colorObject;
+    public GameObject colorObject;
 
     // 지우개
     public bool b_eraser;
@@ -39,12 +39,11 @@ public class BrushNet_YS : MonoBehaviourPun
             drawCanvas_parent = GameManager_BH.instance.playerCanvas[myCanvasIdx].GetComponent<Transform>().gameObject;
             //planObj = new Plane(Camera.main.transform.forward, drawCanvas.transform.position);
             canvasPos = drawCanvas.transform.position;
-            colorObject = GameObject.Find("Palette");
+            colorObject = GameObject.Find("ColorPicker");
             colorObject.SetActive(false);
         }
 
-        drawPrefab = (GameObject)Resources.Load("Brush");
-        
+        drawPrefab = Resources.Load<GameObject>("YS/Brush");
     }
 
     // Update is called once per frame
@@ -82,7 +81,7 @@ public class BrushNet_YS : MonoBehaviourPun
         Color eraser = Color.white;
 
         Vector2 mousePosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-        Vector2 objPosition = Camera.main.ScreenToWorldPoint(mousePosition);
+        //Vector2 objPosition = Camera.main.ScreenToWorldPoint(mousePosition);
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -101,7 +100,9 @@ public class BrushNet_YS : MonoBehaviourPun
                     }
 
 
-                    theTrail = Instantiate(drawPrefab);
+                    theTrail = PhotonNetwork.Instantiate("YS/Brush", Vector3.zero, Quaternion.identity);
+                    theTrail.transform.SetParent(drawCanvas_parent.transform, false);
+
                     LineRenderer lr = theTrail.GetComponent<LineRenderer>();
                     ColorPickerTest cp = theTrail.GetComponent<ColorPickerTest>();
                     // 선을 그리기 전, 사이즈 설정
@@ -120,8 +121,8 @@ public class BrushNet_YS : MonoBehaviourPun
                     sortingOrder++;
 
                     // 선 생성
-                    theTrail.transform.position = objPosition;
-                    theTrail.transform.SetParent(drawCanvas_parent.transform, false);
+                    /*theTrail.transform.position = objPosition;
+                    theTrail.transform.SetParent(drawCanvas_parent.transform, false);*/
                     // 만약 생성될 때, 리스트에 active가 false인 것들은 삭제
                     for (int i = 0; i < lines.Count; i++)
                     {
@@ -139,13 +140,13 @@ public class BrushNet_YS : MonoBehaviourPun
                     {
                         //startPos = mouseRay.GetPoint(_dis);
                         //startPos.z = drawCanvas.transform.position.z;
-                        startPos = hit.point;
+                        startPos = hit.point - theTrail.transform.parent.position;
 
                         theTrail.GetComponent<LineRenderer>().SetPosition(0, startPos);
                         theTrail.GetComponent<LineRenderer>().SetPosition(1, startPos);
                     }
 
-                    photonView.RPC("RpcDrawStart", RpcTarget.Others, size, color.r, color.g, color.b, sortingOrder, objPosition, myCanvasIdx, hit.point);
+                    photonView.RPC("RpcDrawStart", RpcTarget.Others, size, color.r, color.g, color.b, sortingOrder, hit.point, myCanvasIdx, hit.point);
                     sortingOrder++;
                 }
             }
@@ -163,25 +164,27 @@ public class BrushNet_YS : MonoBehaviourPun
                     {
                         //nextPos = mouseRay.GetPoint(_dis);
                         //nextPos.z = drawCanvas.transform.position.z;
-                        nextPos = hit.point;
+                        nextPos = hit.point - theTrail.transform.parent.position;
 
                         theTrail.GetComponent<LineRenderer>().positionCount++;
                         int positionIndex = theTrail.GetComponent<LineRenderer>().positionCount - 1;
                         theTrail.GetComponent<LineRenderer>().SetPosition(positionIndex, nextPos);
 
-                        photonView.RPC("RpcDrawing", RpcTarget.Others, theTrail.GetComponent<LineRenderer>().positionCount, positionIndex, nextPos);
+                        //photonView.RPC("RpcDrawing", RpcTarget.Others, theTrail.GetComponent<LineRenderer>().positionCount, positionIndex, nextPos);
                     }
                 }
             }
         }
     }
 
-    [PunRPC]
+    //[PunRPC]
     void RpcDrawStart(float _size, float r, float g, float b, int _sortingOrder, Vector2 _objPosition, int _myCanvasIdx, Vector3 _startPos)
     {
         Color color = new Color(r, g, b);
 
-        theTrail = Instantiate(drawPrefab);
+        theTrail = PhotonNetwork.Instantiate("YS/Brush", Vector3.zero, Quaternion.identity);
+        theTrail.transform.SetParent(drawCanvas_parent.transform, false);
+
         LineRenderer lr = theTrail.GetComponent<LineRenderer>();
         ColorPickerTest cp = theTrail.GetComponent<ColorPickerTest>();
         // 선을 그리기 전, 사이즈 설정
@@ -194,10 +197,10 @@ public class BrushNet_YS : MonoBehaviourPun
         theTrail.GetComponent<LineRenderer>().sortingOrder = _sortingOrder;
 
         // 선 생성
-        theTrail.transform.position = _objPosition;
+        /*theTrail.transform.position = _objPosition;
 
         Transform tr = GameManager_BH.instance.playerCanvas[_myCanvasIdx].GetComponentsInChildren<Transform>()[1];
-        theTrail.transform.SetParent(tr, false);
+        theTrail.transform.SetParent(tr, false);*/
         // 만약 생성될 때, 리스트에 active가 false인 것들은 삭제
         //for (int i = 0; i < lines.Count; i++)
         //{

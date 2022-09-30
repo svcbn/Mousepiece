@@ -14,9 +14,9 @@ public class YS_ButtonManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        brush = GameObject.Find("DrawManager").GetComponent<BrushTest_BH>();
-        brushNet = GameObject.Find("DrawManager").GetComponent<BrushNet_YS>();
-        bt5 = GameObject.Find("DrawManager").GetComponent<BrushTest5>();
+        brush = GameObject.Find("Player").GetComponent<BrushTest_BH>();
+        brushNet = GameObject.Find("Player").GetComponent<BrushNet_YS>();
+        bt5 = GameObject.Find("Player").GetComponent<BrushTest5>();
 
         circle_temp = circle.GetComponent<RectTransform>().localPosition.x;
     }
