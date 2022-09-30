@@ -6,6 +6,7 @@ public class YS_ButtonManager : MonoBehaviour
 {
     public GameObject colorPicker, picker, back, front, eraser, clear, basicBrush, oilPaintBrush, waterColorBrush, pencil, calligraphy, marker, crayon, spray, fingerBlending, brushSize, circle;
     public BrushTest_BH brush;
+    public BrushNet_YS brushNet;
     public BrushTest5 bt5;
 
     float circle_temp;
@@ -14,6 +15,7 @@ public class YS_ButtonManager : MonoBehaviour
     void Start()
     {
         brush = GameObject.Find("DrawManager").GetComponent<BrushTest_BH>();
+        brushNet = GameObject.Find("DrawManager").GetComponent<BrushNet_YS>();
         bt5 = GameObject.Find("DrawManager").GetComponent<BrushTest5>();
 
         circle_temp = circle.GetComponent<RectTransform>().localPosition.x;
