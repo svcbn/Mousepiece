@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.Rendering.Universal;
 
 public class CameraRotate_BH : MonoBehaviourPun
 {
@@ -11,6 +12,7 @@ public class CameraRotate_BH : MonoBehaviourPun
     float my;
     public static int cursorType = 1;
     public GameObject cam;
+    Camera uiCamera;
 
     // Start is called before the first frame update
     void Start()
@@ -22,6 +24,9 @@ public class CameraRotate_BH : MonoBehaviourPun
         }
         
         Cursor.lockState = CursorLockMode.Confined;
+
+        uiCamera = GameObject.Find("UICamera").GetComponent<Camera>();
+        cam.GetComponent<Camera>().GetUniversalAdditionalCameraData().cameraStack.Add(uiCamera);
     }
 
     // Update is called once per frame

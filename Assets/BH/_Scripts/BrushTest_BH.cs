@@ -39,8 +39,8 @@ public class BrushTest_BH : MonoBehaviourPun
             drawCanvas_parent = GameManager_BH.instance.playerCanvas[myCanvasIdx].GetComponent<Transform>().gameObject;
             //planObj = new Plane(Camera.main.transform.forward, drawCanvas.transform.position);
             canvasPos = drawCanvas.transform.position;
-            colorObject = GameObject.Find("Palette");
-            colorObject.SetActive(false);
+            //colorObject = GameObject.Find("Palette");
+            //colorObject.SetActive(false);
         }
 
         drawPrefab = (GameObject)Resources.Load("Brush");
@@ -82,13 +82,12 @@ public class BrushTest_BH : MonoBehaviourPun
         Color eraser = Color.white;
 
         Vector2 mousePosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-        Vector2 objPosition = Camera.main.ScreenToWorldPoint(mousePosition);
+        //Vector2 objPosition = Camera.main.ScreenToWorldPoint(mousePosition);
 
         if (Input.GetMouseButtonDown(0))
         {
             Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-            float _dis;
             if (Physics.Raycast(mouseRay, out hit))
             {
                 if (hit.transform.name == drawCanvas.transform.name)
@@ -120,7 +119,7 @@ public class BrushTest_BH : MonoBehaviourPun
                     sortingOrder++;
 
                     // 선 생성
-                    theTrail.transform.position = objPosition;
+                    //theTrail.transform.position = objPosition;
                     theTrail.transform.SetParent(drawCanvas_parent.transform, false);
                     // 만약 생성될 때, 리스트에 active가 false인 것들은 삭제
                     for (int i = 0; i < lines.Count; i++)
@@ -139,13 +138,13 @@ public class BrushTest_BH : MonoBehaviourPun
                     {
                         //startPos = mouseRay.GetPoint(_dis);
                         //startPos.z = drawCanvas.transform.position.z;
-                        startPos = hit.point;
+                        startPos = hit.point - theTrail.transform.parent.position;
 
                         theTrail.GetComponent<LineRenderer>().SetPosition(0, startPos);
                         theTrail.GetComponent<LineRenderer>().SetPosition(1, startPos);
                     }
 
-                    photonView.RPC("RpcDrawStart", RpcTarget.Others, size, color.r, color.g, color.b, sortingOrder, objPosition, myCanvasIdx, hit.point);
+                    photonView.RPC("RpcDrawStart", RpcTarget.Others, size, color.r, color.g, color.b, sortingOrder, myCanvasIdx, hit.point);
                     sortingOrder++;
                 }
             }
@@ -154,7 +153,6 @@ public class BrushTest_BH : MonoBehaviourPun
         {
             Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-            float _dis;
             if (Physics.Raycast(mouseRay, out hit))
             {
                 if (hit.transform.name == drawCanvas.transform.name)
@@ -177,7 +175,7 @@ public class BrushTest_BH : MonoBehaviourPun
     }
 
     [PunRPC]
-    void RpcDrawStart(float _size, float r, float g, float b, int _sortingOrder, Vector2 _objPosition, int _myCanvasIdx, Vector3 _startPos)
+    void RpcDrawStart(float _size, float r, float g, float b, int _sortingOrder, int _myCanvasIdx, Vector3 _startPos)
     {
         Color color = new Color(r, g, b);
 
@@ -194,7 +192,7 @@ public class BrushTest_BH : MonoBehaviourPun
         theTrail.GetComponent<LineRenderer>().sortingOrder = _sortingOrder;
 
         // 선 생성
-        theTrail.transform.position = _objPosition;
+        //theTrail.transform.position = _objPosition;
 
         Transform tr = GameManager_BH.instance.playerCanvas[_myCanvasIdx].GetComponentsInChildren<Transform>()[1];
         theTrail.transform.SetParent(tr, false);
@@ -247,22 +245,22 @@ public class BrushTest_BH : MonoBehaviourPun
 
     void Moving()
     {
-        if (drawCanvas.transform.position != canvasPos)
-        {
-            dis = drawCanvas.transform.position - canvasPos;
+        //if (drawCanvas.transform.position != canvasPos)
+        //{
+        //    dis = drawCanvas.transform.position - canvasPos;
 
-            for(int i = 0; i < lines.Count; i++)
-            {
-                for (int j = 0; j < lines[i].GetComponent<LineRenderer>().positionCount; j++)
-                {
-                    Vector3 drawPos = lines[i].GetComponent<LineRenderer>().GetPosition(j);
+        //    for(int i = 0; i < lines.Count; i++)
+        //    {
+        //        for (int j = 0; j < lines[i].GetComponent<LineRenderer>().positionCount; j++)
+        //        {
+        //            Vector3 drawPos = lines[i].GetComponent<LineRenderer>().GetPosition(j);
 
-                    lines[i].GetComponent<LineRenderer>().SetPosition(j, drawPos + dis);
-                }
-            }
-        }
+        //            lines[i].GetComponent<LineRenderer>().SetPosition(j, drawPos + dis);
+        //        }
+        //    }
+        //}
 
-        canvasPos = drawCanvas.transform.position;
+        //canvasPos = drawCanvas.transform.position;
     }
 
     void CtrZ()

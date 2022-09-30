@@ -35,7 +35,7 @@ public class GameManager_BH : MonoBehaviourPunCallbacks
     public Canvas canvasF;
     public Canvas InGameCanvas;
 
-    public Canvas drawCanvas;
+    //public Canvas drawCanvas;
 
     public Transform[] canvasPos;
     public GameObject[] playerCanvas;
@@ -59,8 +59,8 @@ public class GameManager_BH : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        PhotonNetwork.SerializationRate = 120;
-        PhotonNetwork.SendRate = 120;
+        PhotonNetwork.SerializationRate = 90;
+        PhotonNetwork.SendRate = 90;
         SetSpawnPos();
 
         playeridx = PhotonNetwork.CurrentRoom.PlayerCount - 1;
@@ -78,16 +78,16 @@ public class GameManager_BH : MonoBehaviourPunCallbacks
         voteWall.SetActive(false);
         voteTimerText.enabled = false;
         voteText.enabled = false;
-        drawCanvas.enabled = false;
+        //drawCanvas.enabled = false;
 
         if(PhotonNetwork.IsMasterClient)
         {
             isMasterText.text = "방 설정을 바꿔주세요!!";
         }
 
-        //playerCanvas[0].GetComponentsInChildren<Transform>()[1].position = votePicPos[0].transform.position;
-        //playerCanvas[0].GetComponentsInChildren<Transform>()[1].rotation = Quaternion.Euler(0, -9, 0);
-        //playerCanvas[0].GetComponentsInChildren<Transform>()[1].localScale = new Vector3(2.05f, 2.7f, 0.05f);
+        //playerCanvas[0].transform.position = votePicPos[0].transform.position;
+        //playerCanvas[0].transform.forward = GameObject.Find("VoteWall").transform.forward;
+        //playerCanvas[0].transform.localScale = Vector3.one * 1.35f;
 
     }
 
@@ -175,7 +175,7 @@ public class GameManager_BH : MonoBehaviourPunCallbacks
         if (!isPlaying)
         {
             isPlaying = true;
-            drawCanvas.enabled = true;
+            //drawCanvas.enabled = true;
             inGameTheme.text = theme;
             inGameTheme.enabled = true;
             inGameTimer.enabled = true;
@@ -192,7 +192,7 @@ public class GameManager_BH : MonoBehaviourPunCallbacks
         if (!isVote)
         {
             isVote = true;
-            drawCanvas.enabled = false;
+            //drawCanvas.enabled = false;
 
             //for (int i = 0; i < PhotonNetwork.CurrentRoom.PlayerCount; i++)
             //{
@@ -329,8 +329,8 @@ public class GameManager_BH : MonoBehaviourPunCallbacks
 
     IEnumerator StartDelayTimer()
     {
-        float delayTime = 5f;
-        //float delayTime = 1f;
+        //float delayTime = 5f;
+        float delayTime = 1f;
 
         while (delayTime > 0)
         {
@@ -369,8 +369,8 @@ public class GameManager_BH : MonoBehaviourPunCallbacks
 
     IEnumerator EndDelayTimer()
     {
-        float delayTime = 5f;
-        //float delayTime = 0f;
+        //float delayTime = 5f;
+        float delayTime = 1f;
 
         while (delayTime > 0)
         {
@@ -389,7 +389,8 @@ public class GameManager_BH : MonoBehaviourPunCallbacks
     
     IEnumerator VoteTimer()
     {
-        float voteTime = 20f;
+        //float voteTime = 5f;
+        float voteTime = 15f;
         voteTimerText.color = Color.black;
         voteTimerText.enabled = true;
         voteText.enabled = true;
@@ -414,8 +415,8 @@ public class GameManager_BH : MonoBehaviourPunCallbacks
 
     }
 
-    int[] qualifier = new int[4];
-    GameObject[] final = new GameObject[2];
+    List<int> finalIdx = new List<int>();
+    int winnerIdx = -1;
 
 
     IEnumerator VoteTournament()
@@ -426,47 +427,88 @@ public class GameManager_BH : MonoBehaviourPunCallbacks
         {
             HangOnWall(PhotonNetwork.CurrentRoom.PlayerCount);
             yield return new WaitUntil(() => isTimerEnd);
+
+            Qualifier(PhotonNetwork.CurrentRoom.PlayerCount);
+
+            Final(PhotonNetwork.CurrentRoom.PlayerCount);
+            yield return new WaitUntil(() => isTimerEnd);
+
             Winner();
         }
         else if(PhotonNetwork.CurrentRoom.PlayerCount == 4)
         {
             HangOnWall(2, 0);
             yield return new WaitUntil(() => isTimerEnd);
+            Qualifier(2, 0);
+
             HangOnWall(2, 2);
             yield return new WaitUntil(() => isTimerEnd);
-            Final();
+            Qualifier(2, 2);
+
+            Final(2);
+            yield return new WaitUntil(() => isTimerEnd);
+
+            Winner();
         }
         else if(PhotonNetwork.CurrentRoom.PlayerCount == 5)
         {
             HangOnWall(3, 0);
             yield return new WaitUntil(() => isTimerEnd);
+            Qualifier(3, 0);
+
             HangOnWall(2, 3);
             yield return new WaitUntil(() => isTimerEnd);
-            Final();
+            Qualifier(2, 3);
+
+            Final(2);
+            yield return new WaitUntil(() => isTimerEnd);
+
+            Winner();
         }
         else if (PhotonNetwork.CurrentRoom.PlayerCount == 6)
         {
             HangOnWall(3, 0);
             yield return new WaitUntil(() => isTimerEnd);
+            Qualifier(3, 0);
+
             HangOnWall(3, 3);
             yield return new WaitUntil(() => isTimerEnd);
-            Final();
+            Qualifier(3, 3);
+
+            Final(2);
+            yield return new WaitUntil(() => isTimerEnd);
+
+            Winner();
         }
         else if (PhotonNetwork.CurrentRoom.PlayerCount == 7)
         {
             HangOnWall(4, 0);
             yield return new WaitUntil(() => isTimerEnd);
+            Qualifier(4, 0);
+
             HangOnWall(3, 4);
             yield return new WaitUntil(() => isTimerEnd);
-            Final();
+            Qualifier(3, 4);
+
+            Final(2);
+            yield return new WaitUntil(() => isTimerEnd);
+
+            Winner();
         }
         else if (PhotonNetwork.CurrentRoom.PlayerCount == 8)
         {
             HangOnWall(4, 0);
             yield return new WaitUntil(() => isTimerEnd);
+            Qualifier(4, 0);
+
             HangOnWall(4, 4);
             yield return new WaitUntil(() => isTimerEnd);
-            Final();
+            Qualifier(4, 4);
+
+            Final(2);
+            yield return new WaitUntil(() => isTimerEnd);
+
+            Winner();
         }
     }
 
@@ -474,6 +516,8 @@ public class GameManager_BH : MonoBehaviourPunCallbacks
     bool isTimerEnd = false;
     void HangOnWall(int playerCount, int playerNum = 0)
     {
+        print("HangOnWall");
+
         isTimerEnd = false;
 
         for (int i = 0; i < 4; i++)
@@ -482,46 +526,108 @@ public class GameManager_BH : MonoBehaviourPunCallbacks
         }
         for (int i = 0; i < 8; i++)
         {
-            playerCanvas[i].GetComponentsInChildren<Transform>()[1].position = canvasPos[i].transform.position;
-            playerCanvas[i].GetComponentsInChildren<Transform>()[1].rotation = canvasPos[i].transform.rotation;
-            playerCanvas[i].GetComponentsInChildren<Transform>()[1].localScale = new Vector3(1.5f, 2, 0.02f);
+            playerCanvas[i].transform.position = canvasPos[i].transform.position;
+            playerCanvas[i].transform.forward = canvasPos[i].transform.forward;
+            playerCanvas[i].transform.localScale = Vector3.one;
         }
-
+        
         for (int i = 0; i < playerCount; i++)
         {
             votePicPos[i].gameObject.SetActive(true);
-            playerCanvas[i + playerNum].GetComponentsInChildren<Transform>()[1].position = votePicPos[i].transform.position + Vector3.forward * 0.1f;
-            playerCanvas[i + playerNum].GetComponentsInChildren<Transform>()[1].rotation = Quaternion.Euler(0, -9, 0);
-            playerCanvas[i + playerNum].GetComponentsInChildren<Transform>()[1].localScale = new Vector3(2.05f, 2.7f, 0.05f);
+            playerCanvas[i + playerNum].transform.position = votePicPos[i].transform.position;
+            playerCanvas[i + playerNum].transform.forward = GameObject.Find("VoteWall").transform.forward;
+            playerCanvas[i + playerNum].transform.localScale = Vector3.one * 1.35f;
         }
 
         StartCoroutine(VoteTimer());
         
     }
 
-    void Final()
+    void Qualifier(int playerCount, int playerNum = 0)
     {
+        print("Qualifier");
 
+        int maxIdx = -1;
+        int max = 0;
+
+        for (int i = 0; i < playerCount; i++)
+        {
+            int likes = playerCanvas[i + playerNum].GetComponentInChildren<Likes>().Like;
+            if(max < likes)
+            {
+                max = likes;
+                maxIdx = i + playerNum;
+            }
+        }
+
+        finalIdx.Add(maxIdx);
     }
 
-    void Winner()
+    void Final(int playerCount)
     {
+        print("Final");
+
+        isTimerEnd = false;
+
         for (int i = 0; i < 4; i++)
         {
             votePicPos[i].gameObject.SetActive(false);
         }
         for (int i = 0; i < 8; i++)
         {
-            playerCanvas[i].GetComponentsInChildren<Transform>()[1].position = canvasPos[i].transform.position;
-            playerCanvas[i].GetComponentsInChildren<Transform>()[1].rotation = canvasPos[i].transform.rotation;
-            playerCanvas[i].GetComponentsInChildren<Transform>()[1].localScale = new Vector3(1.5f, 2, 0.02f);
+            playerCanvas[i].transform.position = canvasPos[i].transform.position;
+            playerCanvas[i].transform.forward = canvasPos[i].transform.forward;
+            playerCanvas[i].transform.localScale = Vector3.one;
+        }
+
+        for (int i = 0; i < playerCount; i++)
+        {
+            votePicPos[i].gameObject.SetActive(true);
+            playerCanvas[finalIdx[i]].GetComponentInChildren<Likes>().Like = 0;
+            playerCanvas[finalIdx[i]].transform.position = votePicPos[i].transform.position;
+            playerCanvas[finalIdx[i]].transform.forward = GameObject.Find("VoteWall").transform.forward;
+            playerCanvas[finalIdx[i]].transform.localScale = Vector3.one * 1.35f;
+        }
+
+        StartCoroutine(VoteTimer());
+
+    }
+
+    void Winner()
+    {
+        print("Winner");
+
+        int maxIdx = -1;
+        int max = 0;
+
+        for (int i = 0; i < 2; i++)
+        {
+            int likes = playerCanvas[finalIdx[i]].GetComponentInChildren<Likes>().Like;
+            if (max < likes)
+            {
+                max = likes;
+                maxIdx = finalIdx[i];
+            }
+        }
+
+        winnerIdx = maxIdx;
+        state = gameState.Victory;
+
+        for (int i = 0; i < 4; i++)
+        {
+            votePicPos[i].gameObject.SetActive(false);
+        }
+        for (int i = 0; i < 8; i++)
+        {
+            playerCanvas[i].transform.position = canvasPos[i].transform.position;
+            playerCanvas[i].transform.forward = canvasPos[i].transform.forward;
+            playerCanvas[i].transform.localScale = Vector3.one;
         }
 
         votePicPos[4].gameObject.SetActive(true);
-        playerCanvas[0].GetComponentsInChildren<Transform>()[1].position = votePicPos[4].transform.position + Vector3.forward * 0.1f;
-        playerCanvas[0].GetComponentsInChildren<Transform>()[1].rotation = Quaternion.Euler(0, -9, 0);
-        playerCanvas[0].GetComponentsInChildren<Transform>()[1].localScale = new Vector3(2.05f, 2.7f, 0.05f);
+        playerCanvas[winnerIdx].transform.position = votePicPos[4].transform.position;
+        playerCanvas[winnerIdx].transform.forward = GameObject.Find("VoteWall").transform.forward;
+        playerCanvas[winnerIdx].transform.localScale = Vector3.one * 1.35f;
 
-        state = gameState.Victory;
     }
 }
