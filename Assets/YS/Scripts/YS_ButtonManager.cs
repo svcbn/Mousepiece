@@ -5,7 +5,7 @@ using UnityEngine;
 public class YS_ButtonManager : MonoBehaviour
 {
     public GameObject colorPicker, picker, back, front, eraser, clear, basicBrush, oilPaintBrush, waterColorBrush, pencil, calligraphy, marker, crayon, spray, fingerBlending, brushSize, circle;
-    public BrushTest_BH brush;
+    //public BrushTest_BH brush;
     public BrushNet_YS brushNet;
     public BrushTest5 bt5;
 
@@ -14,9 +14,9 @@ public class YS_ButtonManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        brush = GameObject.Find("Player").GetComponent<BrushTest_BH>();
-        brushNet = GameObject.Find("Player").GetComponent<BrushNet_YS>();
-        bt5 = GameObject.Find("Player").GetComponent<BrushTest5>();
+        //brush = GameObject.Find("Player(Clone)").GetComponent<BrushTest_BH>();
+        brushNet = GameObject.Find("Player(Clone)").GetComponent<BrushNet_YS>();
+        bt5 = GameObject.Find("Player(Clone)").GetComponent<BrushTest5>();
 
         circle_temp = circle.GetComponent<RectTransform>().localPosition.x;
     }
@@ -25,7 +25,7 @@ public class YS_ButtonManager : MonoBehaviour
     void Update()
     {
         // 브러쉬 사이즈 조절
-        BrushSize();
+        //BrushSize();
     }
 
     public void PaletteOnOff()
@@ -72,9 +72,9 @@ public class YS_ButtonManager : MonoBehaviour
 
     public void Eraser()
     {
-        if(brush.b_eraser == false || bt5.b_eraser == false)
+        if(bt5.b_eraser == false) //brush.b_eraser == false || 
         {
-            brush.b_eraser = true;
+            //brush.b_eraser = true;
             bt5.b_eraser = true;
 
             // 지우개 동적 할당
@@ -83,7 +83,7 @@ public class YS_ButtonManager : MonoBehaviour
         }
         else
         {
-            brush.b_eraser = false;
+            //brush.b_eraser = false;
             bt5.b_eraser = false;
 
             // 지우개를 사용하기 전 도구로

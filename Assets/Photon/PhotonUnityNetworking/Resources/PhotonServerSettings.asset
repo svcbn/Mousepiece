@@ -45,6 +45,12 @@ MonoBehaviour:
   - RpcTimerBtnClicked
   - RpcStateStart
   - TimeIsRunningOut
+  - RcpCtrZ
+  - RcpCtrY
+  - RcpAllClear
+  - RpcCtrY
+  - RpcCtrZ
+  - RpcLayer
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0
