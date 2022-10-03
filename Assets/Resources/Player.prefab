@@ -186,10 +186,17 @@ MonoBehaviour:
   drawPrefab: {fileID: 0}
   drawCanvas: {fileID: 0}
   drawCanvas_parent: {fileID: 0}
+  size: 0.05
   colorObject: {fileID: 0}
   b_eraser: 0
   drawPrefab_temp: {fileID: 0}
   spuit: {r: 0, g: 0, b: 0, a: 0}
+  layerName:
+  - Layer1
+  - Layer2
+  - Layer3
+  myCanvasIdx: 0
+  drawPrefabName: 
 --- !u!1 &8274314949512515916
 GameObject:
   m_ObjectHideFlags: 0

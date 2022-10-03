@@ -1,31 +1,50 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using UnityEngine.UI;
 
-public class YS_ButtonManager : MonoBehaviour
+public class YS_ButtonManager : MonoBehaviourPun
 {
-    public GameObject colorPicker, picker, back, front, eraser, clear, basicBrush, oilPaintBrush, waterColorBrush, pencil, calligraphy, marker, crayon, spray, fingerBlending, brushSize, circle;
-    //public BrushTest_BH brush;
+    public GameObject colorPicker, picker, back, front, eraser, clear, basicBrush, oilPaintBrush, waterColorBrush, pencil, calligraphy, marker, crayon, spray, fingerBlending, brushSize, circle, layers, spuit;
     public BrushNet_YS brushNet;
-    public BrushTest5 bt5;
+    public Image palette;
 
+    // 이전 원의 위치 값
     float circle_temp;
+    // 스포이트 실행 중
+    bool b_spuit = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        //brush = GameObject.Find("Player(Clone)").GetComponent<BrushTest_BH>();
-        brushNet = GameObject.Find("Player(Clone)").GetComponent<BrushNet_YS>();
-        bt5 = GameObject.Find("Player(Clone)").GetComponent<BrushTest5>();
-
         circle_temp = circle.GetComponent<RectTransform>().localPosition.x;
+        palette = GetComponent<Image>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        // 브러쉬 툴 넣어주기
+        if(brushNet == null)
+        {
+            brushNet = GameObject.Find("Player(Clone)").GetComponent<BrushNet_YS>();
+        }
+
         // 브러쉬 사이즈 조절
-        //BrushSize();
+        BrushSize();
+
+        // 플레이 중일 때만
+        if(GameManager_BH.instance.state == GameManager_BH.gameState.Playing)
+        {
+            palette.enabled = true;
+        }
+
+        // 스포이트
+        if(b_spuit == true)
+        {
+            Spuiting();
+        }
     }
 
     public void PaletteOnOff()
@@ -48,6 +67,8 @@ public class YS_ButtonManager : MonoBehaviour
             spray.SetActive(true);
             fingerBlending.SetActive(true);
             brushSize.SetActive(true);
+            layers.SetActive(true);
+            spuit.SetActive(true);
         }
         else
         {
@@ -67,133 +88,152 @@ public class YS_ButtonManager : MonoBehaviour
             spray.SetActive(false);
             fingerBlending.SetActive(false);
             brushSize.SetActive(false);
+            layers.SetActive(false);
+            spuit.SetActive(false);
         }
     }
 
     public void Eraser()
     {
-        if(bt5.b_eraser == false) //brush.b_eraser == false || 
+        if(brushNet.b_eraser == false)
         {
-            //brush.b_eraser = true;
-            bt5.b_eraser = true;
+            brushNet.b_eraser = true;
 
             // 지우개 동적 할당
-            bt5.drawPrefab_temp = bt5.drawPrefab;
-            bt5.drawPrefab = Resources.Load<GameObject>("YS/Eraser");
+            brushNet.drawPrefab_temp = brushNet.drawPrefab;
+            brushNet.drawPrefab = Resources.Load<GameObject>("YS/Eraser");
+            brushNet.drawPrefabName = "YS/Eraser";
         }
         else
         {
-            //brush.b_eraser = false;
-            bt5.b_eraser = false;
+            brushNet.b_eraser = false;
 
             // 지우개를 사용하기 전 도구로
-            bt5.drawPrefab = bt5.drawPrefab_temp;
+            brushNet.drawPrefab = brushNet.drawPrefab_temp;
         }
     }
 
     public void BackFunction()
     {
-        for (int i = bt5.lines.Count - 1; i >= 0; i--)
+        for (int i = brushNet.lines[brushNet.myCanvasIdx].Count - 1; i >= 0; i--)
         {
-            if (bt5.lines[i].activeSelf == true)
+            if (brushNet.lines[brushNet.myCanvasIdx][i].activeSelf == true)
             {
-                bt5.lines[i].SetActive(false);
+                brushNet.lines[brushNet.myCanvasIdx][i].SetActive(false);
                 break;
             }
         }
+
+        // 네트워크 (다른 사람들한테도 적용)
+        brushNet.photonView.RPC("RpcCtrZ", RpcTarget.OthersBuffered, brushNet.myCanvasIdx);
     }
 
     public void FrontFunction()
     {
-        for (int i = 0; i < bt5.lines.Count; i++)
+        for (int i = 0; i < brushNet.lines[brushNet.myCanvasIdx].Count; i++)
         {
-            if (bt5.lines[i].activeSelf == false)
+            if (brushNet.lines[brushNet.myCanvasIdx][i].activeSelf == false)
             {
-                bt5.lines[i].SetActive(true);
+                brushNet.lines[brushNet.myCanvasIdx][i].SetActive(true);
                 break;
             }
         }
+
+        // 네트워크 (다른 사람들한테도 적용)
+        brushNet.photonView.RPC("RpcCtrY", RpcTarget.OthersBuffered, brushNet.myCanvasIdx);
     }
 
     public void CanvasClear()
     {
-        for (int i = 0; i < bt5.lines.Count; i++)
+        for (int i = 0; i < brushNet.lines[brushNet.myCanvasIdx].Count; i++)
         {
-            Destroy(bt5.lines[i].gameObject);
+            Destroy(brushNet.lines[brushNet.myCanvasIdx][i].gameObject);
         }
-        bt5.lines.Clear();
+        brushNet.lines[brushNet.myCanvasIdx].Clear();
+
+        // 네트워크 (다른 사람들한테도 적용)
+        brushNet.photonView.RPC("RcpAllClear", RpcTarget.OthersBuffered, brushNet.myCanvasIdx);
     }
 
     public void BasicBrush()
     {
-        bt5.toolNum = 1;
+        brushNet.toolNum = 1;
 
         // 브러쉬 동적 할당
-        bt5.drawPrefab = Resources.Load<GameObject>("YS/Brush");
+        brushNet.drawPrefab = Resources.Load<GameObject>("YS/Brush");
+        brushNet.drawPrefabName = "YS/Brush";
     }
 
     public void OilPaintBrush()
     {
-        bt5.toolNum = 8;
+        brushNet.toolNum = 8;
 
         // 유화 동적 할당
-        bt5.drawPrefab = Resources.Load<GameObject>("YS/OilPaint");
+        brushNet.drawPrefab = Resources.Load<GameObject>("YS/OilPaint");
+        brushNet.drawPrefabName = "YS/OilPaint";
     }
 
     public void WaterColorBrush()
     {
-        bt5.toolNum = 9;
+        brushNet.toolNum = 9;
 
         // 수채화 동적 할당
-        bt5.drawPrefab = Resources.Load<GameObject>("YS/WaterPaint");
+        brushNet.drawPrefab = Resources.Load<GameObject>("YS/WaterPaint");
+        brushNet.drawPrefabName = "YS/WaterPaint";
     }
 
     public void Pencil()
     {
-        bt5.toolNum = 4;
+        brushNet.toolNum = 4;
 
         // 연필 동적 할당
-        bt5.drawPrefab = Resources.Load<GameObject>("YS/Pencil");
+        brushNet.drawPrefab = Resources.Load<GameObject>("YS/Pencil");
+        brushNet.drawPrefabName = "YS/Pencil";
     }
 
     public void Calligraphy()
     {
-        bt5.toolNum = 5;
+        brushNet.toolNum = 5;
 
         // 캘리그라피 동적 할당
-        bt5.drawPrefab = Resources.Load<GameObject>("YS/Calligraphy");
+        brushNet.drawPrefab = Resources.Load<GameObject>("YS/Calligraphy");
+        brushNet.drawPrefabName = "YS/Calligraphy";
     }
 
     public void Marker()
     {
-        bt5.toolNum = 3;
+        brushNet.toolNum = 3;
 
         // 마커 동적 할당
-        bt5.drawPrefab = Resources.Load<GameObject>("YS/Marker");
+        brushNet.drawPrefab = Resources.Load<GameObject>("YS/Marker");
+        brushNet.drawPrefabName = "YS/Marker";
     }
 
     public void Crayon()
     {
-        bt5.toolNum = 6;
+        brushNet.toolNum = 6;
 
         // 크레용 동적 할당
-        bt5.drawPrefab = Resources.Load<GameObject>("YS/Crayon");
+        brushNet.drawPrefab = Resources.Load<GameObject>("YS/Crayon");
+        brushNet.drawPrefabName = "YS/Crayon";
     }
 
     public void Spray()
     {
-        bt5.toolNum = 7;
+        brushNet.toolNum = 7;
 
         // 스프레이 동적 할당
-        bt5.drawPrefab = Resources.Load<GameObject>("YS/Spray");
+        brushNet.drawPrefab = Resources.Load<GameObject>("YS/Spray");
+        brushNet.drawPrefabName = "YS/Spray";
     }
 
     public void FingerBlending()
     {
-        bt5.toolNum = 2;
+        brushNet.toolNum = 2;
 
         // 블렌딩 동적 할당
-        bt5.drawPrefab = Resources.Load<GameObject>("YS/Blending");
+        brushNet.drawPrefab = Resources.Load<GameObject>("YS/Blending");
+        brushNet.drawPrefabName = "YS/Blending";
     }
 
     public void BrushSize()
@@ -205,16 +245,57 @@ public class YS_ButtonManager : MonoBehaviour
             if (circle_temp < circle.GetComponent<RectTransform>().localPosition.x)
             {
                 // 비율로 계산 (circle의 움직일 수 있는 범위는 362, 브러쉬 사이즈는 0.5로 계산)
-                bt5.size += (circle.GetComponent<RectTransform>().localPosition.x - circle_temp) * 0.0013812154696133f;
+                brushNet.size += (circle.GetComponent<RectTransform>().localPosition.x - circle_temp) * 0.0013812154696133f;
             }
             else if(circle_temp > circle.GetComponent<RectTransform>().localPosition.x)
             {
                 // 비율로 계산 (circle의 움직일 수 있는 범위는 362, 브러쉬 사이즈는 0.5로 계산)
-                bt5.size -= (circle_temp - circle.GetComponent<RectTransform>().localPosition.x) * 0.0013812154696133f;
+                brushNet.size -= (circle_temp - circle.GetComponent<RectTransform>().localPosition.x) * 0.0013812154696133f;
             }
         }
 
         // circle의 이전 위치 저장
         circle_temp = circle.GetComponent<RectTransform>().localPosition.x;
+    }
+
+    public void Layer1()
+    {
+        brushNet.drawPrefab.GetComponent<LineRenderer>().sortingLayerName = brushNet.layerName[0];
+
+        // 네트워크 (다른 사람들한테도 적용)
+        brushNet.photonView.RPC("RpcLayer", RpcTarget.OthersBuffered, brushNet.drawPrefabName, 0);
+    }
+
+    public void Layer2()
+    {
+        brushNet.drawPrefab.GetComponent<LineRenderer>().sortingLayerName = brushNet.layerName[1];
+
+        // 네트워크 (다른 사람들한테도 적용)
+        brushNet.photonView.RPC("RpcLayer", RpcTarget.OthersBuffered, brushNet.drawPrefabName, 1);
+    }
+
+    public void Layer3()
+    {
+        brushNet.drawPrefab.GetComponent<LineRenderer>().sortingLayerName = brushNet.layerName[2];
+
+        // 네트워크 (다른 사람들한테도 적용)
+        brushNet.photonView.RPC("RpcLayer", RpcTarget.OthersBuffered, brushNet.drawPrefabName, 2);
+    }
+
+    public void SpuitOn()
+    {
+        b_spuit = true;
+    }
+
+    void Spuiting()
+    {
+        brushNet.StartCoroutine("Spuit");
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            brushNet.colorObject.GetComponent<ColorPickerTest>().selectedColor = brushNet.spuit;
+
+            b_spuit = false;
+        }
     }
 }

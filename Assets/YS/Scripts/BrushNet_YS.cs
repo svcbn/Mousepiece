@@ -15,7 +15,7 @@ public class BrushNet_YS : MonoBehaviourPun
     Vector3 nextPos;
 
     // 사이즈
-    float size = 0.05f;
+    public float size = 0.05f;
     // 색 설정
     public GameObject colorObject;
 
@@ -33,14 +33,14 @@ public class BrushNet_YS : MonoBehaviourPun
     bool b_onCanvas;
 
     // 레이어
-    string[] layerName = new string[] { "Layer1", "Layer2", "Layer3" };
+    public string[] layerName = new string[] { "Layer1", "Layer2", "Layer3" };
     int layerNum = 0;
 
     // 네트워크
-    int myCanvasIdx;
+    public int myCanvasIdx;
     int sortingOrder;
-    string drawPrefabName; // 네트워크로 넘겨줄 현재 drawPrefab의 이름
-    List<List<GameObject>> lines = new List<List<GameObject>>(); //네트워크에서 사용할 2차원 리스트 (모든 선 저장)
+    public string drawPrefabName; // 네트워크로 넘겨줄 현재 drawPrefab의 이름
+    public List<List<GameObject>> lines = new List<List<GameObject>>(); //네트워크에서 사용할 2차원 리스트 (모든 선 저장)
 
     // Start is called before the first frame update
     void Start()
@@ -175,6 +175,12 @@ public class BrushNet_YS : MonoBehaviourPun
             // 블렌딩 모드
             if (toolNum == 2 && b_eraser == false)
             {
+                // 스포이트
+                if (Input.GetMouseButtonDown(0) || Input.GetMouseButton(0))
+                {
+                    StartCoroutine(Spuit());
+                }
+
                 // 블렌딩 색 받아오기
                 drawPrefab.GetComponent<LineRenderer>().startColor = spuit;
                 drawPrefab.GetComponent<LineRenderer>().endColor = spuit;
@@ -199,10 +205,10 @@ public class BrushNet_YS : MonoBehaviourPun
             AllClear();
 
             // 스포이트
-            if (Input.GetMouseButtonDown(0) || Input.GetMouseButton(0))
+            /*if (Input.GetMouseButtonDown(0) || Input.GetMouseButton(0))
             {
                 StartCoroutine(Spuit());
-            }
+            }*/
 
             // 레이어
             Layer();
@@ -628,25 +634,18 @@ public class BrushNet_YS : MonoBehaviourPun
             {
                 layerNum = 0;
             }
+
+            drawPrefab.GetComponent<LineRenderer>().sortingLayerName = layerName[layerNum];
+
+            // 네트워크 (다른 사람들한테도 적용)
+            photonView.RPC("RpcLayer", RpcTarget.OthersBuffered, drawPrefabName, layerNum);
         }
-
-        drawPrefab.GetComponent<LineRenderer>().sortingLayerName = layerName[layerNum];
-
-        // 네트워크 (다른 사람들한테도 적용)
-        photonView.RPC("RpcLayer", RpcTarget.OthersBuffered, drawPrefabName, layerNum);
     }
 
     [PunRPC]
     void RpcLayer(string _drawPrefabName, int _layerNum)
     {
         drawPrefab = Resources.Load<GameObject>(_drawPrefabName);
-
-        layerNum++;
-
-        if (layerNum > 2)
-        {
-            layerNum = 0;
-        }
 
         drawPrefab.GetComponent<LineRenderer>().sortingLayerName = layerName[_layerNum];
     }
