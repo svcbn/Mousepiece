@@ -34,7 +34,10 @@ public class BrushNet_YS : MonoBehaviourPun
 
     // 레이어
     public string[] layerName = new string[] { "Layer1", "Layer2", "Layer3" };
-    int layerNum = 0;
+    public int layerNum = 0;
+
+    // 사운드
+    AudioSource sound;
 
     // 네트워크
     public int myCanvasIdx;
@@ -47,14 +50,26 @@ public class BrushNet_YS : MonoBehaviourPun
     {
         if(photonView.IsMine)
         {
-            myCanvasIdx = PhotonNetwork.CurrentRoom.PlayerCount - 1;
-            drawCanvas = CompeteModeManager_BH.instance.playerCanvas[myCanvasIdx].GetComponentsInChildren<Transform>()[1].gameObject;
-            drawCanvas_parent = CompeteModeManager_BH.instance.playerCanvas[myCanvasIdx].GetComponent<Transform>().gameObject;
-            //planObj = new Plane(Camera.main.transform.forward, drawCanvas.transform.position);
-            colorObject = GameObject.Find("ColorPicker");
-            colorObject.SetActive(false);
+            if(CollaborateModeManager_BH.instance)
+            {
+                drawCanvas = CompeteModeManager_BH.instance.playerCanvas[0].GetComponentsInChildren<Transform>()[1].gameObject;
+                drawCanvas_parent = CompeteModeManager_BH.instance.playerCanvas[0].GetComponent<Transform>().gameObject;
+                //planObj = new Plane(Camera.main.transform.forward, drawCanvas.transform.position);
+                colorObject = GameObject.Find("ColorPicker");
+                colorObject.SetActive(false);
+                myCanvasIdx = 0;
+            }
+            else if(CompeteModeManager_BH.instance)
+            {
+                myCanvasIdx = PhotonNetwork.CurrentRoom.PlayerCount - 1;
+                drawCanvas = CompeteModeManager_BH.instance.playerCanvas[myCanvasIdx].GetComponentsInChildren<Transform>()[1].gameObject;
+                drawCanvas_parent = CompeteModeManager_BH.instance.playerCanvas[myCanvasIdx].GetComponent<Transform>().gameObject;
+                //planObj = new Plane(Camera.main.transform.forward, drawCanvas.transform.position);
+                colorObject = GameObject.Find("ColorPicker");
+                colorObject.SetActive(false);
 
-            //sortingOrder = drawPrefab.GetComponent<LineRenderer>().sortingOrder;
+                //sortingOrder = drawPrefab.GetComponent<LineRenderer>().sortingOrder;
+            }
         }
 
         drawPrefab = Resources.Load<GameObject>("YS/Brush");
@@ -67,6 +82,9 @@ public class BrushNet_YS : MonoBehaviourPun
         {
             lines.Add(new List<GameObject>());
         }
+
+        // 사운드
+        sound = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -228,6 +246,9 @@ public class BrushNet_YS : MonoBehaviourPun
             {
                 if (hit.transform.name == drawCanvas.transform.name)
                 {
+                    // 사운드
+                    sound.Play();
+
                     // 캔버스 위에서 그리고 있음!
                     b_onCanvas = true;
 
@@ -320,6 +341,9 @@ public class BrushNet_YS : MonoBehaviourPun
                     // 선이 캔버스를 나갔다가 들어왔을 때, 들어오는 그 자리부터 다시 생성
                     if (b_onCanvas == false)
                     {
+                        // 사운드
+                        sound.Play();
+
                         // 선 생성
                         theTrail =Instantiate(drawPrefab, Vector3.zero, Quaternion.identity);
                         theTrail.transform.SetParent(drawCanvas_parent.transform, false);
@@ -433,8 +457,16 @@ public class BrushNet_YS : MonoBehaviourPun
                 {
                     // 캔버스 위에서 그리고 있지 않음!
                     b_onCanvas = false;
+
+                    // 사운드
+                    sound.Stop();
                 }
             }
+        }
+        else if(Input.GetMouseButtonUp(0))
+        {
+            // 사운드
+            sound.Stop();
         }
     }
 
@@ -635,11 +667,11 @@ public class BrushNet_YS : MonoBehaviourPun
                 layerNum = 0;
             }
 
-            drawPrefab.GetComponent<LineRenderer>().sortingLayerName = layerName[layerNum];
-
             // 네트워크 (다른 사람들한테도 적용)
             photonView.RPC("RpcLayer", RpcTarget.OthersBuffered, drawPrefabName, layerNum);
         }
+
+        drawPrefab.GetComponent<LineRenderer>().sortingLayerName = layerName[layerNum];
     }
 
     [PunRPC]

@@ -28,7 +28,14 @@ public class YS_ButtonManager : MonoBehaviourPun
         // 브러쉬 툴 넣어주기
         if(brushNet == null)
         {
-            brushNet = GameObject.Find("Player(Clone)").GetComponent<BrushNet_YS>();
+            if(CollaborateModeManager_BH.instance)
+            {
+                brushNet = GameObject.Find("Player1(Clone)").GetComponent<BrushNet_YS>();
+            }
+            else if(CompeteModeManager_BH.instance)
+            {
+                brushNet = GameObject.Find("Player(Clone)").GetComponent<BrushNet_YS>();
+            }
         }
 
         // 브러쉬 사이즈 조절
@@ -157,6 +164,12 @@ public class YS_ButtonManager : MonoBehaviourPun
 
     public void BasicBrush()
     {
+        if(brushNet.b_eraser == true)
+        {
+            // 지우개 상태였다면 취소!
+            brushNet.b_eraser = false;
+        }
+
         brushNet.toolNum = 1;
 
         // 브러쉬 동적 할당
@@ -166,6 +179,12 @@ public class YS_ButtonManager : MonoBehaviourPun
 
     public void OilPaintBrush()
     {
+        if (brushNet.b_eraser == true)
+        {
+            // 지우개 상태였다면 취소!
+            brushNet.b_eraser = false;
+        }
+
         brushNet.toolNum = 8;
 
         // 유화 동적 할당
@@ -175,6 +194,12 @@ public class YS_ButtonManager : MonoBehaviourPun
 
     public void WaterColorBrush()
     {
+        if (brushNet.b_eraser == true)
+        {
+            // 지우개 상태였다면 취소!
+            brushNet.b_eraser = false;
+        }
+
         brushNet.toolNum = 9;
 
         // 수채화 동적 할당
@@ -184,6 +209,12 @@ public class YS_ButtonManager : MonoBehaviourPun
 
     public void Pencil()
     {
+        if (brushNet.b_eraser == true)
+        {
+            // 지우개 상태였다면 취소!
+            brushNet.b_eraser = false;
+        }
+
         brushNet.toolNum = 4;
 
         // 연필 동적 할당
@@ -193,6 +224,12 @@ public class YS_ButtonManager : MonoBehaviourPun
 
     public void Calligraphy()
     {
+        if (brushNet.b_eraser == true)
+        {
+            // 지우개 상태였다면 취소!
+            brushNet.b_eraser = false;
+        }
+
         brushNet.toolNum = 5;
 
         // 캘리그라피 동적 할당
@@ -202,6 +239,12 @@ public class YS_ButtonManager : MonoBehaviourPun
 
     public void Marker()
     {
+        if (brushNet.b_eraser == true)
+        {
+            // 지우개 상태였다면 취소!
+            brushNet.b_eraser = false;
+        }
+
         brushNet.toolNum = 3;
 
         // 마커 동적 할당
@@ -210,7 +253,14 @@ public class YS_ButtonManager : MonoBehaviourPun
     }
 
     public void Crayon()
+    
     {
+        if (brushNet.b_eraser == true)
+        {
+            // 지우개 상태였다면 취소!
+            brushNet.b_eraser = false;
+        }
+
         brushNet.toolNum = 6;
 
         // 크레용 동적 할당
@@ -220,6 +270,12 @@ public class YS_ButtonManager : MonoBehaviourPun
 
     public void Spray()
     {
+        if (brushNet.b_eraser == true)
+        {
+            // 지우개 상태였다면 취소!
+            brushNet.b_eraser = false;
+        }
+
         brushNet.toolNum = 7;
 
         // 스프레이 동적 할당
@@ -229,6 +285,12 @@ public class YS_ButtonManager : MonoBehaviourPun
 
     public void FingerBlending()
     {
+        if (brushNet.b_eraser == true)
+        {
+            // 지우개 상태였다면 취소!
+            brushNet.b_eraser = false;
+        }
+
         brushNet.toolNum = 2;
 
         // 블렌딩 동적 할당
@@ -261,6 +323,7 @@ public class YS_ButtonManager : MonoBehaviourPun
     public void Layer1()
     {
         brushNet.drawPrefab.GetComponent<LineRenderer>().sortingLayerName = brushNet.layerName[0];
+        brushNet.layerNum = 0;
 
         // 네트워크 (다른 사람들한테도 적용)
         brushNet.photonView.RPC("RpcLayer", RpcTarget.OthersBuffered, brushNet.drawPrefabName, 0);
@@ -269,6 +332,7 @@ public class YS_ButtonManager : MonoBehaviourPun
     public void Layer2()
     {
         brushNet.drawPrefab.GetComponent<LineRenderer>().sortingLayerName = brushNet.layerName[1];
+        brushNet.layerNum = 1;
 
         // 네트워크 (다른 사람들한테도 적용)
         brushNet.photonView.RPC("RpcLayer", RpcTarget.OthersBuffered, brushNet.drawPrefabName, 1);
@@ -277,6 +341,7 @@ public class YS_ButtonManager : MonoBehaviourPun
     public void Layer3()
     {
         brushNet.drawPrefab.GetComponent<LineRenderer>().sortingLayerName = brushNet.layerName[2];
+        brushNet.layerNum = 2;
 
         // 네트워크 (다른 사람들한테도 적용)
         brushNet.photonView.RPC("RpcLayer", RpcTarget.OthersBuffered, brushNet.drawPrefabName, 2);

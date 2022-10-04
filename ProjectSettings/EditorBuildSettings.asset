@@ -15,8 +15,8 @@ EditorBuildSettings:
     path: Assets/BH/_Scenes/03RoomScene_BH.unity
     guid: e8b4039a625f94143813b28400642db0
   - enabled: 1
-    path: Assets/BH/_Scenes/04CollaborateRoom_BH.unity
-    guid: 3f845e4953d7cae46b6ccc29218a5cc5
+    path: Assets/BH/_Scenes/04CollaborateScene.unity
+    guid: cbe18ef356bb6e243be5b0b7ecd0c0de
   - enabled: 1
     path: Assets/BH/_Scenes/05SingleRoom_BH.unity
     guid: 7bf6f72bd1233d0478e43e35d993fbe1
