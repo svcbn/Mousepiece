@@ -142,7 +142,7 @@ public class LobbyManager_BH : MonoBehaviourPunCallbacks
                 PhotonNetwork.LoadLevel("03RoomScene_BH");
                 break;
             case gameType.Collaborate:
-                PhotonNetwork.LoadLevel("04CollaborateRoom_BH");
+                PhotonNetwork.LoadLevel("04CollaborateScene");
                 break;
             case gameType.Single:
                 PhotonNetwork.LoadLevel("05SingleRoom_BH");
@@ -312,6 +312,7 @@ public class LobbyManager_BH : MonoBehaviourPunCallbacks
     {
         roomTimerTxt.text = timer;
         roomModeTxt.text = gamemode;
+        type = gameType.Collaborate;
         roomThemeTxt.text = theme;
         
     }
