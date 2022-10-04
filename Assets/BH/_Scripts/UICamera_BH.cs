@@ -30,5 +30,6 @@ public class UICamera_BH : MonoBehaviour
         my = Mathf.Clamp(my, -rotClamp, rotClamp);
 
         transform.eulerAngles = new Vector3(-my, mx, 0);
+        
     }
 }

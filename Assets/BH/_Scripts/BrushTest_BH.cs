@@ -35,8 +35,8 @@ public class BrushTest_BH : MonoBehaviourPun
         if(photonView.IsMine)
         {
             myCanvasIdx = PhotonNetwork.CurrentRoom.PlayerCount - 1;
-            drawCanvas = GameManager_BH.instance.playerCanvas[myCanvasIdx].GetComponentsInChildren<Transform>()[1].gameObject;
-            drawCanvas_parent = GameManager_BH.instance.playerCanvas[myCanvasIdx].GetComponent<Transform>().gameObject;
+            drawCanvas = CompeteModeManager_BH.instance.playerCanvas[myCanvasIdx].GetComponentsInChildren<Transform>()[1].gameObject;
+            drawCanvas_parent = CompeteModeManager_BH.instance.playerCanvas[myCanvasIdx].GetComponent<Transform>().gameObject;
             //planObj = new Plane(Camera.main.transform.forward, drawCanvas.transform.position);
             canvasPos = drawCanvas.transform.position;
             //colorObject = GameObject.Find("Palette");
@@ -52,7 +52,7 @@ public class BrushTest_BH : MonoBehaviourPun
     {
         if (photonView.IsMine)
         {
-            if (GameManager_BH.instance.state == GameManager_BH.gameState.Playing)
+            if (CompeteModeManager_BH.instance.state == CompeteModeManager_BH.gameState.Playing)
             {
                 // 그림 그리기
                 Draw();
@@ -194,7 +194,7 @@ public class BrushTest_BH : MonoBehaviourPun
         // 선 생성
         //theTrail.transform.position = _objPosition;
 
-        Transform tr = GameManager_BH.instance.playerCanvas[_myCanvasIdx].GetComponentsInChildren<Transform>()[1];
+        Transform tr = CompeteModeManager_BH.instance.playerCanvas[_myCanvasIdx].GetComponentsInChildren<Transform>()[1];
         theTrail.transform.SetParent(tr, false);
         // 만약 생성될 때, 리스트에 active가 false인 것들은 삭제
         //for (int i = 0; i < lines.Count; i++)

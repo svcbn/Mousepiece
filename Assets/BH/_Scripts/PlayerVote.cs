@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class PlayerVote : MonoBehaviour
+public class PlayerVote : MonoBehaviourPun
 {
     Camera cam;
 
@@ -36,7 +37,7 @@ public class PlayerVote : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(GameManager_BH.instance.state == GameManager_BH.gameState.Vote)
+        if(CompeteModeManager_BH.instance.state == CompeteModeManager_BH.gameState.Vote)
         {
             if(Input.GetButtonDown("Fire1"))
             {
@@ -58,8 +59,16 @@ public class PlayerVote : MonoBehaviour
             if (hitInfo.collider.gameObject.GetComponent<Likes>())
             {
                 hitInfo.collider.gameObject.GetComponent<Likes>().Like++;
+
+                photonView.RPC("RPCVote", RpcTarget.Others, hitInfo);
                 //canVote = false;
             }
         }
+    }
+
+    [PunRPC]
+    void RPCVote(RaycastHit _hitInfo)
+    {
+        _hitInfo.collider.gameObject.GetComponent<Likes>().Like++;
     }
 }

@@ -2,6 +2,7 @@ using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(PhotonView))]
@@ -14,6 +15,8 @@ public class PlayerMove_BH : MonoBehaviourPun,IPunObservable
     bool isground;
     float gravity = -5f;
 
+    public Text nickName;
+
     private void Awake()
     {
         //GameManager_BH.instance.playerPV.Add(GetComponent<PhotonView>());
@@ -24,7 +27,7 @@ public class PlayerMove_BH : MonoBehaviourPun,IPunObservable
     void Start()
     {
         cc = GetComponent<CharacterController>();
-        
+        nickName.text = PhotonNetwork.NickName;
     }
 
     Vector3 recievePos;

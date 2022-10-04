@@ -48,8 +48,8 @@ public class BrushNet_YS : MonoBehaviourPun
         if(photonView.IsMine)
         {
             myCanvasIdx = PhotonNetwork.CurrentRoom.PlayerCount - 1;
-            drawCanvas = GameManager_BH.instance.playerCanvas[myCanvasIdx].GetComponentsInChildren<Transform>()[1].gameObject;
-            drawCanvas_parent = GameManager_BH.instance.playerCanvas[myCanvasIdx].GetComponent<Transform>().gameObject;
+            drawCanvas = CompeteModeManager_BH.instance.playerCanvas[myCanvasIdx].GetComponentsInChildren<Transform>()[1].gameObject;
+            drawCanvas_parent = CompeteModeManager_BH.instance.playerCanvas[myCanvasIdx].GetComponent<Transform>().gameObject;
             //planObj = new Plane(Camera.main.transform.forward, drawCanvas.transform.position);
             colorObject = GameObject.Find("ColorPicker");
             colorObject.SetActive(false);
@@ -437,8 +437,8 @@ public class BrushNet_YS : MonoBehaviourPun
     {
         drawPrefab = Resources.Load<GameObject>(_drawPrefabName);
 
-        drawCanvas = GameManager_BH.instance.playerCanvas[_myCanvasIdx].GetComponentsInChildren<Transform>()[1].gameObject;
-        drawCanvas_parent = GameManager_BH.instance.playerCanvas[_myCanvasIdx].GetComponent<Transform>().gameObject;
+        drawCanvas = CompeteModeManager_BH.instance.playerCanvas[_myCanvasIdx].GetComponentsInChildren<Transform>()[1].gameObject;
+        drawCanvas_parent = CompeteModeManager_BH.instance.playerCanvas[_myCanvasIdx].GetComponent<Transform>().gameObject;
 
         Color color = new Color(r, g, b);
 
