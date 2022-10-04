@@ -36,6 +36,9 @@ public class BrushNet_YS : MonoBehaviourPun
     public string[] layerName = new string[] { "Layer1", "Layer2", "Layer3" };
     int layerNum = 0;
 
+    // 사운드
+    AudioSource sound;
+
     // 네트워크
     public int myCanvasIdx;
     int sortingOrder;
@@ -67,6 +70,9 @@ public class BrushNet_YS : MonoBehaviourPun
         {
             lines.Add(new List<GameObject>());
         }
+
+        // 사운드
+        sound = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -228,6 +234,9 @@ public class BrushNet_YS : MonoBehaviourPun
             {
                 if (hit.transform.name == drawCanvas.transform.name)
                 {
+                    // 사운드
+                    sound.Play();
+
                     // 캔버스 위에서 그리고 있음!
                     b_onCanvas = true;
 
@@ -320,6 +329,9 @@ public class BrushNet_YS : MonoBehaviourPun
                     // 선이 캔버스를 나갔다가 들어왔을 때, 들어오는 그 자리부터 다시 생성
                     if (b_onCanvas == false)
                     {
+                        // 사운드
+                        sound.Play();
+
                         // 선 생성
                         theTrail =Instantiate(drawPrefab, Vector3.zero, Quaternion.identity);
                         theTrail.transform.SetParent(drawCanvas_parent.transform, false);
@@ -433,8 +445,16 @@ public class BrushNet_YS : MonoBehaviourPun
                 {
                     // 캔버스 위에서 그리고 있지 않음!
                     b_onCanvas = false;
+
+                    // 사운드
+                    sound.Stop();
                 }
             }
+        }
+        else if(Input.GetMouseButtonUp(0))
+        {
+            // 사운드
+            sound.Stop();
         }
     }
 
