@@ -57,6 +57,7 @@ public class PlayerVote : MonoBehaviourPun
 
     void VoteFavorite()
     {
+        
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
         RaycastHit hitInfo;
 
@@ -69,7 +70,11 @@ public class PlayerVote : MonoBehaviourPun
                 go = hitInfo.collider.gameObject;
                 int viewID = go.GetPhotonView().ViewID;
                 
-                //canVote = false;
+                if(!PhotonNetwork.IsMasterClient)
+                {
+                    canVote = false;
+
+                }
                 photonView.RPC("RPCVote", RpcTarget.OthersBuffered, viewID);
             }
         }

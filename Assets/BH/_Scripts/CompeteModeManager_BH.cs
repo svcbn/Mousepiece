@@ -369,8 +369,8 @@ public class CompeteModeManager_BH : MonoBehaviourPunCallbacks
 
     IEnumerator StartDelayTimer()
     {
-        //float delayTime = 5f;
-        float delayTime = 1f;
+        float delayTime = 5f;
+        //float delayTime = 1f;
 
         while (delayTime > 0)
         {
@@ -409,8 +409,8 @@ public class CompeteModeManager_BH : MonoBehaviourPunCallbacks
 
     IEnumerator EndDelayTimer()
     {
-        //float delayTime = 5f;
-        float delayTime = 1f;
+        float delayTime = 5f;
+        //float delayTime = 1f;
 
         while (delayTime > 0)
         {
@@ -430,7 +430,7 @@ public class CompeteModeManager_BH : MonoBehaviourPunCallbacks
     IEnumerator VoteTimer()
     {
         //float voteTime = 5f;
-        float voteTime = 30f;
+        float voteTime = 20f;
         voteTimerText.color = Color.black;
         voteTimerText.enabled = true;
         voteText.enabled = true;

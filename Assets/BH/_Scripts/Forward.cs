@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class Forward : MonoBehaviour
+public class Forward : MonoBehaviourPun
 {
     // Start is called before the first frame update
     void Start()
@@ -13,9 +14,9 @@ public class Forward : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.forward = Camera.main.transform.forward;
-        // 나요미의 정겨운 그림 놀이~~~
-        // 너무 기대되구요! 너무 재밌겠네요 저도 그리게 해주세요~
-        // 안녕 나요미~~
+        if (photonView.IsMine)
+        {
+            transform.forward = Camera.main.transform.forward;
+        }
     }
 }
