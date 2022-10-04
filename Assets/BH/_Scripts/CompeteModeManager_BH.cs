@@ -91,7 +91,7 @@ public class CompeteModeManager_BH : MonoBehaviourPunCallbacks
         //playerCanvas[0].transform.position = votePicPos[0].transform.position;
         //playerCanvas[0].transform.forward = GameObject.Find("VoteWall").transform.forward;
         //playerCanvas[0].transform.localScale = Vector3.one * 1.35f;
-        PhotonNetwork.CurrentRoom.SetPropertiesListedInLobby(new string[] { "timer", "theme", "gamemode" });
+        PhotonNetwork.CurrentRoom.SetPropertiesListedInLobby(new string[] { "timer", "theme", "gamemode", "roomName" });
 
     }
 
@@ -121,7 +121,7 @@ public class CompeteModeManager_BH : MonoBehaviourPunCallbacks
     public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
     {
         base.OnRoomPropertiesUpdate(propertiesThatChanged);
-        RoomOptionChanged();
+        //RoomOptionChanged();
     }
 
     void RoomOptionChanged()
@@ -299,6 +299,7 @@ public class CompeteModeManager_BH : MonoBehaviourPunCallbacks
                 photonView.RPC("RpcDecideTheme", RpcTarget.Others, theme);
             }
         }
+        RoomOptionChanged();
     }
 
     [PunRPC]
@@ -333,6 +334,7 @@ public class CompeteModeManager_BH : MonoBehaviourPunCallbacks
 
             photonView.RPC("RpcTimerBtnClicked", RpcTarget.Others, leftTime);
         }
+        RoomOptionChanged();
     }
 
 

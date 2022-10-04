@@ -42,8 +42,9 @@ public class RoomItem : MonoBehaviourPunCallbacks
 
     }
 
-    public void SetInfo(string Timer, string GameMode, string theme, int currPlayers, byte maxPlayer)
+    public void SetInfo(string Timer, string GameMode, string theme, int currPlayers, byte maxPlayer, string roomname)
     {
+        name = roomname;
         roomPlayer.text = "(" + currPlayers + " / " + maxPlayer + ")";
     }
 
@@ -53,8 +54,9 @@ public class RoomItem : MonoBehaviourPunCallbacks
         roomTheme.text = (string)info.CustomProperties["theme"];
         roomTimer.text = (string)info.CustomProperties["timer"];
         roomMode.text = (string)info.CustomProperties["gamemode"];
+        roomName = (string)info.CustomProperties["roomname"];
 
-        SetInfo((string)info.CustomProperties["timer"], (string)info.CustomProperties["gamemode"], (string)info.CustomProperties["theme"], info.PlayerCount, info.MaxPlayers);
+        SetInfo((string)info.CustomProperties["timer"], (string)info.CustomProperties["gamemode"], (string)info.CustomProperties["theme"], info.PlayerCount, info.MaxPlayers, (string)info.CustomProperties["roomname"]);
         
     }
 }
