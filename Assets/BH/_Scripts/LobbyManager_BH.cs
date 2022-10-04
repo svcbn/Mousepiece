@@ -126,7 +126,9 @@ public class LobbyManager_BH : MonoBehaviourPunCallbacks
 
     public void JoinRoom()
     {
-        PhotonNetwork.JoinRoom("");
+        
+        PhotonNetwork.JoinRoom(roomname);
+        
     }
 
     public override void OnJoinedRoom()
@@ -137,7 +139,7 @@ public class LobbyManager_BH : MonoBehaviourPunCallbacks
         switch(type)
         {
             case gameType.Compete:
-                PhotonNetwork.LoadLevel("03CompeteRoom_BH");
+                PhotonNetwork.LoadLevel("03RoomScene_BH");
                 break;
             case gameType.Collaborate:
                 PhotonNetwork.LoadLevel("04CollaborateRoom_BH");
@@ -294,12 +296,14 @@ public class LobbyManager_BH : MonoBehaviourPunCallbacks
             RoomItem item = go.GetComponent<RoomItem>();
             item.SetInfo(info);
 
-            item.OnClickAction = SetRoom;
-
             string timer = (string)info.CustomProperties["timer"];
             string theme = (string)info.CustomProperties["theme"];
             string gamemode = (string)info.CustomProperties["gamemode"];
-            roomname = (string)info.CustomProperties["roomname"];
+            roomname = (string)info.CustomProperties["roomName"];
+            
+            item.OnClickAction = SetRoom;
+
+            print(roomname);
         }
     }
 
@@ -309,6 +313,6 @@ public class LobbyManager_BH : MonoBehaviourPunCallbacks
         roomTimerTxt.text = timer;
         roomModeTxt.text = gamemode;
         roomThemeTxt.text = theme;
-        roomname = roomName;
+        
     }
 }
