@@ -99,7 +99,11 @@ PlayerSettings:
   xboxEnableFitness: 0
   visibleInBackground: 1
   allowFullscreenSwitch: 1
+<<<<<<< Updated upstream
   fullscreenMode: 2
+=======
+  fullscreenMode: 1
+>>>>>>> Stashed changes
   xboxSpeechDB: 0
   xboxEnableHeadOrientation: 0
   xboxEnableGuest: 0

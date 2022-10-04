@@ -74,32 +74,38 @@ public class LobbyManager_BH : MonoBehaviourPunCallbacks
         RoomOptions roomOptions = new RoomOptions();
         string roomName;
 
-        switch (type)
-        {
-            case gameType.Compete:
-                roomOptions.MaxPlayers = 8;
-                roomOptions.IsVisible = true;
+        roomOptions.MaxPlayers = 8;
+        roomOptions.IsVisible = true;
 
-                roomName = "Compete" + UnityEngine.Random.Range(0, 1000);
-                PhotonNetwork.CreateRoom(roomName, roomOptions, TypedLobby.Default);
-                break;
+        roomName = "Compete" + UnityEngine.Random.Range(0, 1000);
+        PhotonNetwork.CreateRoom(roomName, roomOptions, TypedLobby.Default);
 
-            case gameType.Collaborate:
-                roomOptions.MaxPlayers = 4;
-                roomOptions.IsVisible = true;
+        //switch (type)
+        //{
+        //    case gameType.Compete:
+        //        roomOptions.MaxPlayers = 8;
+        //        roomOptions.IsVisible = true;
 
-                roomName = "Collaborate" + UnityEngine.Random.Range(0, 1000);
-                PhotonNetwork.CreateRoom(roomName, roomOptions, TypedLobby.Default);
-                break;
+        //        roomName = "Compete" + UnityEngine.Random.Range(0, 1000);
+        //        PhotonNetwork.CreateRoom(roomName, roomOptions, TypedLobby.Default);
+        //        break;
 
-            case gameType.Single:
-                roomOptions.MaxPlayers = 1;
-                roomOptions.IsVisible = true;
+        //    case gameType.Collaborate:
+        //        roomOptions.MaxPlayers = 4;
+        //        roomOptions.IsVisible = true;
 
-                roomName = "Single" + UnityEngine.Random.Range(0, 1000);
-                PhotonNetwork.CreateRoom(roomName, roomOptions, TypedLobby.Default);
-                break;
-        }
+        //        roomName = "Collaborate" + UnityEngine.Random.Range(0, 1000);
+        //        PhotonNetwork.CreateRoom(roomName, roomOptions, TypedLobby.Default);
+        //        break;
+
+        //    case gameType.Single:
+        //        roomOptions.MaxPlayers = 1;
+        //        roomOptions.IsVisible = true;
+
+        //        roomName = "Single" + UnityEngine.Random.Range(0, 1000);
+        //        PhotonNetwork.CreateRoom(roomName, roomOptions, TypedLobby.Default);
+        //        break;
+        //}
         
     }
 
@@ -137,18 +143,20 @@ public class LobbyManager_BH : MonoBehaviourPunCallbacks
         base.OnJoinedRoom();
         print("방입장성공");
 
-        switch(type)
-        {
-            case gameType.Compete:
-                PhotonNetwork.LoadLevel("03RoomScene_BH");
-                break;
-            case gameType.Collaborate:
-                PhotonNetwork.LoadLevel("04CollaborateScene");
-                break;
-            case gameType.Single:
-                PhotonNetwork.LoadLevel("05SingleRoom_BH");
-                break;
-        }
+        PhotonNetwork.LoadLevel("03RoomScene_BH");
+
+        //switch (type)
+        //{
+        //    case gameType.Compete:
+        //        PhotonNetwork.LoadLevel("03RoomScene_BH");
+        //        break;
+        //    case gameType.Collaborate:
+        //        PhotonNetwork.LoadLevel("04CollaborateScene");
+        //        break;
+        //    case gameType.Single:
+        //        PhotonNetwork.LoadLevel("05SingleRoom_BH");
+        //        break;
+        //}
     }
 
     public override void OnJoinRoomFailed(short returnCode, string message)
