@@ -299,7 +299,7 @@ public class LobbyManager_BH : MonoBehaviourPunCallbacks
             string timer = (string)info.CustomProperties["timer"];
             string theme = (string)info.CustomProperties["theme"];
             string gamemode = (string)info.CustomProperties["gamemode"];
-            roomname = info
+            roomname = (string)info.CustomProperties["roomname"];
         }
     }
 

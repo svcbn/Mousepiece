@@ -35,7 +35,7 @@ public class YS_ButtonManager : MonoBehaviourPun
         BrushSize();
 
         // 플레이 중일 때만
-        if(GameManager_BH.instance.state == GameManager_BH.gameState.Playing)
+        if(CompeteModeManager_BH.instance.state == CompeteModeManager_BH.gameState.Playing)
         {
             palette.enabled = true;
         }
