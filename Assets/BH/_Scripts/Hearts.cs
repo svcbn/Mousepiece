@@ -21,12 +21,12 @@ public class Hearts : MonoBehaviourPun
     {
         for (int i = 0; i < hearts.Length; i++)
         {
-            if(likes.Like > i && hearts[i].enabled == false)
+            if(likes.likes > i && hearts[i].enabled == false)
             {
                 hearts[i].enabled = true;
             }
 
-            if(likes.Like <= i && hearts[i].enabled == true)
+            if(likes.likes <= i && hearts[i].enabled == true)
             {
                 hearts[i].enabled = false;
             }

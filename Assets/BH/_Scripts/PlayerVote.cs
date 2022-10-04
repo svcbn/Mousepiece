@@ -9,6 +9,8 @@ public class PlayerVote : MonoBehaviourPun
 
     bool canVote = false;
 
+    GameObject go;
+
     public bool CanVote
     {
         get
@@ -37,38 +39,54 @@ public class PlayerVote : MonoBehaviourPun
     // Update is called once per frame
     void Update()
     {
-        if(CompeteModeManager_BH.instance.state == CompeteModeManager_BH.gameState.Vote)
+        if(photonView.IsMine)
         {
-            if(Input.GetButtonDown("Fire1"))
+            if(CompeteModeManager_BH.instance.state == CompeteModeManager_BH.gameState.Vote)
             {
-                VoteFavorite();
-            }
+                if(Input.GetButtonDown("Fire1"))
+                {
+                    VoteFavorite();
+                }
             
+            }
         }
         
     }
+
+    
 
     void VoteFavorite()
     {
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
         RaycastHit hitInfo;
-        
 
-        if(Physics.Raycast(ray, out hitInfo))
+        if (Physics.Raycast(ray, out hitInfo))
         {
             if (hitInfo.collider.gameObject.GetComponent<Likes>())
             {
-                hitInfo.collider.gameObject.GetComponent<Likes>().Like++;
+                hitInfo.collider.gameObject.GetComponent<Likes>().likes++;
 
-                photonView.RPC("RPCVote", RpcTarget.Others, hitInfo);
+                go = hitInfo.collider.gameObject;
+                int viewID = go.GetPhotonView().ViewID;
+                
                 //canVote = false;
+                photonView.RPC("RPCVote", RpcTarget.OthersBuffered, viewID);
             }
         }
+
     }
 
     [PunRPC]
-    void RPCVote(RaycastHit _hitInfo)
+    void RPCVote(int id)
     {
-        _hitInfo.collider.gameObject.GetComponent<Likes>().Like++;
+        //if (gameobj.GetComponent<Likes>())
+        //{
+        //gameobj.GetComponent<Likes>().likes++;
+
+        //canVote = false;
+        //}
+
+        PhotonView.Find(id).GetComponent<Likes>().likes++;
+
     }
 }

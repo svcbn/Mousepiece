@@ -3,23 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class Likes : MonoBehaviourPun
+public class Likes : MonoBehaviourPun, IPunObservable
 {
 
     [SerializeField]
-    int _likes = 0;
-
-    public int Like
-    {
-        get 
-        {
-            return _likes;
-        }
-        set 
-        {
-            _likes = value;
-        }
-    }
+    public int likes = 0;
+    
+    
     
     // Start is called before the first frame update
     void Start()
@@ -34,4 +24,15 @@ public class Likes : MonoBehaviourPun
     }
 
    
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(likes);
+        }
+        else if (stream.IsReading)
+        {
+            likes = (int)stream.ReceiveNext();
+        }
+    }
 }

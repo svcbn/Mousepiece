@@ -106,6 +106,7 @@ public class CompeteModeManager_BH : MonoBehaviourPunCallbacks
         {
             leftTime -= 1f;
             photonView.RPC("TimeIsRunningOut", RpcTarget.Others, leftTime);
+            PhotonNetwork.CurrentRoom.SetPropertiesListedInLobby(new string[] { "timer", "theme", "gamemode", "roomName" });
         }
 
 
@@ -429,7 +430,7 @@ public class CompeteModeManager_BH : MonoBehaviourPunCallbacks
     IEnumerator VoteTimer()
     {
         //float voteTime = 5f;
-        float voteTime = 15f;
+        float voteTime = 30f;
         voteTimerText.color = Color.black;
         voteTimerText.enabled = true;
         voteText.enabled = true;
@@ -591,7 +592,7 @@ public class CompeteModeManager_BH : MonoBehaviourPunCallbacks
 
         for (int i = 0; i < playerCount; i++)
         {
-            int likes = playerCanvas[i + playerNum].GetComponentInChildren<Likes>().Like;
+            int likes = playerCanvas[i + playerNum].GetComponentInChildren<Likes>().likes;
             if(max < likes)
             {
                 max = likes;
@@ -622,7 +623,7 @@ public class CompeteModeManager_BH : MonoBehaviourPunCallbacks
         for (int i = 0; i < 2; i++)
         {
             votePicPos[i].gameObject.SetActive(true);
-            playerCanvas[finalIdx[i]].GetComponentInChildren<Likes>().Like = 0;
+            playerCanvas[finalIdx[i]].GetComponentInChildren<Likes>().likes = 0;
             playerCanvas[finalIdx[i]].transform.position = votePicPos[i].transform.position;
             playerCanvas[finalIdx[i]].transform.forward = GameObject.Find("VoteWall").transform.forward;
             playerCanvas[finalIdx[i]].transform.localScale = Vector3.one * 1.35f;
@@ -641,7 +642,7 @@ public class CompeteModeManager_BH : MonoBehaviourPunCallbacks
 
         for (int i = 0; i < 2; i++)
         {
-            int likes = playerCanvas[finalIdx[i]].GetComponentInChildren<Likes>().Like;
+            int likes = playerCanvas[finalIdx[i]].GetComponentInChildren<Likes>().likes;
             if (max < likes)
             {
                 max = likes;

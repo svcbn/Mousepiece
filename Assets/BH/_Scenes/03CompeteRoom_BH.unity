@@ -6678,8 +6678,10 @@ MonoBehaviour:
   fingerBlending: {fileID: 701147894}
   brushSize: {fileID: 1013416354}
   circle: {fileID: 1943389188}
+  layers: {fileID: 0}
+  spuit: {fileID: 0}
   brushNet: {fileID: 0}
-  bt5: {fileID: 0}
+  palette: {fileID: 0}
 --- !u!1 &735726435
 GameObject:
   m_ObjectHideFlags: 0
@@ -19450,7 +19452,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a9fe33e6381a7f4facac318c2b08e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _likes: 0
+  likes: 0
 --- !u!4 &4072568781084383304
 Transform:
   m_ObjectHideFlags: 0
@@ -19562,7 +19564,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a9fe33e6381a7f4facac318c2b08e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _likes: 0
+  likes: 0
 --- !u!23 &4072568781264035856
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -19674,7 +19676,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a9fe33e6381a7f4facac318c2b08e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _likes: 0
+  likes: 0
 --- !u!4 &4072568781659016681
 Transform:
   m_ObjectHideFlags: 0
@@ -19786,7 +19788,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a9fe33e6381a7f4facac318c2b08e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _likes: 0
+  likes: 0
 --- !u!33 &4072568781748613856
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -19898,7 +19900,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a9fe33e6381a7f4facac318c2b08e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _likes: 0
+  likes: 0
 --- !u!23 &4072568782123044480
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -20010,7 +20012,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a9fe33e6381a7f4facac318c2b08e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _likes: 0
+  likes: 0
 --- !u!1 &4072568782179277306
 GameObject:
   m_ObjectHideFlags: 0
@@ -20024,6 +20026,7 @@ GameObject:
   - component: {fileID: 4072568782179277308}
   - component: {fileID: 4072568782179277307}
   - component: {fileID: 4072568782179277311}
+  - component: {fileID: 4072568782179277312}
   m_Layer: 0
   m_Name: Canvas1
   m_TagString: Untagged
@@ -20122,7 +20125,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a9fe33e6381a7f4facac318c2b08e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _likes: 0
+  likes: 0
+--- !u!114 &4072568782179277312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4072568782179277306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents:
+  - {fileID: 4072568782179277311}
+  sceneViewId: 14
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!4 &4072568782346490641
 Transform:
   m_ObjectHideFlags: 0
@@ -20234,7 +20260,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a9fe33e6381a7f4facac318c2b08e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _likes: 0
+  likes: 0
 --- !u!1 &4210060287247885698
 GameObject:
   m_ObjectHideFlags: 0
@@ -21055,7 +21081,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 589880025}
+  - {fileID: 4072568782179277311}
   sceneViewId: 12
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -21175,7 +21201,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 2003612561}
+  - {fileID: 4072568781748613864}
   sceneViewId: 13
   InstantiationId: 0
   isRuntimeInstantiated: 0
