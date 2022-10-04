@@ -63,6 +63,8 @@ public class PlayerMove_BH : MonoBehaviourPun,IPunObservable
             transform.position = Vector3.Lerp(transform.position, recievePos, speed * Time.deltaTime);
             transform.rotation = recieveRot;
         }
+
+
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

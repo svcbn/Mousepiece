@@ -50,6 +50,7 @@ public class LobbyManager_BH : MonoBehaviourPunCallbacks
     {
         nickNameIF.onValueChanged.AddListener(OnNicknameValueChanged);
         nickNameIF.onSubmit.AddListener(OnNicknameSubmit);
+        nickNameTxt.text = "";
 
         roomTimerTxt.text = "";
         roomModeTxt.text = "";
@@ -239,7 +240,9 @@ public class LobbyManager_BH : MonoBehaviourPunCallbacks
         nickNameTxt.text = nickNameIF.text;
         print("닉네임 설정 : " + nickNameTxt.text);
         PhotonNetwork.NickName = nickNameTxt.text;
-        btnCreate.interactable = nickNameTxt.text.Length > 0;
+
+        btnCreate.interactable = nickNameTxt.text.Length > 1;
+        joinBtn.interactable = nickNameTxt.text.Length > 1;
     }
     #endregion
 

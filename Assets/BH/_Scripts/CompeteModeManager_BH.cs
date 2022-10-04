@@ -45,6 +45,7 @@ public class CompeteModeManager_BH : MonoBehaviourPunCallbacks
     public Transform[] votePicPos;
 
     public GameObject voteWall;
+    public Transform[] votePos;
 
     public List<PhotonView> playerPV = new List<PhotonView>();
     public GameObject[] playerList = new GameObject[8];
@@ -230,13 +231,11 @@ public class CompeteModeManager_BH : MonoBehaviourPunCallbacks
         if (!isVote)
         {
             isVote = true;
-            //drawCanvas.enabled = false;
 
-            //for (int i = 0; i < PhotonNetwork.CurrentRoom.PlayerCount; i++)
-            //{
-            //    playerList[i].gameObject.transform.position = spawnPos[i];
-            //}
-            
+            for (int i = 0; i < playerPV.Count; i++)
+            {
+                playerPV[i].gameObject.transform.position = votePos[i].position;
+            }
                 
             CameraRotate_BH.cursorType++;
             StartCoroutine(VoteTournament());
