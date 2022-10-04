@@ -12,6 +12,10 @@ public class CollaborateModeManager_BH : MonoBehaviourPunCallbacks
 
     public static CollaborateModeManager_BH instance;
 
+    YS_Capture cap;
+
+    GameObject go;
+
     public enum gameState
     {
         Ready,
@@ -90,6 +94,9 @@ public class CollaborateModeManager_BH : MonoBehaviourPunCallbacks
         //playerCanvas[0].transform.localScale = Vector3.one * 1.35f;
         PhotonNetwork.CurrentRoom.SetPropertiesListedInLobby(new string[] { "timer", "theme", "gamemode", "roomName" });
 
+        // Ä¸ÃÄ Ä«¸Þ¶ó
+        cap = GameObject.Find("CaptureCam").GetComponent<YS_Capture>();
+        go = GameObject.Find("PlayerCanvasV0");
     }
 
     float currentTime = 0;
@@ -394,8 +401,13 @@ public class CollaborateModeManager_BH : MonoBehaviourPunCallbacks
         DelayText.enabled = false;
         DelayTimeText.enabled = false;
 
+        GameObject[] gos = go.GetComponentsInChildren<GameObject>();
+
+        for(int i = 0; i < gos.Length; i++)
+        {
+            gos[i].layer = 6;
+        }
+
+        cap.Shot();
     }
-
-
-
 }

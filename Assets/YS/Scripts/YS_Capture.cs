@@ -22,7 +22,7 @@ public class YS_Capture : MonoBehaviour
         }
     }
 
-    void Shot()
+    public void Shot()
     {
         // Ä¸ÃÄ (Å¸°Ù¸¸)
         RenderTexture renderTex = GetComponent<Camera>().targetTexture;

@@ -336,6 +336,7 @@ GameObject:
   - component: {fileID: 8274314947879074446}
   - component: {fileID: -1582266737994790214}
   - component: {fileID: -5795456551805042145}
+  - component: {fileID: -7636171450870436575}
   m_Layer: 0
   m_Name: Player1
   m_TagString: Untagged
@@ -616,6 +617,30 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-7636171450870436575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8274314947879074550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 785383da5c5f16e4295dcb7325da4410, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cursorTexArray:
+  - {fileID: 2800000, guid: eb4a5c7a4d1d1414cb0160f972024097, type: 3}
+  - {fileID: 2800000, guid: 294f1b38bfb0f1248a10af17b377c936, type: 3}
+  - {fileID: 2800000, guid: ffdb5d4b7b95d774795022ec80c13e1e, type: 3}
+  - {fileID: 2800000, guid: db4e1bdd12d48f344b199cc560bcef8c, type: 3}
+  - {fileID: 2800000, guid: c27e1b244985474449965fafed24c5f9, type: 3}
+  - {fileID: 2800000, guid: 218a8a2b7ff62f94c98cbb1443eeeca8, type: 3}
+  - {fileID: 2800000, guid: 7078c0970e28b644c956dfe38069aaef, type: 3}
+  - {fileID: 2800000, guid: 571003a7160119d40b2106ae74d74a4d, type: 3}
+  - {fileID: 2800000, guid: 1578c86a23bf4814f95546d4cf3d9280, type: 3}
+  cursorTex: {fileID: 0}
+  brushNet: {fileID: 0}
 --- !u!1 &8274314949512515916
 GameObject:
   m_ObjectHideFlags: 0
