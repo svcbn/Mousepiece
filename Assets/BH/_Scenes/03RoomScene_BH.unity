@@ -16489,6 +16489,7 @@ MonoBehaviour:
   - Layer1
   - Layer2
   - Layer3
+  layerNum: 0
   myCanvasIdx: 0
   drawPrefabName: 
 --- !u!1 &1462159602
@@ -17347,6 +17348,15 @@ MonoBehaviour:
   - {fileID: 237619326}
   - {fileID: 633393999}
   voteWall: {fileID: 1429081317}
+  votePos:
+  - {fileID: 2003244131}
+  - {fileID: 1420163285}
+  - {fileID: 483005772}
+  - {fileID: 1816175324}
+  - {fileID: 1462159603}
+  - {fileID: 632136032}
+  - {fileID: 813174857}
+  - {fileID: 171326833}
   playerPV: []
   playerList: []
   inGameTheme: {fileID: 384172106}
