@@ -67,6 +67,10 @@ public class LobbyManager_BH : MonoBehaviourPunCallbacks
         {
             StartCoroutine(AnimatedBtnClose());
         }
+
+        btnCreate.interactable = nickNameTxt.text.Length > 1;
+        joinBtn.interactable = nickNameTxt.text.Length > 1;
+        joinBtn.interactable = roomname.Length > 1;
     }
 
     public void CreateRoom()
@@ -133,9 +137,7 @@ public class LobbyManager_BH : MonoBehaviourPunCallbacks
 
     public void JoinRoom()
     {
-        
-        PhotonNetwork.JoinRoom(roomname);
-        
+        PhotonNetwork.JoinRoom(roomname);     
     }
 
     public override void OnJoinedRoom()
@@ -249,8 +251,7 @@ public class LobbyManager_BH : MonoBehaviourPunCallbacks
         print("닉네임 설정 : " + nickNameTxt.text);
         PhotonNetwork.NickName = nickNameTxt.text;
 
-        btnCreate.interactable = nickNameTxt.text.Length > 1;
-        joinBtn.interactable = nickNameTxt.text.Length > 1;
+        
     }
     #endregion
 

@@ -27,7 +27,10 @@ public class PlayerMove_BH : MonoBehaviourPun,IPunObservable
     void Start()
     {
         cc = GetComponent<CharacterController>();
-        nickName.text = PhotonNetwork.NickName;
+
+        nickName.text = photonView.Owner.NickName;
+        
+       
     }
 
     Vector3 recievePos;

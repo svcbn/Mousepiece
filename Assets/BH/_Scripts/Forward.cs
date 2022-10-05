@@ -18,5 +18,9 @@ public class Forward : MonoBehaviourPun
         {
             transform.forward = Camera.main.transform.forward;
         }
+        else
+        {
+            transform.forward = transform.parent.forward;
+        }
     }
 }
