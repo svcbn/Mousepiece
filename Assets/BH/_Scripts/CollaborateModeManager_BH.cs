@@ -64,8 +64,6 @@ public class CollaborateModeManager_BH : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        PhotonNetwork.SerializationRate = 90;
-        PhotonNetwork.SendRate = 90;
         SetSpawnPos();
 
         playeridx = PhotonNetwork.CurrentRoom.PlayerCount - 1;
@@ -98,7 +96,7 @@ public class CollaborateModeManager_BH : MonoBehaviourPunCallbacks
         cap = GameObject.Find("CaptureCam").GetComponent<YS_Capture>();
         go = GameObject.Find("PlayerCanvasV0");
     }
-
+     
     float currentTime = 0;
     // Update is called once per frame
     void Update()

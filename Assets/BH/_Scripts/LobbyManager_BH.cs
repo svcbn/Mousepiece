@@ -146,6 +146,8 @@ public class LobbyManager_BH : MonoBehaviourPunCallbacks
         print("방입장성공");
 
         PhotonNetwork.LoadLevel("03RoomScene_BH");
+        //PhotonNetwork.LoadLevel("05SingleRoom_BH");
+
 
         //switch (type)
         //{
