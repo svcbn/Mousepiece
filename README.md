@@ -10,4 +10,4 @@
 ---  
 프로젝트 소개 - [PDF](https://drive.google.com/file/d/1tEumLC5Q72pm4dRWkMGZ9WlTUr_BQJia/view?usp=share_link)  
   
-프로젝트 영상 - [YouTube]  
+프로젝트 영상 - [YouTube](https://youtu.be/mShYlOqME-I)  
