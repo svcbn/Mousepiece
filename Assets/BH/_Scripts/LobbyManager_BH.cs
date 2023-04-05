@@ -83,26 +83,22 @@ public class LobbyManager_BH : MonoBehaviourPunCallbacks
         {
             case gameType.Compete:
                 roomOptions.MaxPlayers = 8;
-
                 roomName = "Compete" + UnityEngine.Random.Range(0, 1000);
                 PhotonNetwork.CreateRoom(roomName, roomOptions, TypedLobby.Default);
                 break;
 
             case gameType.Collaborate:
                 roomOptions.MaxPlayers = 4;
-
                 roomName = "Collaborate" + UnityEngine.Random.Range(0, 1000);
                 PhotonNetwork.CreateRoom(roomName, roomOptions, TypedLobby.Default);
                 break;
 
             case gameType.Single:
                 roomOptions.MaxPlayers = 1;
-
                 roomName = "Single" + UnityEngine.Random.Range(0, 1000);
                 PhotonNetwork.CreateRoom(roomName, roomOptions, TypedLobby.Default);
                 break;
         }
-        
     }
 
    
