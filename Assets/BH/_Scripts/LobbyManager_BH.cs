@@ -77,35 +77,35 @@ public class LobbyManager_BH : MonoBehaviourPunCallbacks
         roomOptions.MaxPlayers = 8;
         roomOptions.IsVisible = true;
 
-        roomName = "Compete" + UnityEngine.Random.Range(0, 1000);
-        PhotonNetwork.CreateRoom(roomName, roomOptions, TypedLobby.Default);
+        //roomName = "Compete" + UnityEngine.Random.Range(0, 1000);
+        //PhotonNetwork.CreateRoom(roomName, roomOptions, TypedLobby.Default);
 
-        //switch (type)
-        //{
-        //    case gameType.Compete:
-        //        roomOptions.MaxPlayers = 8;
-        //        roomOptions.IsVisible = true;
+        switch (type)
+        {
+            case gameType.Compete:
+                roomOptions.MaxPlayers = 8;
+                roomOptions.IsVisible = true;
 
-        //        roomName = "Compete" + UnityEngine.Random.Range(0, 1000);
-        //        PhotonNetwork.CreateRoom(roomName, roomOptions, TypedLobby.Default);
-        //        break;
+                roomName = "Compete" + UnityEngine.Random.Range(0, 1000);
+                PhotonNetwork.CreateRoom(roomName, roomOptions, TypedLobby.Default);
+                break;
 
-        //    case gameType.Collaborate:
-        //        roomOptions.MaxPlayers = 4;
-        //        roomOptions.IsVisible = true;
+            case gameType.Collaborate:
+                roomOptions.MaxPlayers = 4;
+                roomOptions.IsVisible = true;
 
-        //        roomName = "Collaborate" + UnityEngine.Random.Range(0, 1000);
-        //        PhotonNetwork.CreateRoom(roomName, roomOptions, TypedLobby.Default);
-        //        break;
+                roomName = "Collaborate" + UnityEngine.Random.Range(0, 1000);
+                PhotonNetwork.CreateRoom(roomName, roomOptions, TypedLobby.Default);
+                break;
 
-        //    case gameType.Single:
-        //        roomOptions.MaxPlayers = 1;
-        //        roomOptions.IsVisible = true;
+            case gameType.Single:
+                roomOptions.MaxPlayers = 1;
+                roomOptions.IsVisible = true;
 
-        //        roomName = "Single" + UnityEngine.Random.Range(0, 1000);
-        //        PhotonNetwork.CreateRoom(roomName, roomOptions, TypedLobby.Default);
-        //        break;
-        //}
+                roomName = "Single" + UnityEngine.Random.Range(0, 1000);
+                PhotonNetwork.CreateRoom(roomName, roomOptions, TypedLobby.Default);
+                break;
+        }
         
     }
 
@@ -121,14 +121,14 @@ public class LobbyManager_BH : MonoBehaviourPunCallbacks
     public override void OnCreatedRoom()
     {
         base.OnCreatedRoom();
-        print("¹æ»ý¼º ¿Ï·á");
+        print("ë°©ìƒì„± ì™„ë£Œ");
         
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message)
     {
         base.OnCreateRoomFailed(returnCode, message);
-        print("¹æ»ý¼º ½ÇÆÐ, " + returnCode + ", " + message);
+        print("ë°©ìƒì„± ì‹¤íŒ¨, " + returnCode + ", " + message);
     }
 
     public void JoinRoom()
@@ -141,7 +141,7 @@ public class LobbyManager_BH : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
-        print("¹æÀÔÀå¼º°ø");
+        print("ë°©ìž…ìž¥ì„±ê³µ");
 
         PhotonNetwork.LoadLevel("03RoomScene_BH");
 
@@ -162,7 +162,7 @@ public class LobbyManager_BH : MonoBehaviourPunCallbacks
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
         base.OnJoinRoomFailed(returnCode, message);
-        print("¹æÀÔÀå½ÇÆÐ, " + returnCode + ", " + message);
+        print("ë°©ìž…ìž¥ì‹¤íŒ¨, " + returnCode + ", " + message);
     }
 
     public void OnMultiPlayBtnClicked()
@@ -173,24 +173,24 @@ public class LobbyManager_BH : MonoBehaviourPunCallbacks
     public void OnCompeteBtnClicked()
     {
         type = gameType.Compete;
-        CreateRoomModeTxt.text = "°æÀï ¸ðµå";
+        CreateRoomModeTxt.text = "ê²½ìŸ ëª¨ë“œ";
         StartCoroutine(AnimatedBtnClose());
     }
 
     public void OnCollaborateBtnClicked()
     {
         type = gameType.Collaborate;
-        CreateRoomModeTxt.text = "Çùµ¿ ¸ðµå";
+        CreateRoomModeTxt.text = "í˜‘ë™ ëª¨ë“œ";
         StartCoroutine(AnimatedBtnClose());
     }
 
     public void OnSoloPlayBtnClicked()
     {
         type = gameType.Single;
-        CreateRoomModeTxt.text = "È¥ÀÚ ±×¸®±â";
+        CreateRoomModeTxt.text = "í˜¼ìž ê·¸ë¦¬ê¸°";
     }
 
-    #region ¹öÆ°¾Ö´Ï¸ÞÀÌ¼Ç
+    #region ë²„íŠ¼ì• ë‹ˆë©”ì´ì…˜
     IEnumerator AnimatedBtnPopUp()
     {
         multiPlayBtn.interactable = false;
@@ -220,7 +220,7 @@ public class LobbyManager_BH : MonoBehaviourPunCallbacks
     }
     #endregion
 
-    #region NickName¼³Á¤ºÎ
+    #region NickNameì„¤ì •ë¶€
     void OnNicknameValueChanged(string s)
     {
         DecideNickname();
@@ -246,7 +246,7 @@ public class LobbyManager_BH : MonoBehaviourPunCallbacks
         }
 
         nickNameTxt.text = nickNameIF.text;
-        print("´Ð³×ÀÓ ¼³Á¤ : " + nickNameTxt.text);
+        print("ë‹‰ë„¤ìž„ ì„¤ì • : " + nickNameTxt.text);
         PhotonNetwork.NickName = nickNameTxt.text;
 
         btnCreate.interactable = nickNameTxt.text.Length > 1;
