@@ -319,7 +319,7 @@ public class BrushTest_BH : MonoBehaviourPun
                         theTrail.GetComponent<LineRenderer>().SetPosition(1, startPos);
                     }
 
-                    // 네트워크(내가 그리는 것이 다른 사람들한테 보이게끔만 하는 함수 따로 실행)
+                    // 원격 프로시저 호출
                     photonView.RPC("RpcDrawStart", RpcTarget.OthersBuffered, size, color.r, color.g, color.b, sortingOrder, myCanvasIdx, startPos, drawPrefabName);
                     //sortingOrder++;
                 }
@@ -474,7 +474,6 @@ public class BrushTest_BH : MonoBehaviourPun
     void RpcDrawStart(float _size, float r, float g, float b, int _sortingOrder, int _myCanvasIdx, Vector3 _startPos, string _drawPrefabName)
     {
         drawPrefab = Resources.Load<GameObject>(_drawPrefabName);
-
         drawCanvas = CompeteModeManager_BH.instance.playerCanvas[_myCanvasIdx].GetComponentsInChildren<Transform>()[1].gameObject;
         drawCanvas_parent = CompeteModeManager_BH.instance.playerCanvas[_myCanvasIdx].GetComponent<Transform>().gameObject;
 
@@ -486,8 +485,10 @@ public class BrushTest_BH : MonoBehaviourPun
 
         LineRenderer lr = theTrail.GetComponent<LineRenderer>();
         ColorPickerTest cp = theTrail.GetComponent<ColorPickerTest>();
+        
         // 선을 그리기 전, 사이즈 설정
         theTrail.GetComponent<LineRenderer>().widthMultiplier = _size;
+        
         // 선을 그리기 전, 색 설정
         theTrail.GetComponent<LineRenderer>().startColor = color;
         theTrail.GetComponent<LineRenderer>().endColor = color;
