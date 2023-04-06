@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class BrushNet_YS : MonoBehaviourPun
+public class BrushTest_BH : MonoBehaviourPun
 {
     // 도구 번호
     public int toolNum = 1;
