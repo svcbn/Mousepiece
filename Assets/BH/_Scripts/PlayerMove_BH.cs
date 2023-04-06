@@ -42,9 +42,6 @@ public class PlayerMove_BH : MonoBehaviourPun,IPunObservable
             float h = Input.GetAxis("Horizontal");
             float v = Input.GetAxis("Vertical");
 
-            //anim.SetFloat("Speed", v);
-            //anim.SetFloat("Direction", h);
-
             if(cc.isGrounded)
             {
                 gravity = 0;
