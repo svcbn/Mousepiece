@@ -320,8 +320,9 @@ public class BrushTest_BH : MonoBehaviourPun
                     }
 
                     // 원격 프로시저 호출
-                    photonView.RPC("RpcDrawStart", RpcTarget.OthersBuffered, size, color.r, color.g, color.b, sortingOrder, myCanvasIdx, startPos, drawPrefabName);
-                    //sortingOrder++;
+                    photonView.RPC("RpcDrawStart", RpcTarget.OthersBuffered, size, color.r, color.g, color.b,
+                                    sortingOrder, myCanvasIdx, startPos, drawPrefabName);
+                    
                 }
                 else
                 {
