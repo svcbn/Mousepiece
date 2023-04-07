@@ -56,7 +56,11 @@ public class RoomItem : MonoBehaviourPunCallbacks
         roomMode.text = (string)info.CustomProperties["gamemode"];
         roomName = (string)info.CustomProperties["roomname"];
 
-        SetInfo((string)info.CustomProperties["timer"], (string)info.CustomProperties["gamemode"], (string)info.CustomProperties["theme"], info.PlayerCount, info.MaxPlayers, (string)info.CustomProperties["roomname"]);
-        
+        SetInfo((string)info.CustomProperties["timer"],
+                (string)info.CustomProperties["gamemode"],
+                (string)info.CustomProperties["theme"],
+                info.PlayerCount,
+                info.MaxPlayers,
+                (string)info.CustomProperties["roomname"]);
     }
 }
