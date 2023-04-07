@@ -386,7 +386,8 @@ public class BrushTest_BH : MonoBehaviourPun
                             theTrail.GetComponent<LineRenderer>().SetPosition(1, startPos);
 
                             // 네트워크(내가 그리는 것이 다른 사람들한테 보이게끔만 하는 함수 따로 실행)
-                            photonView.RPC("RpcDrawStart", RpcTarget.OthersBuffered, size, color.r, color.g, color.b, sortingOrder, myCanvasIdx, startPos, drawPrefabName);
+                            photonView.RPC("RpcDrawStart", RpcTarget.OthersBuffered, size, color.r, color.g, color.b,
+                                            sortingOrder, myCanvasIdx, startPos, drawPrefabName);
                         }
                     }
 
