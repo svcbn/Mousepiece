@@ -175,7 +175,6 @@ public class CompeteModeManager_BH : MonoBehaviourPunCallbacks
             case gameState.Victory:
                 Victory();
                 break;
-
         }
     }
 
