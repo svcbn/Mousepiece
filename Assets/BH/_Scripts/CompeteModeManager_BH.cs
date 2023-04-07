@@ -86,7 +86,7 @@ public class CompeteModeManager_BH : MonoBehaviourPunCallbacks
 
         if(PhotonNetwork.IsMasterClient)
         {
-            isMasterText.text = "πÊ º≥¡§¿ª πŸ≤„¡÷ººø‰!!";
+            isMasterText.text = "Î∞© ÏÑ§Ï†ïÏùÑ Î∞îÍøîÏ£ºÏÑ∏Ïöî!!";
         }
 
         //playerCanvas[0].transform.position = votePicPos[0].transform.position;
@@ -102,7 +102,7 @@ public class CompeteModeManager_BH : MonoBehaviourPunCallbacks
     {
         currentTime += Time.deltaTime;
 
-        // ≈◊Ω∫∆ÆøÎ Ω√∞£∞®±‚
+        // ÌÖåÏä§Ìä∏Ïö© ÏãúÍ∞ÑÍ∞êÍ∏∞
         if (Input.GetKey(KeyCode.Equals))
         {
             leftTime -= 1f;
@@ -123,12 +123,11 @@ public class CompeteModeManager_BH : MonoBehaviourPunCallbacks
     public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
     {
         base.OnRoomPropertiesUpdate(propertiesThatChanged);
-        //RoomOptionChanged();
+        RoomOptionChanged();
     }
 
     void RoomOptionChanged()
     {
-
         ExitGames.Client.Photon.Hashtable hash = new ExitGames.Client.Photon.Hashtable();
         string m = string.Format("{0:D2}", (int)(leftTime / 60));
         string s = string.Format("{0:D2}", (int)(leftTime % 60));
@@ -139,7 +138,6 @@ public class CompeteModeManager_BH : MonoBehaviourPunCallbacks
         hash["roomName"] = PhotonNetwork.CurrentRoom.Name;
 
         PhotonNetwork.CurrentRoom.SetCustomProperties(hash);
-
     }
 
     void SetSpawnPos()
@@ -197,7 +195,7 @@ public class CompeteModeManager_BH : MonoBehaviourPunCallbacks
             canvasR.enabled = false;
             isMasterText.enabled = false;
 
-            DelayText.text = "∞‘¿”¿Ã Ω√¿€µÀ¥œ¥Ÿ!";
+            DelayText.text = "Í≤åÏûÑÏù¥ ÏãúÏûëÎê©ÎãàÎã§!";
             DelayText.enabled = true;
             DelayTimeText.enabled = true;
 
@@ -279,9 +277,9 @@ public class CompeteModeManager_BH : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            string[] s = {"¿Ãøµ»£", "±Ë«ˆ¡¯", "µπ∞Ì∑°", "Ω√∞£", "∞Ó±™¿Ã", "ø©øÏ", "√ª√·", "∞°∏È", "ø¨¿Œ",
-            "∫“", "º±π∞", "√ ƒ›∏¥", "πˆΩ∫", "º’¿¸µÓ", "«‡øÓ", "ø¿ø∞", "æ÷øœµøπ∞", "«ÿµ∏¿Ã", "±Ÿ¿∞",
-        "±‚≈∏", "ªß", "ø©«‡", "∞‹øÔ", "«ÿ¿œ", "π›µ˜∫“", "∞•∏≈±‚", "∞˙¿⁄", "≈‰≥¢", "¿ß«Ë", "º±≈√" };
+            string[] s = {"Ïù¥ÏòÅÌò∏", "ÍπÄÌòÑÏßÑ", "ÎèåÍ≥†Îûò", "ÏãúÍ∞Ñ", "Í≥°Í¥≠Ïù¥", "Ïó¨Ïö∞", "Ï≤≠Ï∂ò", "Í∞ÄÎ©¥", "Ïó∞Ïù∏",
+            "Î∂à", "ÏÑ†Î¨º", "Ï¥àÏΩúÎ¶ø", "Î≤ÑÏä§", "ÏÜêÏ†ÑÎì±", "ÌñâÏö¥", "Ïò§Ïóº", "Ïï†ÏôÑÎèôÎ¨º", "Ìï¥ÎèãÏù¥", "Í∑ºÏú°",
+        "Í∏∞ÌÉÄ", "Îπµ", "Ïó¨Ìñâ", "Í≤®Ïö∏", "Ìï¥Ïùº", "Î∞òÎîßÎ∂à", "Í∞àÎß§Í∏∞", "Í≥ºÏûê", "ÌÜ†ÎÅº", "ÏúÑÌóò", "ÏÑ†ÌÉù" };
             IFtheme.text = s[Random.Range(0, s.Length)];
             DecideTheme();
         }
@@ -295,7 +293,7 @@ public class CompeteModeManager_BH : MonoBehaviourPunCallbacks
             if (IFtheme.text.Length > 0)
             {
                 theme = IFtheme.text;
-                print("≈◊∏∂ º≥¡§ : " + theme);
+                print("ÌÖåÎßà ÏÑ§Ï†ï : " + theme);
                 photonView.RPC("RpcDecideTheme", RpcTarget.Others, theme);
             }
         }
@@ -311,7 +309,7 @@ public class CompeteModeManager_BH : MonoBehaviourPunCallbacks
 
     void AlphaberCheck()
     {
-        if (!Regex.IsMatch(IFtheme.text, @"[∞°-∆R]$"))
+        if (!Regex.IsMatch(IFtheme.text, @"[Í∞Ä-R]$"))
         {
             IFtheme.text = "";
         }
@@ -330,7 +328,7 @@ public class CompeteModeManager_BH : MonoBehaviourPunCallbacks
             timerType %= 4;
             leftTime = timerSettings[timerType];
             timerBtn.GetComponentInChildren<Text>().text = Mathf.Floor(leftTime / 60f) + " : 00";
-            print("≈∏¿Ã∏” º≥¡§ : " + Mathf.Floor(leftTime / 60f) + " ∫–");
+            print("ÌÉÄÏù¥Î®∏ ÏÑ§Ï†ï : " + Mathf.Floor(leftTime / 60f) + " Î∂Ñ");
 
             photonView.RPC("RpcTimerBtnClicked", RpcTarget.Others, leftTime);
         }
@@ -399,7 +397,7 @@ public class CompeteModeManager_BH : MonoBehaviourPunCallbacks
         inGameTheme.enabled = false;
         inGameTimer.enabled = false;
 
-        DelayText.text = "∞‘¿”¿Ã ¡æ∑·µÀ¥œ¥Ÿ!";
+        DelayText.text = "Í≤åÏûÑÏù¥ Ï¢ÖÎ£åÎê©ÎãàÎã§!";
         DelayText.enabled = true;
         DelayTimeText.enabled = true;
 
