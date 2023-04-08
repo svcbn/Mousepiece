@@ -459,80 +459,79 @@ public class CompeteModeManager_BH : MonoBehaviourPunCallbacks
     {
         voteWall.SetActive(true);
         
-        //if(PhotonNetwork.CurrentRoom.PlayerCount < 4)
-        //{
-        //    HangOnWall(PhotonNetwork.CurrentRoom.PlayerCount);
-        //    yield return new WaitUntil(() => isTimerEnd);
+        if(PhotonNetwork.CurrentRoom.PlayerCount < 4)
+        {
+            HangOnWall(PhotonNetwork.CurrentRoom.PlayerCount);
+            yield return new WaitUntil(() => isTimerEnd);
 
-        //    Qualifier(PhotonNetwork.CurrentRoom.PlayerCount);
+            Qualifier(PhotonNetwork.CurrentRoom.PlayerCount);
 
-        //    Final(PhotonNetwork.CurrentRoom.PlayerCount);
-        //    yield return new WaitUntil(() => isTimerEnd);
+            Final(PhotonNetwork.CurrentRoom.PlayerCount);
+            yield return new WaitUntil(() => isTimerEnd);
 
-        //    Winner();
-        //}
-        //else if(PhotonNetwork.CurrentRoom.PlayerCount == 4)
-        //{
-        //    HangOnWall(2, 0);
-        //    yield return new WaitUntil(() => isTimerEnd);
-        //    Qualifier(2, 0);
+            Winner();
+        }
+        else if(PhotonNetwork.CurrentRoom.PlayerCount == 4)
+        {
+            HangOnWall(2, 0);
+            yield return new WaitUntil(() => isTimerEnd);
+            Qualifier(2, 0);
 
-        //    HangOnWall(2, 2);
-        //    yield return new WaitUntil(() => isTimerEnd);
-        //    Qualifier(2, 2);
+            HangOnWall(2, 2);
+            yield return new WaitUntil(() => isTimerEnd);
+            Qualifier(2, 2);
+            Final(2);
+            yield return new WaitUntil(() => isTimerEnd);
 
-        //    Final(2);
-        //    yield return new WaitUntil(() => isTimerEnd);
+            Winner();
+        }
+        else if(PhotonNetwork.CurrentRoom.PlayerCount == 5)
+        {
+            HangOnWall(3, 0);
+            yield return new WaitUntil(() => isTimerEnd);
+            Qualifier(3, 0);
 
-        //    Winner();
-        //}
-        //else if(PhotonNetwork.CurrentRoom.PlayerCount == 5)
-        //{
-        //    HangOnWall(3, 0);
-        //    yield return new WaitUntil(() => isTimerEnd);
-        //    Qualifier(3, 0);
+            HangOnWall(2, 3);
+            yield return new WaitUntil(() => isTimerEnd);
+            Qualifier(2, 3);
 
-        //    HangOnWall(2, 3);
-        //    yield return new WaitUntil(() => isTimerEnd);
-        //    Qualifier(2, 3);
+            Final(2);
+            yield return new WaitUntil(() => isTimerEnd);
 
-        //    Final(2);
-        //    yield return new WaitUntil(() => isTimerEnd);
+            Winner();
+        }
+        else if (PhotonNetwork.CurrentRoom.PlayerCount == 6)
+        {
+            HangOnWall(3, 0);
+            yield return new WaitUntil(() => isTimerEnd);
+            Qualifier(3, 0);
 
-        //    Winner();
-        //}
-        //else if (PhotonNetwork.CurrentRoom.PlayerCount == 6)
-        //{
-        //    HangOnWall(3, 0);
-        //    yield return new WaitUntil(() => isTimerEnd);
-        //    Qualifier(3, 0);
+            HangOnWall(3, 3);
+            yield return new WaitUntil(() => isTimerEnd);
+            Qualifier(3, 3);
 
-        //    HangOnWall(3, 3);
-        //    yield return new WaitUntil(() => isTimerEnd);
-        //    Qualifier(3, 3);
+            Final(2);
+            yield return new WaitUntil(() => isTimerEnd);
 
-        //    Final(2);
-        //    yield return new WaitUntil(() => isTimerEnd);
+            Winner();
+        }
+        else if (PhotonNetwork.CurrentRoom.PlayerCount == 7)
+        {
+            HangOnWall(4, 0);
+            yield return new WaitUntil(() => isTimerEnd);
+            Qualifier(4, 0);
 
-        //    Winner();
-        //}
-        //else if (PhotonNetwork.CurrentRoom.PlayerCount == 7)
-        //{
-        //    HangOnWall(4, 0);
-        //    yield return new WaitUntil(() => isTimerEnd);
-        //    Qualifier(4, 0);
+            HangOnWall(3, 4);
+            yield return new WaitUntil(() => isTimerEnd);
+            Qualifier(3, 4);
 
-        //    HangOnWall(3, 4);
-        //    yield return new WaitUntil(() => isTimerEnd);
-        //    Qualifier(3, 4);
+            Final(2);
+            yield return new WaitUntil(() => isTimerEnd);
 
-        //    Final(2);
-        //    yield return new WaitUntil(() => isTimerEnd);
-
-        //    Winner();
-        //}
-        //if (PhotonNetwork.CurrentRoom.PlayerCount == 8)
-        //{
+            Winner();
+        }
+        if (PhotonNetwork.CurrentRoom.PlayerCount == 8)
+        {
         HangOnWall(4, 0);
         yield return new WaitUntil(() => isTimerEnd);
         Qualifier(4, 0);
@@ -545,7 +544,7 @@ public class CompeteModeManager_BH : MonoBehaviourPunCallbacks
         yield return new WaitUntil(() => isTimerEnd);
 
         Winner();
-        //}
+        }
     }
 
 
