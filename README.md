@@ -1,5 +1,8 @@
 # Mousepiece
 ###### MTVS 3rd Project  
+
+<src img="Thumbnail.gif" width="70%">
+<br/>
   
 - 프로젝트명 : MousePiece  
 - 장르 : 캐주얼, 멀티플레이어  
